@@ -2,11 +2,32 @@
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+<<<<<<< HEAD
+.settings/
+=======
+>>>>>>> 35d54b9b6726dc9d08f666aea713b1a65f56be5c
 
 # Package Files #
 *.jar
 *.war
 *.ear
 
+<<<<<<< HEAD
+.metadata
+.recommenders
+bin/
+
+back/
+
+# pycharm
+.idea/
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# python
+*.pyc
+=======
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+>>>>>>> 35d54b9b6726dc9d08f666aea713b1a65f56be5c
