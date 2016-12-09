@@ -1,7 +1,7 @@
 # coding:utf8
 
 configs = {
-    'HostID': '127.0.0.1',
+    'HostID': '1',
     'Server': '127.0.0.1',
     'ServerPort': 8888,
     'urls': {
