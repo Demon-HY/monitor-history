@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CrazyMonitor</title>
-    
+    <title>Monitor</title>
+
     <link type="text/css" rel="stylesheet" href="css/main.css">
     <link type="text/css" rel="stylesheet" href="css/header.css">
     <link type="text/css" rel="stylesheet" href="css/console.css">
@@ -11,7 +11,7 @@
 <body>
 <!-- STA 头部 -->
 <div class="header">
-    <div class="title"><h2>分布式监控系统</h2></div>
+    <div class="title"><h2>Monitor-分布式监控系统</h2></div>
 </div>
 <!-- END 头部 -->
 
@@ -20,15 +20,25 @@
     <!-- STA 左侧菜单栏 -->
     <div class="main-l">
         <div class="nav nav-item host clearfix">
-            <span>主机管理</span><i class="triangle-r"></i>
+            <span>主机</span><i class="triangle-r"></i>
         </div>
-        <!--
-        <div class="nav-child">
-            <div class="nav-item first hidden"><span>默认群组</span></div>
+        <div class="nav nav-item group clearfix">
+            <span>群组</span><i class="triangle-r"></i>
         </div>
-        -->
+        <div class="nav nav-item template clearfix">
+            <span>模板</span><i class="triangle-r"></i>
+        </div>
         <div class="nav nav-item trigger clearfix">
             <span>触发器</span><i class="triangle-r"></i>
+        </div>
+        <div class="nav nav-item service clearfix">
+            <span>服务</span><i class="triangle-r"></i>
+        </div>
+        <div class="nav nav-item action clearfix">
+            <span>报警</span><i class="triangle-r"></i>
+        </div>
+        <div class="nav nav-item maintain clearfix">
+            <span>维护</span><i class="triangle-r"></i>
         </div>
         <div class="nav nav-item config clearfix">
             <span>全局配置</span><i class="triangle-r"></i>
@@ -38,7 +48,7 @@
         </div>
     </div>
     <!-- END 左侧菜单栏 -->
-    
+
     <!-- STA 右侧数据显示区 -->
     <div class="main-r">
     </div>
