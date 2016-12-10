@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Monitor-登录</title>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="description" content="Expand, contract, animate forms with jQuery wihtout leaving the page" />
+    <meta name="keywords" content="expand, form, css3, jquery, animate, width, height, adapt, unobtrusive javascript"/>
+    <link rel="stylesheet" type="text/css" href="css/login.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+<div class="wrapper">
+    <h1>Monitor - 分布式监控系统</h1>
+    <h2>该系统主要用于监控服务端的各种服务运行状态</h2>
+    <div class="content">
+        <div id="form_login" class="form_login">
+            <form class="login active">
+                <h3>Login</h3>
+                <div>
+                    <label>User</label>
+                    <input type="text" />
+                    <span class="error">ERROR</span>
+                </div>
+                <div>
+                    <label>Password</label>
+                    <input type="password" />
+                    <span class="error">ERROR</span>
+                </div>
+                <div class="bottom">
+                    <div class="remember"><input type="checkbox" /><span>Keep me logged in</span></div>
+                    <input type="submit" value="Login"></input>
+                    <div class="clear"></div>
+                </div>
+            </form>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+
+<script type="text/javascript" src="statics/scripts/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="statics/scripts/require.js"></script>
+
+<script type="text/javascript" src="statics/scripts/sea.js"></script>
+<script type="text/javascript">
+    /*window.i18n = new Lang();
+    i18n.loadPack('./locales/');*/
+    seajs.config({
+        debug: false,
+        base: "./modules/",
+        alias: {
+            "util": 'base/util',
+            "config": '../../config',
+            "helper": 'base/helper',
+        },
+        map: [
+            ['.js', '.js?v=@@version']
+        ]
+    });
+    seajs.use('login/main');
+</script>
+
+</body>
+</html>

@@ -44,7 +44,7 @@ public class Main {
         initService();
 
         try {
-            ModuleMgr.loamodules();
+            ModuleMgr.loadmodules();
         } catch (Exception e) {
             System.err.println("Load modules exception.");
             e.printStackTrace();

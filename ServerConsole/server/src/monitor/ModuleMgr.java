@@ -69,13 +69,13 @@ public class ModuleMgr {
      * 加载插件
      * @throws Exception
      */
-    public static void loamodules() throws Exception {
+    public static void loadmodules() throws Exception {
         if (loaded) {
             throw new Exception("Already loaded.");
         }
 
-        loamodule(baseModulePath, baseModules);
-        loamodule(thirmodulePath, thirmodules);
+        loadmodule(baseModulePath, baseModules);
+        loadmodule(thirmodulePath, thirmodules);
         
         System.out.println();
         printResult("Ignored Dirs", ignoredDirs);
@@ -92,7 +92,7 @@ public class ModuleMgr {
      * @return
      * @throws Exception
      */
-    private static boolean loamodule(File moduleRootPath, Set<String> modules) throws Exception {        
+    private static boolean loadmodule(File moduleRootPath, Set<String> modules) throws Exception {        
         if (null == moduleRootPath) {
             return false;
         }

@@ -1,0 +1,44 @@
+1. jQuery
+
+2. require.js
+
+3. sea.js
+文档: http://seajs.org/docs/#docs
+用法:
+<script type="text/javascript" src="statics/scripts/sea.js"></script>
+<script type="text/javascript">
+    window.i18n = new Lang();
+    i18n.loadPack('./locales/');
+    seajs.config({
+        debug: false,
+        base: "./modules/",
+        alias: {
+            "config": '../../config',
+            "util": '../base/util',
+            'Handlebars': '../../statics/scripts/handlebars.min',
+            'helper': '../base/helper'
+        },
+        map: [
+            ['.js', '.js?v=@@version']
+        ]
+    });
+    seajs.use('console/main');
+</script>
+
+4. handlebars.js
+文档: http://www.ghostchina.com/introducing-the-handlebars-js-templating-engine/
+作用: 模板引擎
+
+5. highcharts.js
+作用: 纯 js 实现的图表库
+文档: http://api.hcharts.cn/highcharts
+
+6. i18n.js
+作用: 多语言国际化
+
+7. json2.js
+作用: 提供 json 的序列化和反序列化
+7.1 序列化
+var jsonObj = { id: '01', name: 'Tom' };    JSON.stringify(jsonObj);
+7.2 反序列化
+var jsonString = "{ id: '01', name: 'Tom' }";   JSON.parse(jsonString);
