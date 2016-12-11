@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <title>Monitor-登录</title>
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="pragma" content="no-cache">   
+	<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">   
+	<meta http-equiv="expires" content="Wed, 26 Feb 1997 08:21:57 GMT"> 
+
     <meta name="description" content="Expand, contract, animate forms with jQuery wihtout leaving the page" />
     <meta name="keywords" content="expand, form, css3, jquery, animate, width, height, adapt, unobtrusive javascript"/>
     <link rel="stylesheet" type="text/css" href="css/login.css" />
@@ -42,23 +45,19 @@
 <script type="text/javascript" src="statics/scripts/jquery-1.8.0.min.js"></script>
 <script type="text/javascript" src="statics/scripts/require.js"></script>
 
-<script type="text/javascript" src="statics/scripts/sea.js"></script>
+<script type="text/javascript" src="statics/scripts/sea-debug.js"></script>
 <script type="text/javascript">
-    /*window.i18n = new Lang();
-    i18n.loadPack('./locales/');*/
-    seajs.config({
-        debug: false,
-        base: "./modules/",
-        alias: {
-            "util": 'base/util',
-            "config": '../../config',
-            "helper": 'base/helper',
-        },
-        map: [
-            ['.js', '.js?v=@@version']
-        ]
-    });
-    seajs.use('login/main');
+seajs.config({
+    base: "./modules/",
+    alias: {
+        "config": '../../config',
+        "util": '../base/util',
+    },
+    map: [
+        ['.js', '.js?v=@@version']
+    ]
+});
+seajs.use('login/main');
 </script>
 
 </body>
