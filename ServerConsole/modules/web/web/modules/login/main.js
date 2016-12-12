@@ -23,17 +23,16 @@ define(function(require, exports, module) {
     
     function loginInit() {
     	// 验证登录
-    	$.request({
-            url: '/auth/api/checkLogin',
-            checkLogin: false,
-            done: function(data) {
+    	$.getJSON(
+            '/auth/api/checkLogin',
+            function(data) {
+            	console.log(data);
                 if (data.stat == 'OK') {
-                    window.location.href = '/web/index.html';
+                    window.location.href = '/web/console.html';
                 }
             }
-        });
+        );
     };
-	
 	
 	// 检测浏览器cookie是否开启
     function detectCookie() {
@@ -45,4 +44,49 @@ define(function(require, exports, module) {
             alert('该浏览器未启用cookie，请启用cookie后再进行操作！');
         }
     }
+    
+    // 登录
+    $('.submit-login').click(function() {
+    	var name = $("input[name='username']").val();
+        var password = $("input[name='password']").val();
+        var type = "name";
+        
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: "/auth/api/login",
+            data: JSON.stringify({
+            	'name': name,
+                'password': password,
+                'type': type
+            }),
+            dataType:"json",
+            async: false,
+            error: function(request) {
+            	console.log(data);
+            },
+            success: function(data) {
+            	console.log(data);
+                location.href = "/web/console.html";
+            }
+        });
+        /*
+        $.getJSON(
+            '/auth/api/login',
+            {
+            	'name': name,
+                'password': password,
+                'type': type
+            },
+            function(data) {
+            	console.log(data);
+                if (data.stat == 'OK') {
+                    window.location.href = '/web/console.html';
+                    console.log(data);
+                }
+                console.log(data);
+            }
+        );
+        */
+    });
 });

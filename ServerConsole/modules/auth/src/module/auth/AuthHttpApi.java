@@ -37,12 +37,6 @@ public class AuthHttpApi {
 	/**
 	 * 用户登录
 	 * 
-	 * @param token
-	 * <blockquote>
-     * 		类型：String<br/>
-     * 		描述：token<br/>
-     * 		必需：YES
-     * </blockquote>
 	 * @param account 
 	 * <blockquote>
      * 		类型：字符串<br/>
