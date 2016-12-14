@@ -1,4 +1,5 @@
 define({
+    'order': 'desc',
 	'plugins': {
         'login': [],
         'index': [],

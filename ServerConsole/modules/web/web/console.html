@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit">
     <title>Monitor</title>
 
     <link type="text/css" rel="stylesheet" href="css/main.css">
     <link type="text/css" rel="stylesheet" href="css/header.css">
     <link type="text/css" rel="stylesheet" href="css/console.css">
+    <link type="text/css" rel="stylesheet" href="statics/xui/styles/xui.css">
 </head>
 <body>
 <!-- STA 头部 -->
@@ -58,9 +61,13 @@
 
 <!-- STA 尾部 -->
 <!-- END 尾部 -->
+<script type="text/javascript" src="statics/xui/xui.min.js"></script>
 <script type="text/javascript" src="statics/scripts/jquery-1.8.0.min.js"></script>
 <script type="text/javascript" src="statics/scripts/sea.js"></script>
+<script type="text/javascript" src="statics/scripts/i18n.js"></script>
 <script type="text/javascript">
+    window.i18n = new Lang();
+    i18n.loadPack('./locales/');
     seajs.config({
         debug: false,
         base: "./modules/",
