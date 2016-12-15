@@ -8,6 +8,30 @@ define(function(require, exports, module) {
         var tpl = Handlebars.compile(require('./host/hostlist.tpl'));
         init.insertCenter(tpl);
         
+        // 主机列表操作菜单
+        var hostMenus = [{
+    		name: 'add-host',
+    		text: i18n.get('consoleHost_add_host'),
+    		order: 1,
+    		onClick: function(host) {
+    			// 添加主机
+    		}
+        }, {
+        	name: 'edit-host',
+        	text: i18n.get('consoleHost_edit_host'),
+        	order: 2,
+        	onClick: function(host) {
+        		// 编辑主机
+        	}
+        }, {
+        	name: 'delete-host',
+        	text: i18n.get('consoleHost_delete_host'),
+        	order: 3,
+        	onClick: function(host) {
+        		// 删除主机
+        	}
+        }];
+        
         $('#hostlist').table({
             url: '/host/api/getHostList?order=' + config.order,
             pagination: true,
