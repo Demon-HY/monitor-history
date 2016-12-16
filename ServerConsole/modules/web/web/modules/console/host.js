@@ -28,10 +28,9 @@ define(function(require, exports, module) {
             // 删除主机
         }
     }];
-    console.log('start hostInit.');
+    
     function hostInit() {
         var tpl = Handlebars.compile(require('./host/hostlist.tpl'));
-        console.log(tpl);
         init.insertCenter(tpl);
         $('#hostlist').table({
             url: '/host/api/listHost?order=' + config.order,
@@ -46,22 +45,22 @@ define(function(require, exports, module) {
             }, {
                 field: 'id',
                 title: 'Id',
-                width: 200
+                width: 300
             }, {
                 field: 'ip',
                 title: 'IP',
-                width: 200
+                width: 400
             }, {
                 field: 'status',
                 title: '状态',
-                width: 270
+                width: 650
             }],
             onInited: function() {
                 $('#hostlist').on('click', function(event) {
                     event.preventDefault();
                     $('#hostlist').table('clearSelections');
                     if (!$('#xmenu').length) {
-                        $(this).parents('.xtable-row').click();
+                        /*$(this).parents('.xtable-row').click();
                         $.menu({
                             showIcon: false,
                             rows: _.sortBy(hostMenus, 'order'),
@@ -70,7 +69,7 @@ define(function(require, exports, module) {
                                 left: event.pageX - 85,
                                 top: event.pageY + 10
                             }
-                        });
+                        });*/
                     } else {
                         $(document).trigger('click');
                     }

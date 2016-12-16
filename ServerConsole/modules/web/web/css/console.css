@@ -24,6 +24,41 @@
 }
 /* 右侧区域 */
 .main-r {
-	height: 650px;
+	height: 1690px;
 	float:left;
+}
+.xtable-toolbar {
+    padding-bottom: 0;
+}
+.data-toolbar {
+    overflow-y: auto;
+    padding: 15px 10px;
+}
+.data-toolbar .btn-info {
+    background: #6F7CC8;
+    border: 1px solid #6F7CC8;
+    color: #fff;
+    text-shadow: none;
+    filter: none;
+}
+/* button */
+.data-toolbar .btn {
+    padding: 6px 15px;
+}
+.xtable-toolbar .btn-info {
+    background: #6F7CC8;
+    border: 1px solid #6F7CC8;
+    color: #fff;
+    text-shadow: none;
+    filter: none;
+}
+.xtable-toolbar button, 
+.xtable-toolbar input, 
+.xtable-toolbar label, 
+.xtable-toolbar select {
+    margin-bottom: 10px;
+}
+.data-toolbar button, .data-toolbar input, .data-toolbar select {
+    float: left;
+    margin-right: 5px;
 }
