@@ -3,6 +3,7 @@ package module.SDK.info;
 import java.util.Map;
 
 public class GroupInfo {
+	public GroupInfo(){}
 
 	
 	

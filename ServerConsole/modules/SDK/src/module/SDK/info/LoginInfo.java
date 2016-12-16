@@ -8,6 +8,7 @@ package module.SDK.info;
  * @see UserInfo
  */
 public class LoginInfo {
+	public LoginInfo(){}
     
     /** token信息对象 */
     public TokenInfo tokenInfo;

@@ -112,4 +112,17 @@ public class DBUtil {
     	return true;
     }
     
+    /**
+     * 防止 SQL 注入，检测字符串是否为英文\数字
+     * @param str
+     * @return 是返回true,反之false.若传入为空则返回正确
+     */
+    public static  boolean checkSqlInjection(String str) {
+    	if(str != null) {
+    		String regexString = "^[A-Za-z0-9]+$";
+            return str.matches(regexString);
+    	}
+    	return true;
+    }
+    
 }

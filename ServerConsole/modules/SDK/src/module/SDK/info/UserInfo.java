@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserInfo {
+	public UserInfo(){}
 
 	/** 用户 Id */
 	public Long uid;
@@ -33,8 +34,6 @@ public class UserInfo {
     /** 最后一次登录时间 */
     public Timestamp load_time;
     
-    public UserInfo() {}
-	
 	/**
 	 * 用户基本信息
 	 */

@@ -7,7 +7,6 @@ import org.apache.commons.codec.binary.Base64;
 import module.SDK.http.AuthedJsonProtocol;
 import module.SDK.http.AuthedJsonReq;
 import module.SDK.info.UserInfo;
-import module.SDK.stat.AclRetStat;
 import module.SDK.stat.UserRetStat;
 import monitor.service.http.protocol.JsonProtocol;
 import monitor.service.http.protocol.JsonReq;
@@ -41,12 +40,6 @@ public class UserHttpApi {
 	/**
 	 * 用户注册
 	 * 
-	 * @param token
-	 * <blockquote>
-     * 		类型：String<br/>
-     * 		描述：token<br/>
-     * 		必需：YES
-     * </blockquote>
 	 * @param name
 	 * <blockquote>
      * 		类型：字符串<br/>
@@ -114,45 +107,28 @@ public class UserHttpApi {
 	}
 	
 	/**
-	 * 通过 uid 获取用户信息
+	 * 获取 token 中存储的用户信息
 	 * 
 	 * @param token
 	 * <blockquote>
-     * 		类型：String<br/>
+     * 		类型：字符型<br/>
      * 		描述：token<br/>
      * 		必需：YES
      * </blockquote>
-	 * @param uid
-	 * <blockquote>
-     * 		类型：整形<br/>
-     * 		描述：用户 uid<br/>
-     * 		必需：YES
-     * </blockquote> 
 	 */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp getUserInfo(AuthedJsonReq req) throws Exception {
-		Long uid = req.paramGetNumber("uid", true, true);
-		if (uid == null || uid.longValue() < 1) {
-			throw new LogicalException(UserRetStat.ERR_USER_NOT_FOUND, "uid == null || uid < 1");
-		}
-		// 只有管理员和用户自己可以查看用户信息，其他人没有权限
-		if (2 != req.loginInfo.userInfo.type || uid.longValue() != req.loginInfo.userInfo.uid.longValue()) {
-			throw new LogicalException(AclRetStat.ERR_ACL_NOT_GET_USERINFO, 
-					AclRetStat.getMsgByStat(AclRetStat.ERR_ACL_NOT_GET_USERINFO, String.valueOf(uid)));
-		}
-		
-		UserInfo userInfo = this.userApi.getUserInfoByUid(uid);
-		JsonResp resp = new JsonResp(RetStat.OK);
-
-		resp.resultMap.put("UserInfo", userInfo);
-		return resp;
+        JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("user", req.loginInfo.userInfo);
+        
+        return resp;
 	}
 	
 	/**
 	 * 判断用户名是否有效及是否已被注册
 	 * @param username
 	 * <blockquote>
-     * 		类型：String<br/>
+     * 		类型：字符型<br/>
      * 		描述：已存在用户名或者将要注册用户名<br/>
      * 		必需：YES
      * </blockquote>
@@ -183,7 +159,7 @@ public class UserHttpApi {
 //	 * 
 //	 * @param token
 //	 * <blockquote>
-//     * 		类型：String<br/>
+//     * 		类型：字符型<br/>
 //     * 		描述：token<br/>
 //     * 		必需：YES
 //     * </blockquote>
@@ -198,7 +174,7 @@ public class UserHttpApi {
 //	 * 
 //	 * @param token
 //	 * <blockquote>
-//     * 		类型：String<br/>
+//     * 		类型：字符型<br/>
 //     * 		描述：token<br/>
 //     * 		必需：YES
 //     * </blockquote>
@@ -213,7 +189,7 @@ public class UserHttpApi {
 //	 * 
 //	 * @param token
 //	 * <blockquote>
-//     * 		类型：String<br/>
+//     * 		类型：字符型<br/>
 //     * 		描述：token<br/>
 //     * 		必需：YES
 //     * </blockquote>
@@ -228,7 +204,7 @@ public class UserHttpApi {
 //	 * 
 //	 * @param token
 //	 * <blockquote>
-//     * 		类型：String<br/>
+//     * 		类型：字符型<br/>
 //     * 		描述：token<br/>
 //     * 		必需：YES
 //     * </blockquote>
@@ -243,7 +219,7 @@ public class UserHttpApi {
 //	 * 
 //	 * @param token
 //	 * <blockquote>
-//     * 		类型：String<br/>
+//     * 		类型：字符型<br/>
 //     * 		描述：token<br/>
 //     * 		必需：YES
 //     * </blockquote>
@@ -258,7 +234,7 @@ public class UserHttpApi {
 //	 * 
 //	 * @param token
 //	 * <blockquote>
-//     * 		类型：String<br/>
+//     * 		类型：字符型<br/>
 //     * 		描述：token<br/>
 //     * 		必需：YES
 //     * </blockquote>
@@ -273,7 +249,7 @@ public class UserHttpApi {
 //	 * 
 //	 * @param token
 //	 * <blockquote>
-//     * 		类型：String<br/>
+//     * 		类型：字符型<br/>
 //     * 		描述：token<br/>
 //     * 		必需：YES
 //     * </blockquote>

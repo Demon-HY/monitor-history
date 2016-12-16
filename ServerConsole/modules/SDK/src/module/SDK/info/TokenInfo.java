@@ -9,6 +9,7 @@ import org.apache.commons.codec.binary.Base64;
 import monitor.utils.Time;
 
 public class TokenInfo {
+	public TokenInfo(){}
     
     /** 用户登录凭据 */
     public String token;

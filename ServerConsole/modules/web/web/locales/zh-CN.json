@@ -1,9 +1,10 @@
 {
     "yes": "是",
-    "no": "否"
+    "no": "否",
     "consoleHost_add_host": "添加主机",
     "consoleHost_delete_host": "删除主机",
+    "consoleHost_edit_host": "编辑",
     "consoleHost_hostIP": "主机 IP",
     "consoleHost_search": "搜索",
-    "consoleHost_search": "刷新",
+    "consoleHost_reset": "刷新"
 }
