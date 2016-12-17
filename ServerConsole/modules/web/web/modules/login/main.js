@@ -70,23 +70,5 @@ define(function(require, exports, module) {
                 location.href = "/web/console.html";
             }
         });
-        /*
-        $.getJSON(
-            '/auth/api/login',
-            {
-            	'name': name,
-                'password': password,
-                'type': type
-            },
-            function(data) {
-            	console.log(data);
-                if (data.stat == 'OK') {
-                    window.location.href = '/web/console.html';
-                    console.log(data);
-                }
-                console.log(data);
-            }
-        );
-        */
     });
 });

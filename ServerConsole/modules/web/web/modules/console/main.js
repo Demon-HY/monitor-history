@@ -10,10 +10,23 @@ define(function(require, exports, module) {
     var Router = Backbone.Router.extend({
         routes: {
             "*other": function(callback, args) {
+                if (!(window.location.hash.substr(1))) {
+                    var $node = $('.nav-wrap').find('.nav-item:eq(0)');
+                    $node.click();
+                    if ($node.next('.nav-child').length) {
+                        $node.next('.nav-child').find('.nav-item:eq(0)').click();
+                    }
+                } else {
+                    $.alert('您要访问的路径不存在！');
+                    $('.body-center').empty();
+                }
                 return false;
             }
         },
         execute: function(callback, args) {
+            $(document).trigger('click');
+            document.title = config.title;
+            $('.nav-current').removeClass('nav-current');
             if (callback) callback.apply(this, args);
         }
     });

@@ -1,4 +1,119 @@
+.body-center, .body-west, .common-center, .common-header {
+    background-color: #fff;
+}
+.body-north {
+    border-bottom: 1px solid #3f51b5;
+}
+.body-north, .toolbar-btn .btn:hover, .xtable-toolbar .btn:hover {
+    box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+}
+.header {
+	background-color: #4b8cf7;
+}
+.body-north {
+    height: 60px;
+    z-index: 20;
+}
+.nav-logo {
+	width: 300px;
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-bottom: 10px;
+}
+.nav-logo span {
+	font-size: 27px;
+	color: #FFF;
+}
+.body-north .nav-username {
+    color: #fff;
+}
+.nav-username {
+    margin-top: 25px;
+    width: 80px;
+    height: 14px;
+    text-align: right;
+    font-size: 12px;
+    color: #777;
+    display: inline-block;
+}
+.user-image{
+	margin: 15px 15px;
+}
+.nav-phono {
+    color: #fff;
+    margin: 15px 0 15px 15px;
+    float: left;
+    width: 32px;
+    height: 32px;
+    border-radius: 90px;
+    cursor: pointer;
+}
+.body-north .user-logout {
+    color: #fff;
+}
+.user-logout {
+    cursor: pointer;
+    margin-top: 25px;
+    margin-left: 15px;
+    width: 61px;
+    height: 14px;
+    text-align: center;
+    border-left: 1px solid #d8d5e6;
+}
 /* 侧边栏 */
+.body-west {
+    width: 229px;
+    border-right: 1px solid #e7e7e7;
+    z-index: 25;
+    overflow: auto;
+    box-shadow: 0 0 4px rgba(0,0,0,.14),2px 4px 8px rgba(0,0,0,.28);
+}
+.nav-wrap {
+    display: block;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 10px;
+}
+.nav-wrap .nav-item {
+  height: 20px;
+  padding: 15px 15px 15px 0;
+  font-size: 14px;
+  line-height: 20px;
+  font-family: Microsoft Yahei;
+  cursor: pointer;
+}
+.nav-wrap .nav-item i {
+  display: inline-block;
+}
+.nav-wrap .nav-item span {
+  float: left;
+  margin-left: 10px;
+}
+.nav-wrap .nav-item .nav-arrow {
+  float: right;
+}
+.nav-wrap .nav-item:hover {
+  background-color: #EBECF8;
+}
+.nav-wrap .nav-icon {
+  float: left;
+  margin-left: 20px;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+.nav-wrap .nav-child {
+  display: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border-top: 1px solid #e1e1e1;
+  border-bottom: 1px solid #e1e1e1;
+}
+.nav-wrap .nav-child .nav-item {
+  padding-left: 36px;
+}
+
+/*
 .main-l {
 	width: 200px;
 	float: left;
@@ -21,8 +136,9 @@
 .nav-item span {
 	margin-left: 20px;
 	float: left;
-}
+}*/
 /* 右侧区域 */
+/*
 .main-r {
 	height: 1690px;
 	float:left;
@@ -41,7 +157,6 @@
     text-shadow: none;
     filter: none;
 }
-/* button */
 .data-toolbar .btn {
     padding: 6px 15px;
 }
@@ -62,3 +177,4 @@
     float: left;
     margin-right: 5px;
 }
+*/

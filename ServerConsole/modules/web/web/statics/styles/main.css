@@ -17,18 +17,45 @@ body {
 a {
     text-decoration:none;
 }
+body, input {
+    color: #777;
+}
 
 /* 公用属性 */
-.clearfix {
-	overflow: hidden;
-	zoom: 1;
-}
 .hidden {
     display: none;
 }
 .show {
     display:block;
 }
+/* 浮动 */
+.clearfix:after {
+  clear: both;
+  display: block;
+  height: 0;
+  visibility: hidden;
+  line-height: 0;
+  content: '\20';
+}
+.clearfix {
+  *display: table;
+  *zoom: 1;
+}
+.fl {
+  display: inline;
+  float: left;
+}
+.fr {
+  display: inline;
+  float: right;
+}
+.none {
+  display: none;
+}
+.hidden {
+  overflow: hidden;
+}
+
 
 
 

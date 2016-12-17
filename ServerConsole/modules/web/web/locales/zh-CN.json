@@ -1,10 +1,32 @@
 {
+    "title": "Monitor-分布式监控系统",
     "yes": "是",
     "no": "否",
+    "logout": "退出",
+    "home": "主页",
+    "monitor": "数据中心",
+    
+    "consoleHost_hostManagement": "主机",
     "consoleHost_add_host": "添加主机",
     "consoleHost_delete_host": "删除主机",
     "consoleHost_edit_host": "编辑",
     "consoleHost_hostIP": "主机 IP",
     "consoleHost_search": "搜索",
-    "consoleHost_reset": "刷新"
+    "consoleHost_reset": "刷新",
+    
+    "consoleGroup_groupManagement": "群组",
+    
+    "consoleService_serviceManagement": "服务",
+    
+    "consoleTemplate_templateManagement": "模板",
+    
+    "consoleTrigger_triggerManagement": "触发器",
+    
+    "consoleAction_actionManagement": "报警装置",
+    
+    "consoleMaintain_maintainManagement": "维护",
+    
+    
+    
+    "": ""
 }
