@@ -1,0 +1,5 @@
+## web 端发送的事件类型汇总(按模块划分)
+
+## console
+AppEvent.trigger('console.init.beforeLoad');        // 控制台初始化开始前
+AppEvent.trigger('console.init.afterLoad');         // 控制台初始化结束后
