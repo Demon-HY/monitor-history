@@ -4,7 +4,7 @@
     "no": "否",
     "logout": "退出",
     "home": "主页",
-    "monitor": "数据中心",
+    "datacenter": "数据中心",
     
     "consoleHost_hostManagement": "主机",
     "consoleHost_add_host": "添加主机",

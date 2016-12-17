@@ -15,11 +15,11 @@ define(function(require, exports, module) {
     };
     // 点击头像后，弹出的菜单选项
     var profileMenus = [{
-        name: 'monitor',
-        text: i18n.get('monitor'),
+        name: 'datacenter',
+        text: i18n.get('datacenter'),
         order: 1,
         onClick: function() {
-            window.location.href = 'monitor.html'; // 跳转到数据中心
+            window.location.href = 'datacenter.html'; // 跳转到数据中心
         }
     }];
 	/* 对外抛出的方法 */
