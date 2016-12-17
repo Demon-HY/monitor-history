@@ -6,6 +6,9 @@ public class HostInfo {
 	
 	public HostInfo(){}
 	
+	/** 主机 ID */
+	public Long host_id;
+	
 	/** 主机名 */
 	public String name;
 

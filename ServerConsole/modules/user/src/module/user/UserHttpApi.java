@@ -119,6 +119,7 @@ public class UserHttpApi {
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp getUserInfo(AuthedJsonReq req) throws Exception {
         JsonResp resp = new JsonResp(RetStat.OK);
+        req.loginInfo.userInfo.password = "";
         resp.resultMap.put("user", req.loginInfo.userInfo);
         
         return resp;

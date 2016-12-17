@@ -98,6 +98,7 @@ public class HostModel {
 //			HostInfo host = new HostInfo(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getInt(5),
 //					rs.getString(6),rs.getTimestamp(7),rs.getTimestamp(8));
 			HostInfo host = new HostInfo();
+			host.host_id = rs.getLong("host_id");
 			host.name = rs.getString("name");
 			host.ip = rs.getString("ip");
 			host.monitored = rs.getString("monitored");
@@ -119,6 +120,7 @@ public class HostModel {
 			HostInfo host = null;
 			if (rs.next()) {
 				host = new HostInfo();
+				host.host_id = rs.getLong("host_id");
 				host.name = rs.getString("name");
 				host.ip = rs.getString("ip");
 				host.monitored = rs.getString("monitored");
