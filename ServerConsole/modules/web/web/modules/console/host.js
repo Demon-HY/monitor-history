@@ -8,7 +8,20 @@ define(function(require, exports, module) {
         text: i18n.get('consoleHost_hostManagement'),
         cls: 'fa-server',
         name: 'host',
-        order: 1
+        order: 1,
+        callback: function() {
+            AppRouter.navigate('deptlist/' + Math.random(), {trigger: true});
+        }
+    });
+    AppRouter.route("hostlist/:rand", function() {
+        AppEvent.trigger('console.hostlist.beforeLoad');
+        var $nav = $('div[name=hostlist]');
+        $nav.addClass('nav-current');
+        if ($nav.parents('.nav-child').is(':hidden')) {
+            $nav.parents('.nav-child').prev('.nav-item').click();
+        }
+        hostInit();
+        AppEvent.trigger('console.hostlist.afterLoad');
     });
     // 主机列表操作菜单
     var hostMenus = [{

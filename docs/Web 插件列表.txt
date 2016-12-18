@@ -66,7 +66,7 @@ JavaScript 内置对象。 他解决了这个问题：“如果我面对一个�
 文档: http://www.css88.com/doc/backbone/
 依赖: underscore.js
 作用:
-Backbone为Web开发提供了Model、View、Collection、Router等功能，可以使Web应用数据与界面分
+Backbone 为Web开发提供了Model、View、Collection、Router等功能，可以使Web应用数据与界面分
 离，更好的组织代码结构，网盘主要使用它来进行路由分发、历史记录、局部View的数据绑定等，
 便于提供更强大的扩展能力；
 

@@ -3,3 +3,6 @@
 ## console
 AppEvent.trigger('console.init.beforeLoad');        // 控制台初始化开始前
 AppEvent.trigger('console.init.afterLoad');         // 控制台初始化结束后
+
+AppEvent.trigger('console.hostlist.beforeLoad');    // 控制台 host页面加载前
+AppEvent.trigger('console.hostlist.afterLoad');     // 控制台 host页面加载后
