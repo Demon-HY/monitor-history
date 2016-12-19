@@ -10,7 +10,7 @@ define(function(require, exports, module) {
         name: 'host',
         order: 1,
         callback: function() {
-            AppRouter.navigate('deptlist/' + Math.random(), {trigger: true});
+            AppRouter.navigate('hostlist/' + Math.random(), {trigger: true});
         }
     });
     AppRouter.route("hostlist/:rand", function() {
@@ -92,7 +92,7 @@ define(function(require, exports, module) {
                 width: 400
             }],
             onInited: function() {
-                $('#hostlist').on('click', function(event) {
+                /*$('#hostlist').on('click', function(event) {
                     event.preventDefault();
                     $('#hostlist').table('clearSelections');
                     if (!$('#xmenu').length) {
@@ -110,7 +110,7 @@ define(function(require, exports, module) {
                         $(document).trigger('click');
                     }
                     return false;
-                });
+                });*/
             },
         });
     }
