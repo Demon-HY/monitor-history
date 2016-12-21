@@ -46,7 +46,7 @@ define(function(require, exports, module) {
             // 删除主机
         }
     }];
-    
+
     function hostInit() {
         var tpl = Handlebars.compile(require('./host/hostlist.tpl'));
         init.insertCenter(tpl);
@@ -92,10 +92,10 @@ define(function(require, exports, module) {
                 width: 400
             }],
             onInited: function() {
-                /*$('#hostlist').on('click', function(event) {
+                $('#hostlist').on('click', function(event) {
                     event.preventDefault();
                     $('#hostlist').table('clearSelections');
-                    if (!$('#xmenu').length) {
+                    /*if (!$('#xmenu').length) {
                         $(this).parents('.xtable-row').click();
                         $.menu({
                             showIcon: false,
@@ -108,11 +108,58 @@ define(function(require, exports, module) {
                         });
                     } else {
                         $(document).trigger('click');
-                    }
+                    }*/
                     return false;
-                });*/
+                });
             },
         });
+        // add host
+        $(".add-host").click(function() {
+            addHost();
+        });
     }
-//    hostInit();
+
+    // 添加主机
+    function addHost () {
+        if (!$('#create-dialog').length) {
+            $('body').append('<div id="create-dialog"></div>');
+        }
+        $('#create-dialog').dialog({
+            title: i18n.get('consoleHost_add_host'),
+            width: 500,
+            height: 800,
+            data: Handlebars.compile(require('./host/create.tpl')),
+            onInited: function() {},
+            buttons: [{
+                text: i18n.get('consoleHost_confirm'),
+                name: 'save',
+                cls: 'btn-primary',
+                handler: function() {
+                    var res = $('#fm').valid('formValid');
+                    if (res) {
+                        $.request({
+                            url: '/host/api/addHost',
+                            params: form,
+                            done: function(data) {
+                                if (data.stat == 'OK') {
+                                    $('#create-dialog').dialog('close');
+                                    $('#datalist').table('reload');
+                                    // $.tip('主机添加成功！');
+                                    $.tip(i18n.get('consoleHost_success_addHost'));
+                                } else {
+                                    $.alert(data.errText);
+                                }
+                            }
+                        });
+                    }
+                }
+            }, {
+                text: i18n.get('consoleHost_cancel'),
+                name: 'cancel',
+                handler: function() {
+                    $('#create-dialog').dialog('close');
+                }
+            }]
+        });
+    }
 });

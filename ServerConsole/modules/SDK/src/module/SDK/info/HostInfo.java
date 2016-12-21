@@ -23,7 +23,7 @@ public class HostInfo {
 	
 	/** 
 	 * 状态
-	 * Online,Down,Unreachable,Offline,Problem
+	 * Online(在线),Down(关闭),Unreachable(拒绝访问),Offline(离线),Problem
 	 */
 	public String status;
 	

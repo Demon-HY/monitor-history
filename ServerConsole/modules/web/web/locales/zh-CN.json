@@ -5,28 +5,36 @@
     "logout": "退出",
     "home": "主页",
     "datacenter": "数据中心",
-    
+
     "consoleHost_hostManagement": "主机",
     "consoleHost_add_host": "添加主机",
     "consoleHost_delete_host": "删除主机",
     "consoleHost_edit_host": "编辑",
-    "consoleHost_hostIP": "主机 IP",
+    "consoleHost_hostIP": "主机IP",
     "consoleHost_search": "搜索",
     "consoleHost_reset": "刷新",
-    
+    "consoleHost_host_name": "主机名",
+    "consoleHost_monitored": "监控方式",
+    "consoleHost_host_interval": "主机存活状态检测间隔(second)",
+    "consoleHost_host_status": "主机状态",
+    "consoleHost_memo": "备注",
+    "consoleHost_confirm": "确定",
+    "consoleHost_cancel": "取消",
+    "consoleHost_success_addHost": "主机添加成功",
+
     "consoleGroup_groupManagement": "群组",
-    
+
     "consoleService_serviceManagement": "服务",
-    
+
     "consoleTemplate_templateManagement": "模板",
-    
+
     "consoleTrigger_triggerManagement": "触发器",
-    
+
     "consoleAction_actionManagement": "报警装置",
-    
+
     "consoleMaintain_maintainManagement": "维护",
-    
-    
-    
+
+
+
     "": ""
 }
