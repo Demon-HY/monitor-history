@@ -126,8 +126,8 @@ define(function(require, exports, module) {
         }
         $('#create-dialog').dialog({
             title: i18n.get('consoleHost_add_host'),
-            width: 500,
-            height: 800,
+            width: 600,
+            height: 650,
             data: Handlebars.compile(require('./host/create.tpl')),
             onInited: function() {},
             buttons: [{
