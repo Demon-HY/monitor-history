@@ -10,4 +10,14 @@ define(function(require, exports, module) {
         name: 'group',
         order: 2
     });
+    AppRouter.route("grouplist/:rand", function() {
+        AppEvent.trigger('console.grouplist/:rand.beforeLoad');
+        var $nav = $('div[name=grouplist]');
+        $nav.addClass('nav-current');
+        if ($nav.parents('.nav-child').is(':hidden')) {
+            $nav.parents('.nav-child').prev('.nav-item').click();
+        }
+        groupInit();
+        AppEvent.trigger('console.grouplist.afterLoad');
+    });
 });
