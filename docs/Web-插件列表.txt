@@ -76,27 +76,6 @@ Backbone 为Web开发提供了Model、View、Collection、Router等功能，可�
 作用: 可缩放的矢量图标
 
 ========================================================================================
-11. pickList
-文档: https://github.com/Gabrielr47/pickList
-作用: 基于 jQuery 的一个左右多项选择控件
-用法:
-#html
-<script src="pickList.js"></script>
-<div id="pickList"></div>
-#js
-var val = {
-    01: {id: 01, text: 'Isis'},
-    02: {id: 02, text: 'Sophia'},
-    03: {id: 03, text: 'Alice'},
-    04: {id: 04, text: 'Isabella'},
-    05: {id: 05, text: 'Manuela'},
-    06: {id: 06, text: 'Laura'}
-  };
-var pick = $("#pickList").pickList({data: val});
-# get data
-var pick = $("#pickList").pickList({data: val});
-$("#getSelected").click(function () {
-    console.log(pick.getValues());
-});
+11.
 
 ========================================================================================
