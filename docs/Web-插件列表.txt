@@ -82,6 +82,7 @@ Backbone 为Web开发提供了Model、View、Collection、Router等功能，可�
 用法:
 #html
 <script src="pickList.js"></script>
+<div id="pickList"></div>
 #js
 var val = {
     01: {id: 01, text: 'Isis'},

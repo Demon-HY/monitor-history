@@ -29,7 +29,7 @@ define(function(require, exports, module) {
         text: i18n.get('consoleHost_add_host'),
         order: 1,
         onClick: function(host) {
-            // 添加主机
+            addHost();
         }
     }, {
         name: 'edit-host',
@@ -37,6 +37,7 @@ define(function(require, exports, module) {
         order: 2,
         onClick: function(host) {
             // 编辑主机
+            editHost(host);
         }
     }, {
         name: 'delete-host',
@@ -90,13 +91,21 @@ define(function(require, exports, module) {
                 field: 'memo',
                 title: 'Memo',
                 width: 400
+            },  {
+                field: 'opt',
+                title: i18n.get('consoleHost_operation'),
+                width: 80,
+                formatter: function(val, row, index) {
+                    return '<i class="fa fa-cog col-opt host-opt"></i>';
+                }
             }],
             onInited: function() {
-                $('#hostlist').on('click', function(event) {
+                $('#hostlist').on('click', '.host-opt', function(event) {
                     event.preventDefault();
-                    $('#hostlist').table('clearSelections');
-                    /*if (!$('#xmenu').length) {
-                        $(this).parents('.xtable-row').click();
+                    var $this = $(this);
+                    $('#datalist').table('clearSelections');
+                    if (!$('#xmenu').length) {
+                        $this.parents('.xtable-row').click();
                         $.menu({
                             showIcon: false,
                             rows: _.sortBy(hostMenus, 'order'),
@@ -105,17 +114,21 @@ define(function(require, exports, module) {
                                 left: event.pageX - 85,
                                 top: event.pageY + 10
                             }
-                        });
+                        })
                     } else {
                         $(document).trigger('click');
-                    }*/
+                    }
                     return false;
                 });
             },
         });
-        // add host
+        //add host
         $(".add-host").click(function() {
             addHost();
+        });
+        // edit host
+        $('.edit-host').click(function(){
+            editHost();
         });
     }
 
@@ -129,15 +142,27 @@ define(function(require, exports, module) {
             width: 600,
             height: 650,
             data: Handlebars.compile(require('./host/create.tpl')),
-            onInited: function() {},
+            onInited: function() {
+                // 添加群组
+                var checkboxGroupHtml = "<div class='fl'><label><input name='group' type='checkbox' value='' />群组1</label></div>";
+                $('.checkbox-group').append(checkboxGroupHtml)
+                .append(checkboxGroupHtml);
+
+                // 添加模板
+                var checkboxTempHtml = "<div class='fl'><label><input name='group' type='checkbox' value='' />模板1</label></div>";
+                $('.checkbox-template').append(checkboxTempHtml)
+                .append(checkboxTempHtml)
+                .append(checkboxTempHtml);
+            },
             buttons: [{
                 text: i18n.get('consoleHost_confirm'),
                 name: 'save',
                 cls: 'btn-primary',
                 handler: function() {
                     var res = $('#fm').valid('formValid');
+                    var form = util.parseForm('#fm');
                     if (res) {
-                        $.request({
+                        /*$.request({
                             url: '/host/api/addHost',
                             params: form,
                             done: function(data) {
@@ -150,7 +175,7 @@ define(function(require, exports, module) {
                                     $.alert(data.errText);
                                 }
                             }
-                        });
+                        });*/
                     }
                 }
             }, {
@@ -158,6 +183,61 @@ define(function(require, exports, module) {
                 name: 'cancel',
                 handler: function() {
                     $('#create-dialog').dialog('close');
+                }
+            }]
+        });
+    }
+
+    function editHost(host) {
+        if (!$('#edit-dialog').length) {
+            $('body').append('<div id="edit-dialog"></div>');
+        }
+        $('#edit-dialog').dialog({
+            title: i18n.get('consoleHost_edit_host'),
+            width: 600,
+            height: 650,
+            data: Handlebars.compile(require('./host/edit.tpl')),
+            onInited: function() {
+                // 添加群组
+                var checkboxGroupHtml = "<div class='fl'><label><input name='group' type='checkbox' value='' />群组1</label></div>";
+                $('.checkbox-group').append(checkboxGroupHtml)
+                .append(checkboxGroupHtml);
+
+                // 添加模板
+                var checkboxTempHtml = "<div class='fl'><label><input name='group' type='checkbox' value='' />模板1</label></div>";
+                $('.checkbox-template').append(checkboxTempHtml)
+                .append(checkboxTempHtml)
+                .append(checkboxTempHtml);
+            },
+            buttons: [{
+                text: i18n.get('consoleHost_confirm'),
+                name: 'save',
+                cls: 'btn-primary',
+                handler: function() {
+                    var res = $('#fm').valid('formValid');
+                    var form = util.parseForm('#fm');
+                    if (res) {
+                        /*$.request({
+                            url: '/host/api/addHost',
+                            params: form,
+                            done: function(data) {
+                                if (data.stat == 'OK') {
+                                    $('#create-dialog').dialog('close');
+                                    $('#datalist').table('reload');
+                                    // $.tip('主机添加成功！');
+                                    $.tip(i18n.get('consoleHost_success_addHost'));
+                                } else {
+                                    $.alert(data.errText);
+                                }
+                            }
+                        });*/
+                    }
+                }
+            }, {
+                text: i18n.get('consoleHost_cancel'),
+                name: 'cancel',
+                handler: function() {
+                    $('#edit-dialog').dialog('close');
                 }
             }]
         });

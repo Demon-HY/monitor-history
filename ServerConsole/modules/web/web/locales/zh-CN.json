@@ -21,6 +21,9 @@
     "consoleHost_confirm": "确定",
     "consoleHost_cancel": "取消",
     "consoleHost_success_addHost": "主机添加成功",
+    "consoleHost_host_group": "群组",
+    "consoleHost_host_template": "模板",
+    "consoleHost_operation": "操作",
 
     "consoleGroup_groupManagement": "群组",
 
