@@ -138,8 +138,8 @@ public class HostHttpApi {
 	 */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp listHost(AuthedJsonReq req) throws Exception {
-		int pageIndex = req.paramGetInteger("pageIndex", false);
-		int pageSize = req.paramGetInteger("pageSize", false);
+		Integer pageIndex = req.paramGetInteger("pageIndex", false);
+		Integer pageSize = req.paramGetInteger("pageSize", false);
 		String order = req.paramGetString("order", false);
 		String sort = req.paramGetString("sort", false);
 		if (null == order) {

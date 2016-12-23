@@ -58,7 +58,7 @@ public class HostModel {
 		}
 	}
 
-	public List<HostInfo> listGroup(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
+	public List<HostInfo> listHost(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();

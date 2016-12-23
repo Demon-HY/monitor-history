@@ -35,7 +35,7 @@ public class HostApi implements IHostApi{
 	}
 
 	/**
-	 * 
+	 * 获取主机列表
 	 * @param pageIndex 分页页码
 	 * @param pageSize 分页大小
 	 * @param order 排序参数（desc、asc）
@@ -43,10 +43,10 @@ public class HostApi implements IHostApi{
 	 * @return
 	 * @throws SQLException 
 	 */
-	public Pair<Integer, List<HostInfo>> listHost(int pageIndex, int pageSize, String order, String sort) throws SQLException {
+	public Pair<Integer, List<HostInfo>> listHost(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
 		List<HostInfo> result = null;
 		Integer count = null;
-		result = this.hostModel.listGroup(pageIndex, pageSize, order, sort);
+		result = this.hostModel.listHost(pageIndex, pageSize, order, sort);
 		count = this.hostModel.countHost();
 		
 		return new Pair<Integer, List<HostInfo>>(count, result);

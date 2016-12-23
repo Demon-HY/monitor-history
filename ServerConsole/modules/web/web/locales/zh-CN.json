@@ -9,7 +9,7 @@
     "consoleHost_hostManagement": "主机",
     "consoleHost_add_host": "添加主机",
     "consoleHost_delete_host": "删除主机",
-    "consoleHost_edit_host": "编辑",
+    "consoleHost_edit_host": "编辑主机",
     "consoleHost_hostIP": "主机IP",
     "consoleHost_search": "搜索",
     "consoleHost_reset": "刷新",
@@ -26,6 +26,13 @@
     "consoleHost_operation": "操作",
 
     "consoleGroup_groupManagement": "群组",
+    "consoleGroup_add_group": "添加群组",
+    "consoleGroup_edit_group": "编辑群组",
+    "consoleGroup_delete_group": "删除群组",
+    "consoleGroup_group_name": "群组名",
+    "consoleGroup_search": "搜索",
+    "consoleGroup_reset": "刷新",
+    "consoleGroup_operation": "操作",
 
     "consoleService_serviceManagement": "服务",
 

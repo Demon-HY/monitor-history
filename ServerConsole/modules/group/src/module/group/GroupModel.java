@@ -1,8 +1,15 @@
 package module.group;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
+import module.SDK.info.GroupInfo;
 import monitor.service.db.MySql;
 
 public class GroupModel {
@@ -30,5 +37,87 @@ public class GroupModel {
 		} finally {
 			conn.close();
 		}
+	}
+
+	public List<GroupInfo> listGroup(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			String sql = "select `group_id`,`name`,`memo`,`ctime`,`mtime` from `" + TABLE_GROUP + "` ";
+			String factors = "";
+			String limit = "";
+            if (null != pageIndex && pageIndex > 0 && null != pageSize && pageSize > 0) {
+                limit = String.format(" limit %s, %s", (pageIndex - 1) * pageSize, pageSize);
+            }
+            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "where" : ""), factors);
+            
+            if (null != sort && sort.length() > 0) {
+            	sort = "`" + sort + "`";
+            }
+            // 防止输入的排序字段错误
+            if (order.equals("asc")) {
+                sql += " order by " + StringEscapeUtils.escapeSql(sort) + " asc ";
+            } else {
+                sql += " order by " + StringEscapeUtils.escapeSql(sort) + " desc ";
+            }
+            sql += limit;
+            
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            
+            return parseGroups(rs);
+		} finally {
+			if (conn != null) {
+                conn.close();
+            }
+		}
+	}
+	
+	public Integer countGroup() throws SQLException {
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            final String sql = "select count(*) from `" + TABLE_GROUP + "` ";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return null;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	private List<GroupInfo> parseGroups(ResultSet rs) throws SQLException {
+		List<GroupInfo> listHosts = new LinkedList<GroupInfo>();
+		while (rs.next()) {
+			GroupInfo group = new GroupInfo();
+			group.group_id = rs.getLong("group_id");
+			group.name = rs.getString("name");
+			group.memo = rs.getString("memo");
+			group.ctime = rs.getTimestamp("ctime");
+			group.mtime = rs.getTimestamp("mtime");
+			
+			listHosts.add(group);
+		}
+		return listHosts;
+	}
+	
+	@SuppressWarnings("unused")
+	private GroupInfo parseGroup(ResultSet rs) throws SQLException {
+		GroupInfo group = null;
+		if (rs.next()) {
+			group = new GroupInfo();
+			group.group_id = rs.getLong("group_id");
+			group.name = rs.getString("name");
+			group.memo = rs.getString("memo");
+			group.ctime = rs.getTimestamp("ctime");
+			group.mtime = rs.getTimestamp("mtime");
+		}
+		return group;
 	}
 }

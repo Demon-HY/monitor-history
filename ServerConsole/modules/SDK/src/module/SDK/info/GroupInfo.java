@@ -1,12 +1,23 @@
 package module.SDK.info;
 
-import java.util.Map;
+import java.sql.Timestamp;
 
 public class GroupInfo {
 	public GroupInfo(){}
+	
+	/** 群组 ID */
+	public Long group_id;
+	
+	/** 群组名 */
+	public String name;
+	
+	/** 备注 */
+	public String memo;
+	
+	/** 创建时间 */
+	public Timestamp ctime;
+	
+	/** 修改时间 */
+	public Timestamp mtime;
 
-	
-	
-	/** 扩展属性集合 */
-	public Map<String, Object> exattr;
 }

@@ -91,7 +91,7 @@ define(function(require, exports, module) {
                 field: 'memo',
                 title: 'Memo',
                 width: 400
-            },  {
+            }, {
                 field: 'opt',
                 title: i18n.get('consoleHost_operation'),
                 width: 80,
