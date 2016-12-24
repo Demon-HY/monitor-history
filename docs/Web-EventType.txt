@@ -9,3 +9,6 @@ AppEvent.trigger('console.hostlist.afterLoad');     // 控制台 host页面加�
 
 AppEvent.trigger('console.grouplist/:rand.beforeLoad'); // 控制台 group页面加载前
 AppEvent.trigger('console.grouplist/:rand.afterLoad');  // 控制台 group页面加载后
+
+AppEvent.trigger('console.servicelist/:rand.beforeLoad');   // 控制台 service页面加载前
+AppEvent.trigger('console.servicelist/:rand.afterLoad');    // 控制台 service页面加载后

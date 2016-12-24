@@ -36,6 +36,7 @@ public class ServiceModel {
 					+ "`name` varchar(32) NOT NULL,"
 					+ "`key` varchar(32) NOT NULL,"
 					+ "`type` varchar(32) NOT NULL DEFAULT 'int'," // 指标数据类型,默认 int
+					+ "`memo` varchar(1024) DEFAULT NULL,"
                     + "PRIMARY KEY (`service_index_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);

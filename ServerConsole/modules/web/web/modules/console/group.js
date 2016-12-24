@@ -47,7 +47,7 @@ define(function(require, exports, module) {
         }
     }];
 
-    function groupInit(){
+    function groupInit() {
         var tpl = Handlebars.compile(require('./group/grouplist.tpl'));
         init.insertCenter(tpl);
         $('.body-center').layout();

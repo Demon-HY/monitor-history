@@ -35,6 +35,12 @@
     "consoleGroup_operation": "操作",
 
     "consoleService_serviceManagement": "服务",
+    "consoleService_add_service": "添加服务",
+    "consoleService_edit_service": "编辑服务",
+    "consoleService_delete_service": "删除服务",
+    "consoleService_search": "搜索",
+    "consoleService_reset": "刷新",
+    "consoleService_service_name": "服务名",
 
     "consoleTemplate_templateManagement": "模板",
 
@@ -45,6 +51,6 @@
     "consoleMaintain_maintainManagement": "维护",
 
 
-
+    "": "",
     "": ""
 }
