@@ -30,6 +30,7 @@ public class TriggerModel {
 			conn.createStatement().executeUpdate(sql);
 			
 			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_TRIGGER_EXPRESSION + "` (" 
+					+ "`trigger_expression_id` bigint(20) NOT NULL,"
 					+ "`trigger_id` bigint(20) NOT NULL,"
 					+ "`service_id` bigint(20) NOT NULL,"
 					+ "`service_index_id` bigint(20) NOT NULL,"
@@ -38,7 +39,8 @@ public class TriggerModel {
 					+ "`func` varchar(32) NOT NULL," 			// 数据处理方式 
 					+ "`params` varchar(64) NOT NULL," 			// 参数
 					+ "`threshold` bigint(20) NOT NULL," 		// 阈值
-					+ "`logic_type` varchar(8) NOT NULL" 		// 与一个条件的逻辑关系
+					+ "`logic_type` varchar(8) NOT NULL," 		// 与一个条件的逻辑关系
+					+ "PRIMARY KEY (`trigger_expression_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 		} finally {
