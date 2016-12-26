@@ -4,11 +4,32 @@
 AppEvent.trigger('console.init.beforeLoad');        // 控制台初始化开始前
 AppEvent.trigger('console.init.afterLoad');         // 控制台初始化结束后
 
-AppEvent.trigger('console.hostlist.beforeLoad');    // 控制台 host页面加载前
-AppEvent.trigger('console.hostlist.afterLoad');     // 控制台 host页面加载后
+AppEvent.trigger('console.hostlist.beforeLoad');    // 控制台 host 加载前
+AppEvent.trigger('console.hostlist.afterLoad');     // 控制台 host 加载后
 
-AppEvent.trigger('console.grouplist/:rand.beforeLoad'); // 控制台 group页面加载前
-AppEvent.trigger('console.grouplist/:rand.afterLoad');  // 控制台 group页面加载后
+AppEvent.trigger('console.grouplist/:rand.beforeLoad'); // 控制台 group 加载前
+AppEvent.trigger('console.grouplist/:rand.afterLoad');  // 控制台 group 加载后
 
-AppEvent.trigger('console.servicelist/:rand.beforeLoad');   // 控制台 service页面加载前
-AppEvent.trigger('console.servicelist/:rand.afterLoad');    // 控制台 service页面加载后
+AppEvent.trigger('console.servicelist/:rand.beforeLoad');   // 控制台 service 加载前
+AppEvent.trigger('console.servicelist/:rand.afterLoad');    // 控制台 service 加载后
+
+AppEvent.trigger('console.serviceindexlist/:rand.beforeLoad');   // 控制台 serviceindex 加载前
+AppEvent.trigger('console.serviceindexlist/:rand.afterLoad');    // 控制台 serviceindex 加载后
+
+AppEvent.trigger('console.templatelist/:rand.beforeLoad');   // 控制台 template 加载前
+AppEvent.trigger('console.templatelist/:rand.afterLoad');    // 控制台 template 加载后
+
+AppEvent.trigger('console.triggerlist/:rand.beforeLoad');   // 控制台 trigger 加载前
+AppEvent.trigger('console.triggerlist/:rand.afterLoad');    // 控制台 trigger 加载后
+
+AppEvent.trigger('console.triggerexpressionlist/:rand.beforeLoad');   // 控制台 triggerexpression 加载前
+AppEvent.trigger('console.triggerexpressionlist/:rand.afterLoad');    // 控制台 triggerexpression 加载后
+
+AppEvent.trigger('console.actionlist/:rand.beforeLoad');   // 控制台 action 加载前
+AppEvent.trigger('console.actionlist/:rand.afterLoad');    // 控制台 action 加载后
+
+AppEvent.trigger('console.actionoperationlist/:rand.beforeLoad');   // 控制台 actionoperation 加载前
+AppEvent.trigger('console.actionoperationlist/:rand.afterLoad');    // 控制台 actionoperation 加载后
+
+AppEvent.trigger('console.maintainlist/:rand.beforeLoad');   // 控制台 maintain 加载前
+AppEvent.trigger('console.maintainlist/:rand.afterLoad');    // 控制台 maintain 加载后

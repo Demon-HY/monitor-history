@@ -1,4 +1,4 @@
-/* service.js */
+/* service.js 服务模块 */
 define(function(require, exports, module) {
     var util = require('util');
     var init = require('./init');
@@ -29,21 +29,21 @@ define(function(require, exports, module) {
         text: i18n.get('consoleService_add_service'),
         order: 1,
         onClick: function(service) {
-            // 添加群组
+            // 添加服务
         }
     }, {
         name: 'edit-service',
         text: i18n.get('consoleService_edit_service'),
         order: 2,
         onClick: function(service) {
-            // 编辑群组
+            // 编辑服务
         }
     }, {
         name: 'delete-service',
         text: i18n.get('consoleService_delete_service'),
         order: 3,
         onClick: function(service) {
-            // 删除群组
+            // 删除服务
         }
     }];
     

@@ -3,7 +3,7 @@ package module.SDK.info;
 /**
  * 登录信息包括 TokenInfo 以及 UserInfo
  * 
- * @author monitor
+ * @author Demon
  * @see TokenInfo
  * @see UserInfo
  */

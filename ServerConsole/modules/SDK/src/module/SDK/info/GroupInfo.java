@@ -2,6 +2,11 @@ package module.SDK.info;
 
 import java.sql.Timestamp;
 
+/**
+ * 群组信息
+ * 
+ * @author Demon
+ */
 public class GroupInfo {
 	public GroupInfo(){}
 	
@@ -19,5 +24,4 @@ public class GroupInfo {
 	
 	/** 修改时间 */
 	public Timestamp mtime;
-
 }

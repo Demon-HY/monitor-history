@@ -2,7 +2,7 @@ define({
     'title': 'Monitor',
     'order': 'desc',
     'modules': {
-        'console': ['helper','./init','./host','./action','./group','./maintain','./service','./template','./trigger']
+        'console': ['helper','./init','./host','./group','./service','./serviceindex','./template','./trigger','./triggerexpression','./action','./actionoperation','./maintain']
     },
 	'plugins': {
         'login': [],

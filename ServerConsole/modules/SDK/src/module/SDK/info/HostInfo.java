@@ -2,8 +2,12 @@ package module.SDK.info;
 
 import java.sql.Timestamp;
 
+/**
+ * 主机信息
+ * 
+ * @author Demon
+ */
 public class HostInfo {
-	
 	public HostInfo(){}
 	
 	/** 主机 ID */
