@@ -35,11 +35,13 @@ public class ActionModel {
 			conn.createStatement().executeUpdate(sql);
 			
 			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_ACTION_OPERATION + "` (" 
+					+ "`action_operation_id` bigint(20) NOT NULL AUTO_INCREMENT,"
 					+ "`action_id` bigint(20) NOT NULL,"
 					+ "`name` varchar(64) NOT NULL,"
 					+ "`step` int(4) NOT NULL,"
 					+ "`action_type` varchar(32) NOT NULL," // 动作类型：email，sms，RunScript
-					+ "`msg_format` varchar(1024) NOT NULL"
+					+ "`msg_format` varchar(1024) NOT NULL,"
+					+ "PRIMARY KEY (`action_operation_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 			
