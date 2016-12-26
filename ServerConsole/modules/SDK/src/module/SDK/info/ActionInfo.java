@@ -47,7 +47,7 @@ class ActionOperationInfo {
     /** 报警设置名 */
     public String name;
     
-    /** 第n次告警 */
+    /** 第 N 次告警 */
     public Integer step;
     
     /** 动作类型：email，sms */

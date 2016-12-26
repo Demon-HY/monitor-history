@@ -14,7 +14,7 @@ public class ServiceInfo {
     /** 服务名 */
     public String name;
     
-    /** 监控间隔 */
+    /** 监控间隔(s) */
     public Integer interval;
     
     /** 插件名 */

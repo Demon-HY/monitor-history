@@ -50,7 +50,7 @@ class TriggerExpressionInfo {
     /** 运算符 */
     public String operator_type;
     
-    /** 数据处理方式 */
+    /** 数据处理方式：Average,Max,Hit,Last */
     public String func;
     
     /** 参数 */

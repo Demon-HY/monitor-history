@@ -14,7 +14,7 @@ define(function(require, exports, module) {
         }
     });
     AppRouter.route("grouplist/:rand", function() {
-        AppEvent.trigger('console.grouplist/:rand.beforeLoad');
+        AppEvent.trigger('console.grouplist.beforeLoad');
         var $nav = $('div[name=grouplist]');
         $nav.addClass('nav-current');
         if ($nav.parents('.nav-child').is(':hidden')) {
@@ -64,27 +64,27 @@ define(function(require, exports, module) {
                 checkbox: true
             }, {
                 field: 'group_id',
-                title: 'Id',
+                title: i18n.get('consoleGroup_group_id'),
                 width: 100
             }, {
                 field: 'name',
-                title: 'Name',
+                title: i18n.get('consoleGroup_group_name'),
                 width: 200
             }, {
                 field: 'memo',
-                title: 'Memo',
-                width: 400
+                title: i18n.get('consoleGroup_group_memo'),
+                width: 350
             }, {
                 field: 'ctime',
-                title: 'Create Time',
+                title: i18n.get('consoleGroup_group_ctime'),
                 width: 200
             }, {
                 field: 'mtime',
-                title: 'Modify Time',
+                title: i18n.get('consoleGroup_group_mtime'),
                 width: 200
             }, {
                 field: 'opt',
-                title: i18n.get('consoleGroup_operation'),
+                title: i18n.get('consoleGroup_group_operation'),
                 width: 80,
                 formatter: function(val, row, index) {
                     return '<i class="fa fa-cog col-opt group-opt"></i>';

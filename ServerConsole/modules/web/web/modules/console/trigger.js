@@ -14,7 +14,7 @@ define(function(require, exports, module) {
         }
     });
     AppRouter.route("triggerlist/:rand", function() {
-        AppEvent.trigger('console.triggerlist/:rand.beforeLoad');
+        AppEvent.trigger('console.triggerlist.beforeLoad');
         var $nav = $('div[name=triggerlist]');
         $nav.addClass('nav-current');
         if ($nav.parents('.nav-child').is(':hidden')) {
@@ -48,6 +48,70 @@ define(function(require, exports, module) {
     }];
     
     function triggerInit() {
-        
+        var tpl = Handlebars.compile(require('./trigger/triggerlist.tpl'));
+        init.insertCenter(tpl);
+        $('.body-center').layout();
+        $('input').placeholder();
+        $('#triggerlist').table({
+            url: '/trigger/api/listTrigger?order=' + config.order,
+            pagination: true,
+            fitColumns: true,
+            showBorder: false,
+            toolbar: '.data-toolbar',
+            columns: [{
+                field: 'id',
+                sortable: true, /* 是否允许排序 */
+                checkbox: true
+            }, {
+                field: 'trigger_id',
+                title: i18n.get('consoleTrigger_trigger_id'),
+                width: 100
+            }, {
+                field: 'name',
+                title: i18n.get('consoleTrigger_trigger_name'),
+                width: 200
+            }, {
+                field: 'severity',
+                title: i18n.get('consoleTrigger_trigger_severity'),
+                width: 200
+            }, {
+                field: 'enabled',
+                title: i18n.get('consoleTrigger_trigger_enabled'),
+                width: 200
+            }, {
+                field: 'memo',
+                title: i18n.get('consoleTrigger_trigger_memo'),
+                width: 350
+            }, {
+                field: 'opt',
+                title: i18n.get('consoleTrigger_trigger_operation'),
+                width: 80,
+                formatter: function(val, row, index) {
+                    return '<i class="fa fa-cog col-opt trigger-opt"></i>';
+                }
+            }],
+            onInited: function() {
+                $('#triggerlist').on('click', '.trigger-opt', function(event) {
+                    event.preventDefault();
+                    var $this = $(this);
+                    $('#triggerlist').table('clearSelections');
+                    if (!$('#xmenu').length) {
+                        $this.parents('.xtable-row').click();
+                        $.menu({
+                            showIcon: false,
+                            rows: _.sortBy(triggerMenus, 'order'),
+                            data: $('#triggerlist').table('getSelected'),
+                            position: {
+                                left: event.pageX - 85,
+                                top: event.pageY + 10
+                            }
+                        })
+                    } else {
+                        $(document).trigger('click');
+                    }
+                    return false;
+                });
+            }
+        });
     }
 });

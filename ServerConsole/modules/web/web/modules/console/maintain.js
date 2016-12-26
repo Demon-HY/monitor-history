@@ -14,7 +14,7 @@ define(function(require, exports, module) {
         }
     });
     AppRouter.route("maintainlist/:rand", function() {
-        AppEvent.trigger('console.maintainlist/:rand.beforeLoad');
+        AppEvent.trigger('console.maintainlist.beforeLoad');
         var $nav = $('div[name=maintainlist]');
         $nav.addClass('nav-current');
         if ($nav.parents('.nav-child').is(':hidden')) {
@@ -48,6 +48,70 @@ define(function(require, exports, module) {
     }];
     
     function maintainInit() {
-        
+        var tpl = Handlebars.compile(require('./maintain/maintainlist.tpl'));
+        init.insertCenter(tpl);
+        $('.body-center').layout();
+        $('input').placeholder();
+        $('#maintainlist').table({
+            url: '/maintain/api/listMaintain?order=' + config.order,
+            pagination: true,
+            fitColumns: true,
+            showBorder: false,
+            toolbar: '.data-toolbar',
+            columns: [{
+                field: 'id',
+                sortable: true, /* 是否允许排序 */
+                checkbox: true
+            }, {
+                field: 'maintain_id',
+                title: i18n.get('consoleMaintain_maintain_id'),
+                width: 100
+            }, {
+                field: 'name',
+                title: i18n.get('consoleMaintain_maintain_name'),
+                width: 200
+            }, {
+                field: 'content',
+                title: i18n.get('consoleMaintain_maintain_content'),
+                width: 200
+            }, {
+                field: 'start_time',
+                title: i18n.get('consoleMaintain_maintain_start_time'),
+                width: 200
+            }, {
+                field: 'end_time',
+                title: i18n.get('consoleMaintain_maintain_end_time'),
+                width: 200
+            }, {
+                field: 'opt',
+                title: i18n.get('consoleMaintain_maintain_operation'),
+                width: 80,
+                formatter: function(val, row, index) {
+                    return '<i class="fa fa-cog col-opt maintain-opt"></i>';
+                }
+            }],
+            onInited: function() {
+                $('#maintainlist').on('click', '.maintain-opt', function(event) {
+                    event.preventDefault();
+                    var $this = $(this);
+                    $('#maintainlist').table('clearSelections');
+                    if (!$('#xmenu').length) {
+                        $this.parents('.xtable-row').click();
+                        $.menu({
+                            showIcon: false,
+                            rows: _.sortBy(maintainMenus, 'order'),
+                            data: $('#maintainlist').table('getSelected'),
+                            position: {
+                                left: event.pageX - 85,
+                                top: event.pageY + 10
+                            }
+                        })
+                    } else {
+                        $(document).trigger('click');
+                    }
+                    return false;
+                });
+            }
+        });
     }
 });

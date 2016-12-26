@@ -65,35 +65,43 @@ define(function(require, exports, module) {
                 checkbox: true
             }, {
                 field: 'host_id',
-                title: 'Id',
+                title: i18n.get('consoleHost_host_id'),
                 width: 100
             }, {
                 field: 'name',
-                title: 'Name',
+                title: i18n.get('consoleHost_host_name'),
                 width: 200
             }, {
                 field: 'monitored',
-                title: 'Monitored',
+                title: i18n.get('consoleHost_monitored'),
                 width: 200
             }, {
                 field: 'interval',
-                title: 'Interval',
+                title: i18n.get('consoleHost_host_interval'),
                 width: 200
             }, {
                 field: 'ip',
-                title: 'IP',
-                width: 400
+                title: i18n.get('consoleHost_hostIP'),
+                width: 200
             }, {
                 field: 'status',
-                title: 'Status',
+                title: i18n.get('consoleHost_host_status'),
                 width: 200
             }, {
                 field: 'memo',
-                title: 'Memo',
-                width: 400
+                title: i18n.get('consoleHost_host_memo'),
+                width: 350
+            },  {
+                field: 'ctime',
+                title: i18n.get('consoleHost_host_ctime'),
+                width: 200
+            }, {
+                field: 'mtime',
+                title: i18n.get('consoleHost_host_mtime'),
+                width: 200
             }, {
                 field: 'opt',
-                title: i18n.get('consoleHost_operation'),
+                title: i18n.get('consoleHost_host_operation'),
                 width: 80,
                 formatter: function(val, row, index) {
                     return '<i class="fa fa-cog col-opt host-opt"></i>';
@@ -103,13 +111,13 @@ define(function(require, exports, module) {
                 $('#hostlist').on('click', '.host-opt', function(event) {
                     event.preventDefault();
                     var $this = $(this);
-                    $('#datalist').table('clearSelections');
+                    $('#hostlist').table('clearSelections');
                     if (!$('#xmenu').length) {
                         $this.parents('.xtable-row').click();
                         $.menu({
                             showIcon: false,
                             rows: _.sortBy(hostMenus, 'order'),
-                            data: $('#datalist').table('getSelected'),
+                            data: $('#hostlist').table('getSelected'),
                             position: {
                                 left: event.pageX - 85,
                                 top: event.pageY + 10
@@ -120,7 +128,7 @@ define(function(require, exports, module) {
                     }
                     return false;
                 });
-            },
+            }
         });
         //add host
         $(".add-host").click(function() {
