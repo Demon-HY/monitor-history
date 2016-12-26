@@ -66,24 +66,22 @@ public class GroupHttpApi {
      * 		描述：按什么字段排序(默认 mtime)<br/>
      * 		必需：NO
      * </blockquote>
-     * ***********************************************************************
+     * 
 	 * @return
 	 * stat
 	 * <blockquote>
      * 		类型：字符型<br/>
      * 		描述：状态值<br/>
-     * 		必需：YES
      * </blockquote>
 	 * total
 	 * <blockquote>
      * 		类型：整数<br/>
      * 		描述：群组总数<br/>
-     * 		必需：YES
      * </blockquote>
      * rows
 	 * <blockquote>
      * 		类型：JSON 数组<br/>
-     * 		描述：群组信息集
+     * 		描述：群组信息集<br/>
      * 		group_id
      * 		<blockquote>
      * 		类型：整数<br/>

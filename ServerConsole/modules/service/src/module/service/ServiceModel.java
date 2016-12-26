@@ -1,8 +1,15 @@
 package module.service;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
+import module.SDK.info.ServiceInfo;
 import monitor.service.db.MySql;
 
 public class ServiceModel {
@@ -44,4 +51,54 @@ public class ServiceModel {
 			conn.close();
 		}
 	}
+
+    public List<ServiceInfo> listService(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
+        Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "select `service_id`,`name`,`interval`,`plugin_name`,`has_sub_service`,`memo` from `" + TABLE_SERVICE + "` ";
+            String factors = "";
+            String limit = "";
+            if (null != pageIndex && pageIndex > 0 && null != pageSize && pageSize > 0) {
+                limit = String.format(" limit %s, %s", (pageIndex - 1) * pageSize, pageSize);
+            }
+            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "where" : ""), factors);
+            
+            if (null != sort && sort.length() > 0) {
+                sort = "`" + sort + "`";
+            }
+            // 防止输入的排序字段错误
+            if (order.equals("asc")) {
+                sql += " order by " + StringEscapeUtils.escapeSql(sort) + " asc ";
+            } else {
+                sql += " order by " + StringEscapeUtils.escapeSql(sort) + " desc ";
+            }
+            sql += limit;
+            
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            
+            return parseServices(rs);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+
+    private List<ServiceInfo> parseServices(ResultSet rs) throws SQLException {
+        List<ServiceInfo> listServices = new LinkedList<ServiceInfo>();
+        while (rs.next()) {
+            ServiceInfo service = new ServiceInfo();
+            service.service_id = rs.getLong("service_id");
+            service.name = rs.getString("name");
+            service.interval = rs.getInt("interval");
+            service.plugin_name = rs.getString("plugin_name");
+            service.has_sub_service = rs.getInt("has_sub_service");
+            service.memo = rs.getString("memo");
+            
+            listServices.add(service);
+        }
+        return listServices;
+    }
 }

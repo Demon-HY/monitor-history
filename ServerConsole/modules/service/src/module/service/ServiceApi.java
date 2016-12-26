@@ -1,6 +1,13 @@
 package module.service;
 
+import java.sql.SQLException;
+import java.util.List;
+
+import org.javatuples.Pair;
+
 import module.SDK.SdkCenter;
+import module.SDK.info.GroupInfo;
+import module.SDK.info.ServiceInfo;
 import module.SDK.inner.IBeans;
 import module.SDK.inner.IServiceApi;
 import monitor.exception.LogicalException;
@@ -27,4 +34,17 @@ public class ServiceApi implements IServiceApi{
 		}
 		return serviceApi;
 	}
+
+    public Pair<Integer, List<GroupInfo>> listService(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
+        List<ServiceInfo> result = null;
+        Integer count = null;
+        result = this.serviceModel.listService(pageIndex, pageSize, order, sort);
+        return null;
+    }
+
+    public Pair<Integer, List<GroupInfo>> listServiceIndex(Integer pageIndex, Integer pageSize, String order,
+            String sort) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
