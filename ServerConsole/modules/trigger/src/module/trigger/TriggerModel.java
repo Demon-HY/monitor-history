@@ -23,7 +23,7 @@ public class TriggerModel {
 					+ "`trigger_id` bigint(20) NOT NULL AUTO_INCREMENT,"
 					+ "`name` varchar(255) NOT NULL,"
 					+ "`severity` tinyint(1) NOT NULL,"			// 告警级别:Information,Warning,Average,High,Diaster
-					+ "`enabled` varchar(255) NOT NULL," 		// 是否启动触发器
+					+ "`enabled` tinyint(1) NOT NULL," 		// 是否启动触发器
 					+ "`memo` varchar(1024) DEFAULT NULL,"
 					+ "PRIMARY KEY (`trigger_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
