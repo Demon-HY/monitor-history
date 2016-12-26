@@ -30,7 +30,7 @@ public class TriggerModel {
 			conn.createStatement().executeUpdate(sql);
 			
 			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_TRIGGER_EXPRESSION + "` (" 
-					+ "`trigger_expression_id` bigint(20) NOT NULL,"
+					+ "`trigger_expression_id` bigint(20) NOT NULL AUTO_INCREMENT,"
 					+ "`trigger_id` bigint(20) NOT NULL,"
 					+ "`service_id` bigint(20) NOT NULL,"
 					+ "`service_index_id` bigint(20) NOT NULL,"
