@@ -6,3 +6,16 @@ $ GRANT ALL ON *.* TO 'monitor'@'%';
 
 # 创建数据库
 $ CREATE DATABASE `monitor` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+1. count(*) 的优化
+
+1.1 count(1)
+有人说使用count(1),我测试了一下，发现和 count(*)是一样的
+
+1.2 information_shcema.TABLES.TABLE_ROWS
+mysql 里面有一个库: information_shcema，这个库里面有个表叫 TABLES，这个表有个字段 TABLE_ROWS,
+$ SELECT TABLE_ROWS from information_schema.`TABLES` WHERE TABLE_NAME = 'TABLE_NAME';
+这个方法的效率是很快的.
+
+1.3 使用统计的概念
+$ EXPLAIN SELECT count(1) FROM `TABLE_NAME`;

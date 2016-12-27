@@ -1,0 +1,4 @@
+1. Eclipse 导出 javadoc
+导出的时候，报 Gb2312编码错误，是因为我们代码是UTF-8格式的，在导出的时候，
+需要在 Javadoc Generation页面的 Extra Javadoc options下面添加如下行：
+-encoding UTF-8 -charset UTF-8
