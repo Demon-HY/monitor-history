@@ -172,3 +172,10 @@
     margin-left: 7px;
 }
 
+#fm .memo {
+    width: 270px;
+    padding: 5px 10px;
+    overflow: hidden;
+    font-size: 14px;
+}
+

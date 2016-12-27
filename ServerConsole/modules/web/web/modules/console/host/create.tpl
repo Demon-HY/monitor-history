@@ -8,7 +8,7 @@
     <div class="form-group">
         <label class="group-label">{{t 'consoleHost_hostIP'}}</label>
         <div class="group-col">
-            <input class="input valid" valid="require:true,tip:'该项不能为空'" placeholder="{{t 'consoleHost_hostIP'}}" type="text" name="name" />
+            <input class="input valid" valid="require:true,tip:'该项不能为空'" placeholder="{{t 'consoleHost_hostIP'}}" type="text" name="ip" />
         </div>
     </div>
     <div class="form-group">
@@ -32,13 +32,13 @@
     <div class="form-group">
         <label class="group-label">{{t 'consoleHost_host_interval'}}</label>
         <div class="group-col">
-            <input class="input valid" valid="require:true,tip:'该项不能为空'" placeholder="{{t 'consoleHost_host_interval'}}" type="text" name="name" />
+            <input class="input valid" valid="require:true,tip:'该项不能为空'" placeholder="{{t 'consoleHost_host_interval'}}" type="text" name="interval" />
         </div>
     </div>
     <div class="form-group">
         <label class="group-label">{{t 'consoleHost_host_status'}}</label>
         <div class="group-col">
-            <select name="monitored" class="form-select">
+            <select name="status" class="form-select">
                 <option value="online" selected="selected">Online</option>
                 <option value="down">Down</option>
                 <option value="unreachable">Unreachable</option>
@@ -48,9 +48,9 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="group-label">{{t 'consoleHost_memo'}}</label>
+        <label class="group-label">{{t 'consoleHost_host_memo'}}</label>
         <div class="group-col">
-            <textarea name="memo" clos="20" rows="3"></textarea>
+            <textarea name="memo" rows="3" class="memo"></textarea>
         </div>
     </div>
 </form>

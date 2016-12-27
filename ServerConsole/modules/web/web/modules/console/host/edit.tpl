@@ -48,9 +48,9 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="group-label">{{t 'consoleHost_memo'}}</label>
+        <label class="group-label">{{t 'consoleHost_host_memo'}}</label>
         <div class="group-col">
-            <textarea name="memo" clos="20" rows="3"></textarea>
+            <textarea name="memo" rows="3" class="memo"></textarea>
         </div>
     </div>
 </form>

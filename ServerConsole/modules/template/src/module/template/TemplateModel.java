@@ -56,7 +56,7 @@ public class TemplateModel {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
-			String sql = "select `group_id`,`name`,`memo`,`ctime`,`mtime` from `" + TABLE_TEMPLATE + "` ";
+			String sql = "select `template_id`,`name`,`ctime`,`mtime` from `" + TABLE_TEMPLATE + "` ";
 			String factors = "";
 			String limit = "";
             if (null != pageIndex && pageIndex > 0 && null != pageSize && pageSize > 0) {
