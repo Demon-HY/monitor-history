@@ -154,26 +154,7 @@ public class HostHttpApi {
 	
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp addHost(AuthedJsonReq req) throws Exception {
-		Integer pageIndex = req.paramGetInteger("pageIndex", false);
-		Integer pageSize = req.paramGetInteger("pageSize", false);
-		String order = req.paramGetString("order", false);
-		String sort = req.paramGetString("sort", false);
-		if (null == order) {
-			order = "desc";
-		}
-		if (null == sort) {
-			sort = "mtime";
-		}
-		// 检查 SQL 注入
-		if (!DBUtil.checkSqlInjection(sort) || !DBUtil.checkSqlInjection(order)) {
-			throw new ParamException(
-					String.format("sort(%s) or order(%s) check have sql injection.", sort, order));
-		}
-		
-		Pair<Integer, List<HostInfo>> result = this.hostApi.listHost(pageIndex, pageSize, order, sort);
 		JsonResp resp = new JsonResp(RetStat.OK);
-        resp.resultMap.put("total", result.getValue0());
-        resp.resultMap.put("rows", result.getValue1());
         return resp;
 	}
 }
