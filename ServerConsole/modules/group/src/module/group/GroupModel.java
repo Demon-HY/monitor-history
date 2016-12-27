@@ -77,7 +77,7 @@ public class GroupModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "select count(*) from `" + TABLE_GROUP + "` ";
+            final String sql = "SELECT TABLE_ROWS from information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_GROUP + "'";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -93,7 +93,7 @@ public class GroupModel {
 	}
 	
 	private List<GroupInfo> parseGroups(ResultSet rs) throws SQLException {
-		List<GroupInfo> listHosts = new LinkedList<GroupInfo>();
+		List<GroupInfo> listGroups = new LinkedList<>();
 		while (rs.next()) {
 			GroupInfo group = new GroupInfo();
 			group.group_id = rs.getLong("group_id");
@@ -102,9 +102,9 @@ public class GroupModel {
 			group.ctime = rs.getTimestamp("ctime");
 			group.mtime = rs.getTimestamp("mtime");
 			
-			listHosts.add(group);
+			listGroups.add(group);
 		}
-		return listHosts;
+		return listGroups;
 	}
 	
 	@SuppressWarnings("unused")

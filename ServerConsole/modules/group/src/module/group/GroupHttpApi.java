@@ -33,6 +33,7 @@ public class GroupHttpApi {
 		return groupHttpApi;
 	}
 	
+	/********************************************     对外接口               ********************************************/
 	/**
 	 * 获取群组列表
 	 *
@@ -108,6 +109,7 @@ public class GroupHttpApi {
      * 		描述：修改时间
      * 		</blockquote>
      * </blockquote>
+     * 
 	 * @right 该接口需要管理员权限
 	 */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)

@@ -137,7 +137,7 @@ public class HostModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "select count(*) from `" + TABLE_HOST + "` ";
+            final String sql = "SELECT TABLE_ROWS from information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_HOST + "'";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();

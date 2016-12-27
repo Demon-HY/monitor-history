@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
+import module.SDK.info.ServiceIndexInfo;
 import module.SDK.info.ServiceInfo;
 import monitor.service.db.MySql;
 
@@ -52,6 +53,7 @@ public class ServiceModel {
 		}
 	}
 
+	/******************************************* Service ********************************************/
     public List<ServiceInfo> listService(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
         Connection conn = null;
         try {
@@ -86,8 +88,27 @@ public class ServiceModel {
         }
     }
 
-    private List<ServiceInfo> parseServices(ResultSet rs) throws SQLException {
-        List<ServiceInfo> listServices = new LinkedList<ServiceInfo>();
+	public Integer countService() throws SQLException {
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            final String sql = "SELECT TABLE_ROWS from information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_SERVICE + "'";
+            
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return null;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	private List<ServiceInfo> parseServices(ResultSet rs) throws SQLException {
+        List<ServiceInfo> listServices = new LinkedList<>();
         while (rs.next()) {
             ServiceInfo service = new ServiceInfo();
             service.service_id = rs.getLong("service_id");
@@ -96,9 +117,107 @@ public class ServiceModel {
             service.plugin_name = rs.getString("plugin_name");
             service.has_sub_service = rs.getInt("has_sub_service");
             service.memo = rs.getString("memo");
-            
+
             listServices.add(service);
         }
         return listServices;
     }
+    
+    @SuppressWarnings("unused")
+	private ServiceInfo parseService(ResultSet rs) throws SQLException {
+    	ServiceInfo service = new ServiceInfo();
+    	if (rs.next()) {
+    		service.service_id = rs.getLong("service_id");
+            service.name = rs.getString("name");
+            service.interval = rs.getInt("interval");
+            service.plugin_name = rs.getString("plugin_name");
+            service.has_sub_service = rs.getInt("has_sub_service");
+            service.memo = rs.getString("memo");
+    	}
+        return service;
+    }
+    
+    /******************************************* ServiceIndex ********************************************/
+    public List<ServiceIndexInfo> listServiceIndex(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
+        Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "select `service_index_id`,`service_id`,`name`,`key`,`type`,`memo` from `" + TABLE_SERVICE_INDEX + "` ";
+            String factors = "";
+            String limit = "";
+            if (null != pageIndex && pageIndex > 0 && null != pageSize && pageSize > 0) {
+                limit = String.format(" limit %s, %s", (pageIndex - 1) * pageSize, pageSize);
+            }
+            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "where" : ""), factors);
+            
+            if (null != sort && sort.length() > 0) {
+                sort = "`" + sort + "`";
+            }
+            // 防止输入的排序字段错误
+            if (order.equals("asc")) {
+                sql += " order by " + StringEscapeUtils.escapeSql(sort) + " asc ";
+            } else {
+                sql += " order by " + StringEscapeUtils.escapeSql(sort) + " desc ";
+            }
+            sql += limit;
+            
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            
+            return parseServiceIndexs(rs);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+    
+	public Integer countServiceIndex() throws SQLException {
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            final String sql = "select count(*) from `" + TABLE_SERVICE_INDEX + "` ";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return null;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	private List<ServiceIndexInfo> parseServiceIndexs(ResultSet rs) throws SQLException {
+    	List<ServiceIndexInfo> listServiceIndexs = new LinkedList<>();
+        while (rs.next()) {
+        	ServiceIndexInfo index = new ServiceIndexInfo();
+        	index.service_index_id = rs.getLong("service_index_id");
+        	index.service_id = rs.getLong("service_id");
+        	index.name = rs.getString("name");
+        	index.key = rs.getString("key");
+        	index.type = rs.getString("type");
+        	index.memo = rs.getString("memo");
+
+        	listServiceIndexs.add(index);
+        }
+        return listServiceIndexs;
+	}
+	
+	@SuppressWarnings("unused")
+	private ServiceIndexInfo parseServiceIndex(ResultSet rs) throws SQLException {
+		ServiceIndexInfo index = new ServiceIndexInfo();
+		if (rs.next()) {
+			index.service_index_id = rs.getLong("service_index_id");
+        	index.service_id = rs.getLong("service_id");
+        	index.name = rs.getString("name");
+        	index.key = rs.getString("key");
+        	index.type = rs.getString("type");
+        	index.memo = rs.getString("memo");
+		}
+		return index;
+	}
 }

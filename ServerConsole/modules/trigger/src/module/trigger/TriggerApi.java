@@ -1,6 +1,13 @@
 package module.trigger;
 
+import java.sql.SQLException;
+import java.util.List;
+
+import org.javatuples.Pair;
+
 import module.SDK.SdkCenter;
+import module.SDK.info.TriggerExpressionInfo;
+import module.SDK.info.TriggerInfo;
 import module.SDK.inner.IBeans;
 import module.SDK.inner.ITriggerApi;
 import monitor.exception.LogicalException;
@@ -26,5 +33,43 @@ public class TriggerApi implements ITriggerApi{
 			throw new UnInitilized();
 		}
 		return triggerApi;
+	}
+	
+	/**
+	 * 获取触发器列表
+	 * @param pageIndex 分页页码
+	 * @param pageSize 分页大小
+	 * @param order 排序参数（desc、asc）
+	 * @param sort 排序字段
+	 * @return
+	 * @throws SQLException 
+	 */
+	public Pair<Integer, List<TriggerInfo>> listTrigger(Integer pageIndex, Integer pageSize, 
+			String order, String sort) throws SQLException {
+		List<TriggerInfo> result = null;
+		Integer count = null;
+		result = this.triggerModel.listTrigger(pageIndex, pageSize, order, sort);
+		count = this.triggerModel.countTrigger();
+		
+		return new Pair<Integer, List<TriggerInfo>>(count, result);
+	}
+	
+	/**
+	 * 获取触发条件列表
+	 * @param pageIndex 分页页码
+	 * @param pageSize 分页大小
+	 * @param order 排序参数（desc、asc）
+	 * @param sort 排序字段
+	 * @return
+	 * @throws SQLException 
+	 */
+	public Pair<Integer, List<TriggerExpressionInfo>> listTriggerExpression(Integer pageIndex, Integer pageSize, 
+			String order, String sort) throws SQLException {
+		List<TriggerExpressionInfo> result = null;
+		Integer count = null;
+		result = this.triggerModel.listTriggerExpression(pageIndex, pageSize, order, sort);
+		count = this.triggerModel.countTriggerExpression();
+		
+		return new Pair<Integer, List<TriggerExpressionInfo>>(count, result);
 	}
 }

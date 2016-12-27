@@ -67,73 +67,64 @@ public class HostHttpApi {
      * 		描述：按什么字段排序(默认 mtime)<br/>
      * 		必需：NO
      * </blockquote>
+     * 
 	 * @return
 	 * stat
 	 * <blockquote>
      * 		类型：字符型<br/>
      * 		描述：状态值<br/>
-     * 		必需：YES
      * </blockquote>
 	 * total
 	 * <blockquote>
      * 		类型：整数<br/>
      * 		描述：主机总数<br/>
-     * 		必需：YES
      * </blockquote>
      * rows
 	 * <blockquote>
      * 		类型：JSON 数组<br/>
      * 		描述：主机信息集<br/>
-     * 		必需：YES<br/>
      * 		name
      * 		<blockquote>
      * 		类型：字符型<br/>
      * 		描述：主机名称<br/>
-     * 		必需：YES
      * 		</blockquote>
      * 		ip
      * 		<blockquote>
      * 		类型：字符型<br/>
      * 		描述：主机 IP<br/>
-     * 		必需：YES
      * 		</blockquote>
      * 		monitored
      * 		<blockquote>
      * 		类型：字符型<br/>
      * 		描述：监控方式(Agent,SNMP,WGET)<br/>
-     * 		必需：YES
      * 		</blockquote>
      * 		status
      * 		<blockquote>
      * 		类型：字符型<br/>
      * 		描述：状态(Online,Down,Unreachable,Offline,Problem)<br/>
-     * 		必需：YES
      * 		</blockquote>
      * 		interval
      * 		<blockquote>
      * 		类型：整数<br/>
      * 		描述：主机存活状态检测间隔(second)<br/>
-     * 		必需：YES
      * 		</blockquote>
      * 		memo
      * 		<blockquote>
      * 		类型：字符型<br/>
      * 		描述：备注<br/>
-     * 		必需：YES
      * 		</blockquote>
      * 		ctime
      * 		<blockquote>
      * 		类型：时间<br/>
      * 		描述：创建时间<br/>
-     * 		必需：YES
      * 		</blockquote>
      * 		mtime
      * 		<blockquote>
      * 		类型：时间<br/>
      * 		描述：修改时间<br/>
-     * 		必需：YES
      * 		</blockquote>
      * </blockquote>
+     * 
 	 * @right 该接口需要管理员权限
 	 */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)

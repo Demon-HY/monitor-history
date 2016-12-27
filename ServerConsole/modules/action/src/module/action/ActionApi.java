@@ -1,6 +1,13 @@
 package module.action;
 
+import java.sql.SQLException;
+import java.util.List;
+
+import org.javatuples.Pair;
+
 import module.SDK.SdkCenter;
+import module.SDK.info.ActionInfo;
+import module.SDK.info.ActionOperationInfo;
 import module.SDK.inner.IActionApi;
 import module.SDK.inner.IBeans;
 import monitor.exception.LogicalException;
@@ -26,5 +33,43 @@ public class ActionApi implements IActionApi{
 			throw new UnInitilized();
 		}
 		return actionApi;
+	}
+	
+	/**
+	 * 获取报警列表
+	 * @param pageIndex 分页页码
+	 * @param pageSize 分页大小
+	 * @param order 排序参数（desc、asc）
+	 * @param sort 排序字段
+	 * @return
+	 * @throws SQLException 
+	 */
+	public Pair<Integer, List<ActionInfo>> listAction(Integer pageIndex, Integer pageSize, 
+			String order, String sort) throws SQLException {
+		List<ActionInfo> result = null;
+		Integer count = null;
+		result = this.actionModel.listAction(pageIndex, pageSize, order, sort);
+		count = this.actionModel.countAction();
+		
+		return new Pair<Integer, List<ActionInfo>>(count, result);
+	}
+	
+	/**
+	 * 获取报警设置列表
+	 * @param pageIndex 分页页码
+	 * @param pageSize 分页大小
+	 * @param order 排序参数（desc、asc）
+	 * @param sort 排序字段
+	 * @return
+	 * @throws SQLException 
+	 */
+	public Pair<Integer, List<ActionOperationInfo>> listActionOperation(Integer pageIndex, Integer pageSize, 
+			String order, String sort) throws SQLException {
+		List<ActionOperationInfo> result = null;
+		Integer count = null;
+		result = this.actionModel.listActionOperation(pageIndex, pageSize, order, sort);
+		count = this.actionModel.countActionOperation();
+		
+		return new Pair<Integer, List<ActionOperationInfo>>(count, result);
 	}
 }

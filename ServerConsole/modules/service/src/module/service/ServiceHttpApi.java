@@ -6,7 +6,8 @@ import org.javatuples.Pair;
 
 import module.SDK.http.AuthedJsonProtocol;
 import module.SDK.http.AuthedJsonReq;
-import module.SDK.info.GroupInfo;
+import module.SDK.info.ServiceIndexInfo;
+import module.SDK.info.ServiceInfo;
 import monitor.exception.ParamException;
 import monitor.exception.UnInitilized;
 import monitor.service.http.ApiGateway;
@@ -33,6 +34,7 @@ public class ServiceHttpApi {
 		return serviceHttpApi;
 	}
 	
+	/********************************************     对外接口               ********************************************/
 	/**
      * 获取服务列表
      *
@@ -113,6 +115,7 @@ public class ServiceHttpApi {
      *      描述：备注
      *      </blockquote>
      * </blockquote>
+     * 
      * @right 该接口需要管理员权限
      */
     @ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
@@ -133,7 +136,7 @@ public class ServiceHttpApi {
                     String.format("sort(%s) or order(%s) check have sql injection.", sort, order));
         }
         
-        Pair<Integer, List<GroupInfo>> result = this.serviceApi.listService(pageIndex, pageSize, order, sort);
+        Pair<Integer, List<ServiceInfo>> result = this.serviceApi.listService(pageIndex, pageSize, order, sort);
         JsonResp resp = new JsonResp(RetStat.OK);
         resp.resultMap.put("total", result.getValue0());
         resp.resultMap.put("rows", result.getValue1());
@@ -173,7 +176,7 @@ public class ServiceHttpApi {
      *      描述：按什么字段排序(默认 service_index_id)<br/>
      *      必需：NO
      * </blockquote>
-     * ***********************************************************************
+     * 
      * @return
      * stat
      * <blockquote>
@@ -190,31 +193,36 @@ public class ServiceHttpApi {
      * rows
      * <blockquote>
      *      类型：JSON 数组<br/>
-     *      描述：群组信息集
-     *      group_id
+     *      描述：群组信息集<br/>
+     *      service_index_id
      *      <blockquote>
      *      类型：整数<br/>
-     *      描述：群组 ID
+     *      描述：服务指标 ID
+     *      </blockquote>
+     *      service_id
+     *      <blockquote>
+     *      类型：整数<br/>
+     *      描述：服务 ID
      *      </blockquote>
      *      name
      *      <blockquote>
      *      类型：字符型<br/>
-     *      描述：群组名称
+     *      描述：服务指标名
+     *      </blockquote>
+     *      key
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：服务指标具体指标名
+     *      </blockquote>
+     *      type
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：指标数据类型
      *      </blockquote>
      *      memo
      *      <blockquote>
      *      类型：字符型<br/>
      *      描述：备注
-     *      </blockquote>
-     *      ctime
-     *      <blockquote>
-     *      类型：时间<br/>
-     *      描述：创建时间
-     *      </blockquote>
-     *      mtime
-     *      <blockquote>
-     *      类型：时间<br/>
-     *      描述：修改时间
      *      </blockquote>
      * </blockquote>
      * @right 该接口需要管理员权限
@@ -237,7 +245,7 @@ public class ServiceHttpApi {
                     String.format("sort(%s) or order(%s) check have sql injection.", sort, order));
         }
         
-        Pair<Integer, List<GroupInfo>> result = this.serviceApi.listServiceIndex(pageIndex, pageSize, order, sort);
+        Pair<Integer, List<ServiceIndexInfo>> result = this.serviceApi.listServiceIndex(pageIndex, pageSize, order, sort);
         JsonResp resp = new JsonResp(RetStat.OK);
         resp.resultMap.put("total", result.getValue0());
         resp.resultMap.put("rows", result.getValue1());

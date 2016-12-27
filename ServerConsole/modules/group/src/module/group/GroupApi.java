@@ -43,7 +43,8 @@ public class GroupApi implements IGroupApi{
 	 * @return
 	 * @throws SQLException 
 	 */
-	public Pair<Integer, List<GroupInfo>> listGroup(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
+	public Pair<Integer, List<GroupInfo>> listGroup(Integer pageIndex, Integer pageSize, 
+			String order, String sort) throws SQLException {
 		List<GroupInfo> result = null;
 		Integer count = null;
 		result = this.groupModel.listGroup(pageIndex, pageSize, order, sort);
