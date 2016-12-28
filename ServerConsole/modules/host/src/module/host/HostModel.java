@@ -15,6 +15,8 @@ import monitor.service.db.MySql;
 public class HostModel {
 
 	public static final String TABLE_HOST = "host";
+	public static final String TABLE_HOST_GROUP = "host_group";
+	public static final String TABLE_HOST_TEMPLATE = "host_template";
 	public static final String TABLE_HOST_HISTORY = "host_history";
 	private MySql mysql;
 
@@ -37,6 +39,18 @@ public class HostModel {
 					+ "`ctime` datetime DEFAULT NULL,"
                     + "`mtime` datetime DEFAULT NULL,"
 					+ "PRIMARY KEY (`host_id`)"
+					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			conn.createStatement().executeUpdate(sql);
+			
+			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_HOST_GROUP + "` (" 
+					+ "`host_id` bigint(20) NOT NULL,"
+					+ "`group_id` bigint(20) NOT NULL"
+					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			conn.createStatement().executeUpdate(sql);
+			
+			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_HOST_TEMPLATE + "` (" 
+					+ "`host_id` bigint(20) NOT NULL,"
+					+ "`template_id` bigint(20) NOT NULL"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 			

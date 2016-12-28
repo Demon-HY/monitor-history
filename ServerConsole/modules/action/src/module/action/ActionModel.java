@@ -59,6 +59,7 @@ public class ActionModel {
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 			
+			// 这里是绑定一组触发器，因为group下关联有多个触发器
 			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_ACTION_GROUP + "` (" 
 					+ "`action_id` bigint(20) NOT NULL,"
 					+ "`group_id` bigint(20) NOT NULL"

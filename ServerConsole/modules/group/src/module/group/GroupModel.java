@@ -15,6 +15,7 @@ import monitor.service.db.MySql;
 public class GroupModel {
 
 	public static final String TABLE_GROUP = "group";
+	public static final String TABLE_GROUP_TEMPLATE = "group_template";
 	private MySql mysql;
 
 	public GroupModel(MySql mysql) throws SQLException {
@@ -32,6 +33,12 @@ public class GroupModel {
 					+ "`ctime` datetime DEFAULT NULL,"
                     + "`mtime` datetime DEFAULT NULL,"
 					+ "PRIMARY KEY (`group_id`)"
+					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			conn.createStatement().executeUpdate(sql);
+			
+			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_GROUP_TEMPLATE + "` (" 
+					+ "`host_id` bigint(20) NOT NULL,"
+					+ "`template_id` bigint(20) NOT NULL"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 		} finally {
