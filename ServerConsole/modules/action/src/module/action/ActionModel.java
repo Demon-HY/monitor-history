@@ -55,20 +55,23 @@ public class ActionModel {
 			
 			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_ACTION_HOST + "` (" 
 					+ "`action_id` bigint(20) NOT NULL,"
-					+ "`host_id` bigint(20) NOT NULL"
+					+ "`host_id` bigint(20) NOT NULL,"
+					+ "PRIMARY KEY (`action_id`, `host_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 			
 			// 这里是绑定一组触发器，因为group下关联有多个触发器
 			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_ACTION_GROUP + "` (" 
 					+ "`action_id` bigint(20) NOT NULL,"
-					+ "`group_id` bigint(20) NOT NULL"
+					+ "`group_id` bigint(20) NOT NULL,"
+					+ "PRIMARY KEY (`action_id`, `group_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 			
 			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_ACTION_TRIGGER + "` (" 
 					+ "`action_id` bigint(20) NOT NULL,"
-					+ "`trigger_id` bigint(20) NOT NULL"
+					+ "`trigger_id` bigint(20) NOT NULL,"
+					+ "PRIMARY KEY (`action_id`, `trigger_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 		} finally {

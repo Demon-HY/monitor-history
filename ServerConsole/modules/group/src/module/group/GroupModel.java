@@ -37,8 +37,9 @@ public class GroupModel {
 			conn.createStatement().executeUpdate(sql);
 			
 			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_GROUP_TEMPLATE + "` (" 
-					+ "`host_id` bigint(20) NOT NULL,"
-					+ "`template_id` bigint(20) NOT NULL"
+					+ "`group_id` bigint(20) NOT NULL,"
+					+ "`template_id` bigint(20) NOT NULL,"
+					+ "PRIMARY KEY (`group_id`, `template_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 		} finally {

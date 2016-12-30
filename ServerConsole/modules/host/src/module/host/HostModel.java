@@ -44,13 +44,15 @@ public class HostModel {
 			
 			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_HOST_GROUP + "` (" 
 					+ "`host_id` bigint(20) NOT NULL,"
-					+ "`group_id` bigint(20) NOT NULL"
+					+ "`group_id` bigint(20) NOT NULL,"
+					+ "PRIMARY KEY (`host_id`, `group_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 			
 			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_HOST_TEMPLATE + "` (" 
 					+ "`host_id` bigint(20) NOT NULL,"
-					+ "`template_id` bigint(20) NOT NULL"
+					+ "`template_id` bigint(20) NOT NULL,"
+					+ "PRIMARY KEY (`host_id`, `template_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 			
@@ -60,7 +62,7 @@ public class HostModel {
 					+ "`ip` varchar(16) NOT NULL,"
 					+ "`monitored` varchar(32) NOT NULL DEFAULT 'Agent',"
 					+ "`status` varchar(32) NOT NULL,"
-					+ "`interval` varchar(32) NOT NULL DEFAULT 60,"	// 主机存活状态监测间隔
+					+ "`interval` varchar(32) NOT NULL DEFAULT 60,"
 					+ "`memo` varchar(1024) DEFAULT NULL,"
 					+ "`ctime` datetime DEFAULT NULL,"
                     + "`mtime` datetime DEFAULT NULL,"

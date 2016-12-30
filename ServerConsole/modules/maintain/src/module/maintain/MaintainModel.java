@@ -39,13 +39,15 @@ public class MaintainModel {
 			
 			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_MAINTAIN_HOST + "` (" 
 					+ "`maintain_id` bigint(20) NOT NULL,"
-					+ "`host_id` bigint(20) NOT NULL"
+					+ "`host_id` bigint(20) NOT NULL,"
+					+ "PRIMARY KEY (`maintain_id`, `host_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 			
 			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_MAINTAIN_GROUP + "` (" 
 					+ "`maintain_id` bigint(20) NOT NULL,"
-					+ "`group_id` bigint(20) NOT NULL"
+					+ "`group_id` bigint(20) NOT NULL,"
+					+ "PRIMARY KEY (`maintain_id`, `group_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 		} finally {

@@ -38,13 +38,15 @@ public class TemplateModel {
 			
 			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_TEMP_SERVER + "` (" 
 					+ "`template_id` bigint(20) NOT NULL,"
-					+ "`service_id` bigint(20) NOT NULL"
+					+ "`service_id` bigint(20) NOT NULL,"
+					+ "PRIMARY KEY (`template_id`, `service_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 			
 			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_TEMP_TRIGGER + "` (" 
 					+ "`template_id` bigint(20) NOT NULL,"
-					+ "`trigger_id` bigint(20) NOT NULL"
+					+ "`trigger_id` bigint(20) NOT NULL,"
+					+ "PRIMARY KEY (`template_id`, `trigger_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 		} finally {
