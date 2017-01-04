@@ -19,3 +19,6 @@ $ SELECT TABLE_ROWS from information_schema.`TABLES` WHERE TABLE_NAME = 'TABLE_N
 
 1.3 使用统计的概念
 $ EXPLAIN SELECT count(1) FROM `TABLE_NAME`;
+
+
+CREATE USER 'sW7i-ejQPi'@'%' IDENTIFIED BY 'ycHCmVTGRM';

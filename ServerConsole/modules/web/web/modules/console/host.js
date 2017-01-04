@@ -142,6 +142,56 @@ define(function(require, exports, module) {
 
     // 添加主机
     function addHost () {
+        if ($('#hostlist').length) {
+            $('#hostlist').hide();
+        }
+        let tpl = Handlebars.compile(require('./host/create.tpl'));
+        init.insertCenter(tpl);
+        $('.body-center').layout();
+        $('input').placeholder();
+        initMultipleGroup();
+        initMultipleTemplate();
+        
+        $('.submit-host').click(function(){
+            // 表单验证
+            let res = $('#fm').valid('formValid');
+            
+            let listGroup = [];
+            $('#fm input[name=group]:checked').each(function(){
+                listGroup.push($(this).attr('id'));    
+            });
+            let listTemp = [];
+            $('#fm input[name=template]:checked').each(function(){
+                listTemp.push($(this).attr('id'));    
+            });
+            let data = {
+                'name': $('#fm input[name=name]').val(),
+                'ip': $('#fm input[name=ip]').val(),
+                'groupIdList': listGroup,
+                'templateIdList': listTemp,
+                'monitored': $('#fm select[name=monitored]').val(),
+                'interval': $('#fm input[name=interval]').val(),
+                'status': $('#fm select[name=status]').val(),
+                'memo': $('#fm textarea[name=memo]').val()
+            }
+            if (res) {
+                $.request({
+                    url: '/host/api/addHost',
+                    params: data,
+                    done: function(data) {
+                        if (data.stat == 'OK') {
+                            $('#hostlist').table('reload');
+                            // $.tip('主机添加成功！');
+                            $.tip(i18n.get('consoleHost_success_addHost'));
+                        } else {
+                            $.alert(data.errText);
+                        }
+                    }
+                });
+            }
+        });
+    }
+    /*function addHost () {
         if (!$('#create-dialog').length) {
             $('body').append('<div id="create-dialog"></div>');
         }
@@ -243,60 +293,59 @@ define(function(require, exports, module) {
                 }
             }]
         });
+    }*/
+
+    // 编辑主机
+    function editHost(host) {   
     }
-
-    function editHost(host) {
-        if (!$('#edit-dialog').length) {
-            $('body').append('<div id="edit-dialog"></div>');
-        }
-        $('#edit-dialog').dialog({
-            title: i18n.get('consoleHost_edit_host'),
-            width: 600,
-            height: 650,
-            data: Handlebars.compile(require('./host/edit.tpl')),
-            onInited: function() {
-                // 添加群组
-                var checkboxGroupHtml = "<div class='fl'><label><input name='group' type='checkbox' value='' />群组1</label></div>";
-                $('.checkbox-group').append(checkboxGroupHtml)
-                .append(checkboxGroupHtml);
-
-                // 添加模板
-                var checkboxTempHtml = "<div class='fl'><label><input name='template' type='checkbox' value='' />模板1</label></div>";
-                $('.checkbox-template').append(checkboxTempHtml)
-                .append(checkboxTempHtml)
-                .append(checkboxTempHtml);
-            },
-            buttons: [{
-                text: i18n.get('consoleHost_confirm'),
-                name: 'save',
-                cls: 'btn-primary',
-                handler: function() {
-                    var res = $('#fm').valid('formValid');
-                    var form = util.parseForm('#fm');
-                    if (res) {
-                        /*$.request({
-                            url: '/host/api/addHost',
-                            params: form,
-                            done: function(data) {
-                                if (data.stat == 'OK') {
-                                    $('#create-dialog').dialog('close');
-                                    $('#hostlist').table('reload');
-                                    // $.tip('主机添加成功！');
-                                    $.tip(i18n.get('consoleHost_success_addHost'));
-                                } else {
-                                    $.alert(data.errText);
-                                }
-                            }
-                        });*/
+    
+    // 删除主机
+    function remove(host) {    
+    }
+    
+    // 初始化群组左右选择器
+    function initMultipleGroup() {
+        let groupNames = new Array();
+        $.request({
+            url: '/group/api/listGroup?order=' + config.order,
+            done: function(data) {
+                if (data.stat == 'OK') {
+                    let rows = data.rows;
+                    for (let i = 0; i < rows.length; ++i) {
+                        groupNames.push(i, {'id': rows[i].group_id, 'text': rows[i].name});
                     }
+                    if (groupNames.length > 0) {
+                        $('.mul-group').multiselect({data: groupNames});
+                    } else {
+                        $('.mul-group').multiselect();
+                    }
+                } else {
+                    $.alert(data.errText);
                 }
-            }, {
-                text: i18n.get('consoleHost_cancel'),
-                name: 'cancel',
-                handler: function() {
-                    $('#edit-dialog').dialog('close');
-                }
-            }]
+            }
         });
     }
+    // 初始化模板左右选择器
+    function initMultipleTemplate() {
+        let templateNames = new Array();
+        $.request({
+            url: '/template/api/listTemplate?order=' + config.order,
+            done: function(data) {
+                if (data.stat == 'OK') {
+                    let rows = data.rows;
+                    for (let i = 0; i < rows.length; ++i) {
+                        templateNames.push(i, {'id': rows[i].group_id, 'text': rows[i].name});
+                    }
+                    if (templateNames.length > 0) {
+                        $('.mul-template').multiselect({data: templateNames});
+                    } else {
+                        $('.mul-template').multiselect();
+                    }
+                } else {
+                    $.alert(data.errText);
+                }
+            }
+        });
+    }
+    
 });

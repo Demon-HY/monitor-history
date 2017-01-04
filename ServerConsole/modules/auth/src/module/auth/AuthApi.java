@@ -48,7 +48,6 @@ public class AuthApi implements IAuthApi {
 	}
 	
 	/*******************************************************************************************/
-	
 	public IAuthModel getAuthModel() {
 		return this.authModel;
 	}

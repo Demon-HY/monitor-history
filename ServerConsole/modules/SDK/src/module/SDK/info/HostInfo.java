@@ -26,7 +26,7 @@ public class HostInfo {
 	public String monitored;
 	
 	/** 
-	 * 状态
+	 * 主机状态
 	 * Online(在线),Down(关闭),Unreachable(拒绝访问),Offline(离线),Problem
 	 */
 	public String status;
