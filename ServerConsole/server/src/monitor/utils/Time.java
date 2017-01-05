@@ -1,5 +1,7 @@
 package monitor.utils;
 
+import java.sql.Timestamp;
+
 // @javadoc
 
 import java.text.ParseException;
@@ -39,7 +41,6 @@ public class Time {
         return new SimpleDateFormat(format).format(date);
     }
     
-    // TODO 整理一下代码
     /**
      * 返回 yyyy-MM-dd 格式的当前日期字符串
      * @return
@@ -71,6 +72,10 @@ public class Time {
      */
     public static long currentTimeMillis() {
         return System.currentTimeMillis();
+    }
+    
+    public static Timestamp getTimestamp() {
+    	return new Timestamp(Time.currentTimeMillis());
     }
     
 }

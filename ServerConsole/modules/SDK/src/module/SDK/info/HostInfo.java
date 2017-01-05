@@ -42,16 +42,16 @@ public class HostInfo {
 	
 	/** 修改时间 */
 	public Timestamp mtime;
-	
-//	public HostInfo(String name, String ip, String monitored, String status, Integer interval, 
-//			String memo, Timestamp ctime, Timestamp mtime) {
-//		this.name = name;
-//		this.ip = ip;
-//		this.monitored = monitored;
-//		this.status = status;
-//		this.interval = interval;
-//		this.memo = memo;
-//		this.ctime = ctime;
-//		this.mtime = mtime;
-//	}
+
+	public HostInfo(String name, String ip, String monitored, String status, Integer interval, 
+			String memo, Timestamp ctime, Timestamp mtime) {
+		this.name = name;
+		this.ip = ip;
+		this.monitored = monitored;
+		this.status = status;
+		this.interval = interval;
+		this.memo = memo;
+		this.ctime = ctime;
+		this.mtime = mtime;
+	}
 }

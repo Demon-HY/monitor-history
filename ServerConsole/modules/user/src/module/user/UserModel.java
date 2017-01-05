@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.Map;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -14,6 +13,7 @@ import com.alibaba.fastjson.JSONObject;
 import module.SDK.info.UserInfo;
 import module.SDK.inner.IUserApi;
 import monitor.service.db.MySql;
+import monitor.utils.Time;
 
 public class UserModel implements IUserApi.IUserModel{
 
@@ -81,7 +81,7 @@ public class UserModel implements IUserApi.IUserModel{
 
         Connection conn = this.mysql.getConnection();
         try {
-            String sql = "INSERT INTO `" + TABLE_USER + "` "
+            final String sql = "INSERT INTO `" + TABLE_USER + "` "
             		+ "(`name`,`phone`,`email`,`nick`,`password`, `qq`,`type`,`status`,`exattr`,`ctime`) "
             		+ "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -94,7 +94,7 @@ public class UserModel implements IUserApi.IUserModel{
             pstmt.setInt(7, user.type);
             pstmt.setInt(8, user.status);
             pstmt.setString(9, JSONObject.toJSONString(user.exattr));
-            pstmt.setTimestamp(10, new Timestamp(System.currentTimeMillis()));
+            pstmt.setTimestamp(10, Time.getTimestamp());
             
             return pstmt.executeUpdate() == 1 ? true : false;
         } finally {
@@ -110,10 +110,10 @@ public class UserModel implements IUserApi.IUserModel{
         }
 		Connection conn = this.mysql.getConnection();
 		try {
-            String sqlGetUser = "SELECT `uid`,`name`,`phone`,`email`,`nick`,`password`, `qq`,`type`,`status`,`exattr`,"
+			final String sql  = "SELECT `uid`,`name`,`phone`,`email`,`nick`,`password`, `qq`,`type`,`status`,`exattr`,"
             		+ "`ctime`,`mtime`,`load_time` FROM `" + TABLE_USER + "` WHERE `uid` = ?";
             
-			PreparedStatement pstmt = conn.prepareStatement(sqlGetUser);
+			PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, uid);
             ResultSet rs = pstmt.executeQuery();
             
@@ -129,10 +129,10 @@ public class UserModel implements IUserApi.IUserModel{
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = String.format("UPDATE `%s` SET `%s`=?,`mtime`=? WHERE `uid`=?", TABLE_USER, key);
+            final String sql = String.format("UPDATE `%s` SET `%s`=?,`mtime`=? WHERE `uid`=?", TABLE_USER, key);
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setObject(1, value);
-            pstmt.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+            pstmt.setTimestamp(2, Time.getTimestamp());
             pstmt.setLong(3, uid);
             return pstmt.executeUpdate() == 1 ? true : false;
         } finally {
@@ -146,7 +146,7 @@ public class UserModel implements IUserApi.IUserModel{
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "UPDATE `" + TABLE_USER + "` SET `phone`,`email`,`nick`,`qq`,`exattr`,`mtime` WHERE `uid`=?";
+            final String sql = "UPDATE `" + TABLE_USER + "` SET `phone`,`email`,`nick`,`qq`,`exattr`,`mtime` WHERE `uid`=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, userInfo.phone);
             pstmt.setString(2, userInfo.email);
@@ -189,10 +189,10 @@ public class UserModel implements IUserApi.IUserModel{
                 factors = String.format("%s%s `phone` = '%s'", factors, (factors.length() > 0 ? " or " : ""), StringEscapeUtils.escapeSql(phone));
             }
             
-            String sqlGetUser = "SELECT `uid`,`name`,`phone`,`email`,`nick`,`password`,`qq`,`type`,`status`,`exattr`,"
+            String sql = "SELECT `uid`,`name`,`phone`,`email`,`nick`,`password`,`qq`,`type`,`status`,`exattr`,"
             		+ "`ctime`,`mtime`,`load_time` FROM `" + TABLE_USER + "` ";
-            sqlGetUser = String.format("%s%s%s", sqlGetUser, (factors.length() > 0 ? "where" : ""), factors);
-			PreparedStatement pstmt = conn.prepareStatement(sqlGetUser);
+            sql = String.format("%s%s%s", sql, (factors.length() > 0 ? "where" : ""), factors);
+			PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
 
             return parseUser(rs);

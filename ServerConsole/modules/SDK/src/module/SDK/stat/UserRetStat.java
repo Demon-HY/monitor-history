@@ -1,9 +1,11 @@
 package module.SDK.stat;
 
+import monitor.service.http.protocol.RetStat;
+
 /**
  * @author monitor
  */
-public class UserRetStat {
+public class UserRetStat extends RetStat {
 	
 	/** 该账号已被使用 */
     public static final String ERR_ACCOUNT_EXIST = "ERR_ACCOUNT_EXIST";

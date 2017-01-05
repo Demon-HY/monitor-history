@@ -7,12 +7,15 @@ import org.javatuples.Pair;
 import module.SDK.http.AuthedJsonProtocol;
 import module.SDK.http.AuthedJsonReq;
 import module.SDK.info.HostInfo;
+import module.SDK.stat.HostRetStat;
+import monitor.exception.LogicalException;
 import monitor.exception.ParamException;
 import monitor.exception.UnInitilized;
 import monitor.service.http.ApiGateway;
 import monitor.service.http.protocol.JsonResp;
 import monitor.service.http.protocol.RetStat;
 import monitor.utils.DBUtil;
+import monitor.utils.DataCheck;
 
 public class HostHttpApi {
 
@@ -279,6 +282,13 @@ public class HostHttpApi {
 		Integer interval = req.paramGetInteger("interval", true);
 		String status = req.paramGetString("status", true);
 		String memo = req.paramGetString("memo", false);
+		// IP 不合法
+		if (!DataCheck.checkIPVaildity(ip)) {
+			throw new LogicalException(HostRetStat.ERR_IP_NOT_VAILDITY, "no vaildity the ip(" + ip + ")");
+		}
+		HostInfo hostInfo = new HostInfo(name, ip, monitored, status, interval, memo, null, null);
+		
+		this.hostApi.addHost(req.env, hostInfo, groupIdList, templateIdList);
 		
 		JsonResp resp = new JsonResp(RetStat.OK);
         return resp;

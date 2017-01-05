@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,6 +13,8 @@ import org.apache.commons.lang.StringEscapeUtils;
 
 import module.SDK.info.HostInfo;
 import monitor.service.db.MySql;
+import monitor.utils.DBUtil;
+import monitor.utils.Time;
 
 public class HostModel {
 
@@ -129,7 +133,6 @@ public class HostModel {
 		return listHosts;
 	}
 	
-	@SuppressWarnings("unused")
 	private HostInfo parseHost(ResultSet rs) throws SQLException {
 //			HostInfo host = new HostInfo(rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4), rs.getInt(5),
 //					rs.getString(6),rs.getTimestamp(7),rs.getTimestamp(8));
@@ -166,5 +169,109 @@ public class HostModel {
                 conn.close();
             }
         }
+	}
+
+	public boolean addHost(HostInfo hostInfo) throws SQLException {
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "INSERT INTO `" + TABLE_HOST + "` "
+					+ "(`name`,`ip`,`monitored`,`status`,`interval`,`memo`,`ctime`,`mtime`) "
+					+ "values (?, ?, ?, ?, ?, ?, ?, ?);";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, hostInfo.name);
+			pstmt.setString(2, hostInfo.ip);
+			pstmt.setString(3, hostInfo.monitored);
+			pstmt.setString(4, hostInfo.status);
+			pstmt.setInt(5, hostInfo.interval);
+			pstmt.setString(6, hostInfo.memo);
+			pstmt.setTimestamp(7, Time.getTimestamp());
+			pstmt.setTimestamp(8, Time.getTimestamp());
+			
+			return pstmt.executeUpdate() == 1 ?  true : false;
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+
+	public HostInfo getHost(String ip) throws SQLException {
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "SELECT `host_id`,`name`,`ip`,`monitored`,`status`,`interval`,`memo`,`ctime`,`mtime` from `"
+					+ TABLE_HOST + "` where `ip`=?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, ip);
+			ResultSet rs = pstmt.executeQuery();
+			
+			return parseHost(rs);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+
+	public boolean addHostGroup(Long host_id, List<Long> groupIdList) throws SQLException {
+		if (null == groupIdList || groupIdList.size() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+	    try {
+	        conn = this.mysql.getConnection();
+	        String sql = "insert into `host_group` (`host_id`, `group_id`) values %s";
+
+	        List<String> list = new ArrayList<String>();
+	        for (Long groupId : groupIdList) {
+	            String tmp = DBUtil.wrapParams(host_id, groupId);
+	            list.add(tmp);
+	        }
+	        String datas = Arrays.toString(list.toArray());
+	        datas = datas.substring(1, datas.length() - 1);
+
+	        sql = String.format(sql, datas);
+
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.executeUpdate();
+
+	        return true;
+	    } finally {
+	        if (conn != null) {
+	            conn.close();
+	        }
+	    }
+	}
+
+	public boolean addHostTemplate(Long host_id, List<Long> templateIdList) throws SQLException {
+		if (null == templateIdList || templateIdList.size() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+	    try {
+	        conn = this.mysql.getConnection();
+	        String sql = "insert into `host_template` (`host_id`, `template_id`) values %s";
+
+	        List<String> list = new ArrayList<String>();
+	        for (Long groupId : templateIdList) {
+	            String tmp = DBUtil.wrapParams(host_id, groupId);
+	            list.add(tmp);
+	        }
+	        String datas = Arrays.toString(list.toArray());
+	        datas = datas.substring(1, datas.length() - 1);
+
+	        sql = String.format(sql, datas);
+
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.executeUpdate();
+
+	        return true;
+	    } finally {
+	        if (conn != null) {
+	            conn.close();
+	        }
+	    }
 	}
 }
