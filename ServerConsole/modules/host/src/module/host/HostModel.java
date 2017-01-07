@@ -195,8 +195,38 @@ public class HostModel {
 			}
 		}
 	}
+	
+	public boolean editHostByHostID(HostInfo hostInfo) throws SQLException {
+        Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            final String sql = "UPDATE `" + TABLE_HOST + "` set "
+                    + "`name`=?,`ip`=?,`monitored`=?,`status`=?,`interval`=?,`memo`=?,`mtime`=? WHERE `host_id`=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, hostInfo.name);
+            pstmt.setString(2, hostInfo.ip);
+            pstmt.setString(3, hostInfo.monitored);
+            pstmt.setString(4, hostInfo.status);
+            pstmt.setInt(5, hostInfo.interval);
+            pstmt.setString(6, hostInfo.memo);
+            pstmt.setTimestamp(7, Time.getTimestamp());
+            pstmt.setLong(8, hostInfo.host_id);
+            
+            return pstmt.executeUpdate() == 1 ?  true : false;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
 
-	public HostInfo getHost(String ip) throws SQLException {
+	/**
+	 * 通过 IP 获取主机信息
+	 * @param ip
+	 * @return
+	 * @throws SQLException
+	 */
+	public HostInfo getHostByIP(String ip) throws SQLException {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
@@ -214,6 +244,31 @@ public class HostModel {
 			}
 		}
 	}
+	
+	/**
+	 * 通过 主机 ID 获取主机信息
+	 * @param host_id
+	 * @return
+	 * @throws SQLException
+	 */
+	public HostInfo getHostByHostID(Long host_id) throws SQLException {
+        Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            final String sql = "SELECT `host_id`,`name`,`ip`,`monitored`,`status`,`interval`,`memo`,`ctime`,`mtime` from `"
+                    + TABLE_HOST + "` where `host_id`=?";
+            
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, host_id);
+            ResultSet rs = pstmt.executeQuery();
+            
+            return parseHost(rs);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
 
 	public boolean addHostGroup(Long host_id, List<Long> groupIdList) throws SQLException {
 		if (null == groupIdList || groupIdList.size() < 1) {
@@ -244,6 +299,24 @@ public class HostModel {
 	        }
 	    }
 	}
+	
+	public boolean deleteHostGroupByHostID(Long host_id) throws SQLException {
+        Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "DELETE FROM `host_group` WHERE `host_id`=?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, host_id);
+            pstmt.executeUpdate();
+
+            return true;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
 
 	public boolean addHostTemplate(Long host_id, List<Long> templateIdList) throws SQLException {
 		if (null == templateIdList || templateIdList.size() < 1) {
@@ -252,7 +325,7 @@ public class HostModel {
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "insert into `host_template` (`host_id`, `template_id`) values %s";
+	        String sql = "INSERT INTO `host_template` (`host_id`, `template_id`) values %s";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long groupId : templateIdList) {
@@ -274,4 +347,22 @@ public class HostModel {
 	        }
 	    }
 	}
+	
+	public boolean deleteHostTemplateByHostID(Long host_id) throws SQLException {
+        Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "DELETE FROM `host_template` WHERE `host_id`=?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, host_id);
+            pstmt.executeUpdate();
+
+            return true;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
 }

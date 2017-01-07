@@ -4,7 +4,13 @@ import monitor.service.http.protocol.RetStat;
 
 public class HostRetStat extends RetStat {
 	
-	/** 该账号已被使用 */
+	/** IP 地址不合法 */
     public static final String ERR_IP_NOT_VAILDITY = "ERR_IP_NOT_VAILDITY";
+    
+    /** 主机 ID 不存在 */
+    public static final String ERR_HOST_ID_NOT_FOUND = "ERR_HOST_ID_NOT_FOUND";
+    
+    /** 要添加的 IP 已存在 */
+    public static final String ERR_ADD_IP_EXISTED = "ERR_ADD_IP_EXISTED";
 
 }

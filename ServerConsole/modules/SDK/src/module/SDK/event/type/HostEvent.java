@@ -13,13 +13,27 @@ public class HostEvent extends Event {
 		/**
          * 事件类型标识：添加主机前<br>
          * 有效参数：<br>
+         * hostInfo
          */
 	    PRE_ADD_HOST,
 	    /**
          * 事件类型标识：添加主机后<br>
          * 有效参数：<br>
+         * hostInfo
          */
 	    POST_ADD_HOST,
+	    /**
+         * 事件类型标识：修改主机前<br>
+         * 有效参数：<br>
+         * hostInfo
+         */
+        PRE_EDIT_HOST,
+        /**
+         * 事件类型标识：修改主机后<br>
+         * 有效参数：<br>
+         * hostInfo
+         */
+        POST_EDIT_HOST,
 	}
 	
 	public Env env;

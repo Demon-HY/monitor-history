@@ -43,8 +43,9 @@ public class HostInfo {
 	/** 修改时间 */
 	public Timestamp mtime;
 
-	public HostInfo(String name, String ip, String monitored, String status, Integer interval, 
+	public HostInfo(Long host_id, String name, String ip, String monitored, String status, Integer interval, 
 			String memo, Timestamp ctime, Timestamp mtime) {
+	    this.host_id = host_id;
 		this.name = name;
 		this.ip = ip;
 		this.monitored = monitored;
