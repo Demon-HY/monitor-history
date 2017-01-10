@@ -365,4 +365,22 @@ public class HostModel {
             }
         }
     }
+
+	public boolean deleteHostByHostID(Long host_id) throws SQLException {
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "DELETE FROM `host` WHERE `host_id`=?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, host_id);
+            pstmt.executeUpdate();
+
+            return true;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
 }

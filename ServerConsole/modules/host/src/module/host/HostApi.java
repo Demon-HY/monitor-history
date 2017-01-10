@@ -112,7 +112,7 @@ public class HostApi implements IHostApi{
 	}
 	
 	/**
-     * 添加主机
+     * 编辑主机
      * 
      * @param env
      * <blockquote>
@@ -154,18 +154,62 @@ public class HostApi implements IHostApi{
         }
         
         this.hostModel.editHostByHostID(hostInfo);
-        this.hostModel.deleteHostGroupByHostID(hostInfo.host_id);
-        this.hostModel.deleteHostTemplateByHostID(hostInfo.host_id);
+        // 这里先判断请求的 group_id 和 template_id 集合是否为空再删除，是为了考虑用户修改了其他信息，没有修改群组和模板关联的话，
+        // 这里可以不用动，因为修改这个需要访问四次数据库，很浪费性能
         if (null != groupIdList && groupIdList.size() > 0) {
+        	this.hostModel.deleteHostGroupByHostID(hostInfo.host_id);
             this.hostModel.addHostGroup(hostInfo.host_id, groupIdList);
         }
         if (null != templateIdList && templateIdList.size() > 0) {
+        	this.hostModel.deleteHostTemplateByHostID(hostInfo.host_id);
             this.hostModel.addHostTemplate(hostInfo.host_id, templateIdList);
         }
         
+        HostInfo host = this.hostModel.getHostByHostID(hostInfo.host_id);
+        
         // 发送修改主机后事件
-        hostEvent = new HostEvent(env, hostInfo);
+        hostEvent = new HostEvent(env, host);
         this.beans.getEventHub().dispatchEvent(HostEvent.Type.POST_EDIT_HOST, hostEvent);
         return null;
     }
+
+    /**
+     * 删除主机
+     * 
+     * @param env
+     * <blockquote>
+     *      类型：对象<br/>
+     *      描述：上下文对象
+     * </blockquote>
+     * @param host_id
+     * <blockquote>
+     *      类型：整数<br/>
+     *      描述：主机 ID
+     * </blockquote>
+     * 
+     * @return
+     * @throws LogicalException 
+     * @throws SQLException 
+     */
+	public boolean deleteHost(Env env, Long host_id) throws LogicalException, SQLException {
+		if (null ==host_id || host_id.longValue() < 0) {
+			throw new LogicalException(HostRetStat.ERR_HOST_ID_NOT_FOUND, "HostApi.deleteHost host_id(" + host_id + ") not found!");
+		}
+		// 发送删除主机前事件
+        HostEvent hostEvent = new HostEvent(env, host_id);
+        this.beans.getEventHub().dispatchEvent(HostEvent.Type.PRE_DELETE_HOST, hostEvent);
+		
+        HostInfo hostInfo = this.hostModel.getHostByHostID(host_id);
+        if (null == hostInfo) {
+        	throw new LogicalException(HostRetStat.ERR_HOST_ID_NOT_FOUND, "HostApi.deleteHost host_id(" + host_id + ") not found!");
+        }
+        
+        boolean result = this.hostModel.deleteHostByHostID(host_id);
+        
+        // 发送删除主机后事件
+        hostEvent = new HostEvent(env, hostInfo);
+        this.beans.getEventHub().dispatchEvent(HostEvent.Type.POST_DELETE_HOST, hostEvent);
+		
+        return result;
+	}
 }

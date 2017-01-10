@@ -22,6 +22,7 @@ public class HostEvent extends Event {
          * hostInfo
          */
 	    POST_ADD_HOST,
+	    
 	    /**
          * 事件类型标识：修改主机前<br>
          * 有效参数：<br>
@@ -34,6 +35,19 @@ public class HostEvent extends Event {
          * hostInfo
          */
         POST_EDIT_HOST,
+        
+        /**
+         * 事件类型标识：删除主机前<br>
+         * 有效参数：<br>
+         * hostInfo
+         */
+        PRE_DELETE_HOST,
+        /**
+         * 事件类型标识：删除主机后<br>
+         * 有效参数：<br>
+         * hostInfo
+         */
+        POST_DELETE_HOST,
 	}
 	
 	public Env env;
@@ -49,8 +63,23 @@ public class HostEvent extends Event {
 	
 	public HostInfo hostInfo;
 	
+	/**
+	 * 添加主机/修改主机/删除主机后
+	 * @param env
+	 * @param hostInfo
+	 */
 	public HostEvent(Env env, HostInfo hostInfo) {
 		this.env = env;
 		this.hostInfo = hostInfo;
+	}
+	
+	/**
+	 * 删除主机前
+	 * @param env
+	 * @param host_id
+	 */
+	public HostEvent(Env env, Long host_id) {
+		this.env = env;
+		this.host_id = host_id;
 	}
 }
