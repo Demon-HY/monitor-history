@@ -7,8 +7,8 @@ import monitor.exception.LogicalException;
 import monitor.service.http.Env;
 
 /**
- * 登录前事件<br>
- * <br>
+ * 登录前事件</br>
+ * </br>
  * 事件监听方可以截获此事件，并设置 loginInfo，可以绕过正常登录逻辑，正接向客户端返回 token。
  */
 public class PreLoginEvent extends Event {

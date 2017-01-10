@@ -36,7 +36,7 @@ public class ModuleMgr {
      */
     public static File baseModulePath;
     /**
-     * 第三方开发插件所在目录<br>
+     * 第三方开发插件所在目录</br>
      * 第三方插件也可以放到基础插件目录
      */
     private static File thirmodulePath;

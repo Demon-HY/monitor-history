@@ -30,7 +30,7 @@ public class EventHub implements IEventHub {
 
     /* ------------------------------------------------------------ */
     /**
-     * 注册事件监听器<br>
+     * 注册事件监听器</br>
      * 默认为正常优先级
      * 
      * @param eventType 事件类型
@@ -41,7 +41,7 @@ public class EventHub implements IEventHub {
     }
 
     /**
-     * 注册事件监听器<br>
+     * 注册事件监听器</br>
      * 并指定优先级
      * 
      * @param eventType 事件类型

@@ -18,13 +18,13 @@ public class Event {
     public boolean isContinue = true;
     
     /**
-     * 返回码<br>
+     * 返回码</br>
      * isContinue为false时，将返回码封装到异常，并抛出
      */
     public String stat;
     
     /**
-     * 缘由<br>
+     * 缘由</br>
      * isContinue为false时的说明
      */
     public String breakReason;

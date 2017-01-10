@@ -11,64 +11,64 @@ public class UserEvent extends Event {
 
 	public enum Type implements EventType {
 	    /**
-         * 事件类型标识：设置用户属性前<br>
-         * 有效参数：<br>
-         * user<br>
+         * 事件类型标识：设置用户属性前</br>
+         * 有效参数：</br>
+         * user</br>
          * attrs
          */
 	    PRE_SET_USER_ATTR,
 	    
 	    /**
-         * 事件类型标识：设置用户属性后<br>
-         * 有效参数：<br>
-         * user<br>
+         * 事件类型标识：设置用户属性后</br>
+         * 有效参数：</br>
+         * user</br>
          * setAttrFlag
          */
 	    POST_SET_USER_ATTR,
 	    
 	    /**
-	     * 事件类型标识：删除用户前<br>
-	     * 有效参数：<br>
+	     * 事件类型标识：删除用户前</br>
+	     * 有效参数：</br>
          * user
 	     */
 	    PRE_DELETE_USER,
 	    
 	    /**
-         * 事件类型标识：删除用户后<br>
-         * 有效参数：<br>
-         * user<br>
+         * 事件类型标识：删除用户后</br>
+         * 有效参数：</br>
+         * user</br>
          * delAttrFlag
          */
 	    POST_DELETE_USER,
 	    
 	    /**
-         * 事件类型标识：注册用户前<br>
-         * 有效参数：<br>
-         * type<br>
-         * account<br>
+         * 事件类型标识：注册用户前</br>
+         * 有效参数：</br>
+         * type</br>
+         * account</br>
          * attrs
          */
 	    PRE_REGISTER_USER,
 	    
 	    /**
          * 事件类型标识：注册用户后
-         * 有效参数：<br>
-         * user<br>
-         * type<br>
-         * account<br>
+         * 有效参数：</br>
+         * user</br>
+         * type</br>
+         * account</br>
          */
 	    POST_REGISTER_USER,
 	    
         /**
-         * 事件类型标识：重新设置密码之前<br>
-         * 有效参数<br>
+         * 事件类型标识：重新设置密码之前</br>
+         * 有效参数</br>
          * user
          */
         PRE_RESET_PSW,
         
         /**
-         * 事件类型标识：重新设置密码之后<br>
-         * 有效参数<br>
+         * 事件类型标识：重新设置密码之后</br>
+         * 有效参数</br>
          * user
          */
         POST_RESET_PSW
