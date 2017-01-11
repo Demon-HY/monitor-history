@@ -5,9 +5,6 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -17,14 +14,10 @@ import org.apache.commons.dbcp2.PoolableConnection;
 import org.apache.commons.dbcp2.PoolableConnectionFactory;
 import org.apache.commons.dbcp2.PoolingDataSource;
 import org.apache.commons.pool2.impl.GenericObjectPool;
-import org.javatuples.Pair;
-
-import com.alibaba.fastjson.JSONObject;
 
 import monitor.exception.UnInitilized;
 import monitor.service.db.MysqlConfig;
 import monitor.service.db.PoolInfo;
-import monitor.utils.StringUtils;
 import monitor.Config;
 
 public class DBConnector {
@@ -36,7 +29,7 @@ public class DBConnector {
 	}
 	
 	/**
-	 * 获取数据库monitor_3rdparty连接。
+	 * 获取数据库 monitor_3rdparty 连接。
 	 * @return
 	 * @throws SQLException
 	 */
@@ -145,37 +138,37 @@ public class DBConnector {
 }
 
 
-class LicenseUtil {
-	public static final String s_endDate = "endDate";
-	public static final String s_quotaLimit = "quotaLimit";
-	public static final String s_userLimit = "userLimit";
-	public static final String s_company = "company";
-	public static final String s_hardware = "hardware";
-	
-    @SuppressWarnings("unchecked")
-    public static Map<String, Object> parseLicense(String license) {
-        List<Object> list = (List<Object>) JSONObject.parse(StringUtils.getString(license));
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put(s_endDate, list.get(0));
-        map.put(s_quotaLimit, list.get(1));
-        map.put(s_userLimit, list.get(2));
-        map.put(s_company, list.get(3));
-        map.put(s_hardware, list.get(4));
-        list.clear();
-
-        return map;
-    }
-    public static Pair<String, String> genDatabaseInfo(String company) {
-        String dbUser = _subString(StringUtils.setString(company), 4, 10);
-        String dbPwd = _subString(StringUtils.setString(dbUser), 4, 10);
-        return new Pair<String, String>(dbUser, dbPwd);
-    }
-    private static String _subString(String str, int begin, int len) {
-    	int end = begin + len;
-    	if (end >= str.length())
-    		end = str.length() - 1;
-    	return str.substring(begin, end);
-    }
-    
-}
-
+//class LicenseUtil {
+//	public static final String s_endDate = "endDate";
+//	public static final String s_quotaLimit = "quotaLimit";
+//	public static final String s_userLimit = "userLimit";
+//	public static final String s_company = "company";
+//	public static final String s_hardware = "hardware";
+//	
+//    @SuppressWarnings("unchecked")
+//    public static Map<String, Object> parseLicense(String license) {
+//        List<Object> list = (List<Object>) JSONObject.parse(StringUtils.getString(license));
+//        Map<String, Object> map = new HashMap<String, Object>();
+//        map.put(s_endDate, list.get(0));
+//        map.put(s_quotaLimit, list.get(1));
+//        map.put(s_userLimit, list.get(2));
+//        map.put(s_company, list.get(3));
+//        map.put(s_hardware, list.get(4));
+//        list.clear();
+//
+//        return map;
+//    }
+//    
+//    public static Pair<String, String> genDatabaseInfo(String company) {
+//        String dbUser = _subString(StringUtils.setString(company), 4, 10);
+//        String dbPwd = _subString(StringUtils.setString(dbUser), 4, 10);
+//        return new Pair<String, String>(dbUser, dbPwd);
+//    }
+//    
+//    private static String _subString(String str, int begin, int len) {
+//    	int end = begin + len;
+//    	if (end >= str.length())
+//    		end = str.length() - 1;
+//    	return str.substring(begin, end);
+//    }
+//}

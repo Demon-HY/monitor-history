@@ -20,5 +20,7 @@ public class Init {
 		
 		SdkCenter.getInst().registHttpApi(MODULE_NAME, HostHttpApi.getInst());
 	}
+	
+	
     
 }

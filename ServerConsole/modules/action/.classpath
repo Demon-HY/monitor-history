@@ -6,5 +6,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/server"/>
 	<classpathentry kind="lib" path="/server/lib/commons-lang-2.3.jar"/>
 	<classpathentry kind="lib" path="/server/lib/javatuples-1.2.jar"/>
+	<classpathentry kind="lib" path="/server/lib/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="/server/lib/servlet-api-3.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
