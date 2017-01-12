@@ -6,7 +6,7 @@ import org.javatuples.Pair;
 
 import module.SDK.event.Event;
 import module.SDK.event.EventType;
-import module.SDK.info.ServiceIndexInfo;
+import module.SDK.info.IndexInfo;
 import monitor.service.http.Env;
 
 public class ServiceIndexEvent extends Event {
@@ -76,9 +76,9 @@ public class ServiceIndexEvent extends Event {
 	
 	public String order;
 	public String sort;
-	public Pair<Integer, List<ServiceIndexInfo>> listServiceIndexs;
+	public Pair<Integer, List<IndexInfo>> listServiceIndexs;
 	
-	public ServiceIndexInfo serviceIndexInfo;
+	public IndexInfo serviceIndexInfo;
 	public ServiceIndexEvent(){}
 
 	/**
@@ -86,7 +86,7 @@ public class ServiceIndexEvent extends Event {
 	 * @param env
 	 * @param serviceIndexInfo
 	 */
-	public ServiceIndexEvent(Env env, ServiceIndexInfo serviceIndexInfo) {
+	public ServiceIndexEvent(Env env, IndexInfo serviceIndexInfo) {
 		this.env = env;
 		this.serviceIndexInfo = serviceIndexInfo;
 	}
@@ -118,7 +118,7 @@ public class ServiceIndexEvent extends Event {
 	 * @param env
 	 * @param listServiceIndexs
 	 */
-	public ServiceIndexEvent(Env env, Pair<Integer, List<ServiceIndexInfo>> listServiceIndexs) {
+	public ServiceIndexEvent(Env env, Pair<Integer, List<IndexInfo>> listServiceIndexs) {
 		this.env = env;
 		this.listServiceIndexs = listServiceIndexs;
 	}

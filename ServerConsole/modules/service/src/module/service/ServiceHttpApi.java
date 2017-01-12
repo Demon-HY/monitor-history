@@ -6,7 +6,7 @@ import org.javatuples.Pair;
 
 import module.SDK.http.AuthedJsonProtocol;
 import module.SDK.http.AuthedJsonReq;
-import module.SDK.info.ServiceIndexInfo;
+import module.SDK.info.IndexInfo;
 import module.SDK.info.ServiceInfo;
 import monitor.exception.ParamException;
 import monitor.exception.UnInitilized;
@@ -245,7 +245,7 @@ public class ServiceHttpApi {
                     String.format("sort(%s) or order(%s) check have sql injection.", sort, order));
         }
         
-        Pair<Integer, List<ServiceIndexInfo>> result = this.serviceApi.listServiceIndex(pageIndex, pageSize, order, sort);
+        Pair<Integer, List<IndexInfo>> result = this.serviceApi.listServiceIndex(pageIndex, pageSize, order, sort);
         JsonResp resp = new JsonResp(RetStat.OK);
         resp.resultMap.put("total", result.getValue0());
         resp.resultMap.put("rows", result.getValue1());

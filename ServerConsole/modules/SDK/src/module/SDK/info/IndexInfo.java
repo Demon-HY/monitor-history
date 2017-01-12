@@ -5,8 +5,8 @@ package module.SDK.info;
  * 
  * @author Demon
  */
-public class ServiceIndexInfo {
-	public ServiceIndexInfo(){}
+public class IndexInfo {
+	public IndexInfo(){}
 
     /** 服务指标 ID */
     public Long index_id;

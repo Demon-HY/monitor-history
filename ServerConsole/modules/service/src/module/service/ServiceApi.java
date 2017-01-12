@@ -6,7 +6,7 @@ import java.util.List;
 import org.javatuples.Pair;
 
 import module.SDK.SdkCenter;
-import module.SDK.info.ServiceIndexInfo;
+import module.SDK.info.IndexInfo;
 import module.SDK.info.ServiceInfo;
 import module.SDK.inner.IBeans;
 import module.SDK.inner.IServiceApi;
@@ -45,13 +45,13 @@ public class ServiceApi implements IServiceApi{
         return new Pair<Integer, List<ServiceInfo>>(count, result);
     }
 
-    public Pair<Integer, List<ServiceIndexInfo>> listServiceIndex(Integer pageIndex, Integer pageSize, 
+    public Pair<Integer, List<IndexInfo>> listServiceIndex(Integer pageIndex, Integer pageSize, 
     		String order, String sort) throws SQLException {
-    	List<ServiceIndexInfo> result = null;
+    	List<IndexInfo> result = null;
     	Integer count = null;
-    	result = this.serviceModel.listServiceIndex(pageIndex, pageSize, order, sort);
-    	count = this.serviceModel.countServiceIndex();
+    	result = this.serviceModel.listIndex(pageIndex, pageSize, order, sort);
+    	count = this.serviceModel.countIndex();
     	
-        return new Pair<Integer, List<ServiceIndexInfo>>(count, result);
+        return new Pair<Integer, List<IndexInfo>>(count, result);
     }
 }

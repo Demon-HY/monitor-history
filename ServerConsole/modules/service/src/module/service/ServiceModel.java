@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-import module.SDK.info.ServiceIndexInfo;
+import module.SDK.info.IndexInfo;
 import module.SDK.info.ServiceInfo;
 import monitor.service.db.MySql;
 
@@ -144,8 +144,8 @@ public class ServiceModel {
         return service;
     }
     
-    /******************************************* ServiceIndex ********************************************/
-    public List<ServiceIndexInfo> listServiceIndex(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
+    /******************************************* Index ********************************************/
+    public List<IndexInfo> listIndex(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
@@ -171,7 +171,7 @@ public class ServiceModel {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             
-            return parseServiceIndexs(rs);
+            return parseIndexs(rs);
         } finally {
             if (conn != null) {
                 conn.close();
@@ -179,7 +179,7 @@ public class ServiceModel {
         }
     }
     
-	public Integer countServiceIndex() throws SQLException {
+	public Integer countIndex() throws SQLException {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
@@ -198,24 +198,24 @@ public class ServiceModel {
         }
 	}
 	
-	private List<ServiceIndexInfo> parseServiceIndexs(ResultSet rs) throws SQLException {
-    	List<ServiceIndexInfo> listServiceIndexs = new LinkedList<>();
+	private List<IndexInfo> parseIndexs(ResultSet rs) throws SQLException {
+    	List<IndexInfo> listIndexs = new LinkedList<>();
         while (rs.next()) {
-        	ServiceIndexInfo index = new ServiceIndexInfo();
+        	IndexInfo index = new IndexInfo();
         	index.index_id = rs.getLong("index_id");
         	index.name = rs.getString("name");
         	index.key = rs.getString("key");
         	index.type = rs.getString("type");
         	index.memo = rs.getString("memo");
 
-        	listServiceIndexs.add(index);
+        	listIndexs.add(index);
         }
-        return listServiceIndexs;
+        return listIndexs;
 	}
 	
 	@SuppressWarnings("unused")
-	private ServiceIndexInfo parseServiceIndex(ResultSet rs) throws SQLException {
-		ServiceIndexInfo index = new ServiceIndexInfo();
+	private IndexInfo parseIndex(ResultSet rs) throws SQLException {
+		IndexInfo index = new IndexInfo();
 		if (rs.next()) {
 			index.index_id = rs.getLong("index_id");
         	index.name = rs.getString("name");
