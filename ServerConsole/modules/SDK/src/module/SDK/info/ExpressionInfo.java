@@ -5,8 +5,8 @@ package module.SDK.info;
  * 
  * @author Demon
  */
-public class TriggerExpressionInfo {
-	public TriggerExpressionInfo(){}
+public class ExpressionInfo {
+	public ExpressionInfo(){}
 	
 	/** 触发器 ID */
     public Long trigger_id;

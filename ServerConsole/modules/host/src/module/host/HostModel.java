@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
@@ -172,6 +175,9 @@ public class HostModel {
 	}
 
 	public boolean addHost(HostInfo hostInfo) throws SQLException {
+		if (null == hostInfo) {
+			throw new IllegalArgumentException();
+		}
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
@@ -196,7 +202,10 @@ public class HostModel {
 		}
 	}
 	
-	public boolean editHostByHostID(HostInfo hostInfo) throws SQLException {
+	public boolean editHostByHostId(HostInfo hostInfo) throws SQLException {
+		if (null == hostInfo) {
+			throw new IllegalArgumentException();
+		}
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
@@ -227,6 +236,9 @@ public class HostModel {
 	 * @throws SQLException
 	 */
 	public HostInfo getHostByIP(String ip) throws SQLException {
+		if (null == ip) {
+			throw new IllegalArgumentException();
+		}
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
@@ -246,12 +258,15 @@ public class HostModel {
 	}
 	
 	/**
-	 * 通过 主机 ID 获取主机信息
+	 * 通过 主机 Id 获取主机信息
 	 * @param host_id
 	 * @return
 	 * @throws SQLException
 	 */
-	public HostInfo getHostByHostID(Long host_id) throws SQLException {
+	public HostInfo getHostByHostId(Long host_id) throws SQLException {
+		if (null == host_id || host_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
@@ -277,7 +292,7 @@ public class HostModel {
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "insert into `host_group` (`host_id`, `group_id`) values %s";
+	        String sql = "insert into `" + TABLE_HOST_GROUP + "` (`host_id`, `group_id`) values %s";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long groupId : groupIdList) {
@@ -300,11 +315,14 @@ public class HostModel {
 	    }
 	}
 	
-	public boolean deleteHostGroupByHostID(Long host_id) throws SQLException {
+	public boolean deleteHostGroupByHostId(Long host_id) throws SQLException {
+		if (null == host_id || host_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `host_group` WHERE `host_id`=?";
+            String sql = "DELETE FROM `" + TABLE_HOST_GROUP + "` WHERE `host_id`=?";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, host_id);
@@ -325,11 +343,11 @@ public class HostModel {
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "INSERT INTO `host_template` (`host_id`, `template_id`) values %s";
+	        String sql = "INSERT INTO `" + TABLE_HOST_TEMPLATE + "` (`host_id`, `template_id`) values %s";
 
 	        List<String> list = new ArrayList<String>();
-	        for (Long groupId : templateIdList) {
-	            String tmp = DBUtil.wrapParams(host_id, groupId);
+	        for (Long templateId : templateIdList) {
+	            String tmp = DBUtil.wrapParams(host_id, templateId);
 	            list.add(tmp);
 	        }
 	        String datas = Arrays.toString(list.toArray());
@@ -348,11 +366,14 @@ public class HostModel {
 	    }
 	}
 	
-	public boolean deleteHostTemplateByHostID(Long host_id) throws SQLException {
-        Connection conn = null;
+	public boolean deleteHostTemplateByHostId(Long host_id) throws SQLException {
+		if (null == host_id || host_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `host_template` WHERE `host_id`=?";
+            String sql = "DELETE FROM `" + TABLE_HOST_TEMPLATE + "` WHERE `host_id`=?";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, host_id);
@@ -366,11 +387,14 @@ public class HostModel {
         }
     }
 
-	public boolean deleteHostByHostID(Long host_id) throws SQLException {
+	public boolean deleteHostByHostId(Long host_id) throws SQLException {
+		if (null == host_id || host_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `host` WHERE `host_id`=?";
+            String sql = "DELETE FROM `" + TABLE_HOST + "` WHERE `host_id`=?";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, host_id);
@@ -383,4 +407,73 @@ public class HostModel {
             }
         }
 	}
+	
+	public Map<Long, List<Long>> getHostGroupByHostId(Long host_id) throws SQLException {
+		if (null == host_id || host_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "select `host_id`, `group_id` from `" + TABLE_HOST_GROUP + "`;";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            return parseHost_GroupOrTemplateMap(rs);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	public Map<Long, List<Long>> getHostTemplateByHostId(Long host_id) throws SQLException {
+		if (null == host_id || host_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "select `host_id`, `template_id` from `" + TABLE_HOST_TEMPLATE+ "`;";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            return parseHost_GroupOrTemplateMap(rs);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	private Map<Long, List<Long>> parseHost_GroupOrTemplateMap(ResultSet rs) throws SQLException {
+        Map<Long, List<Long>> map = new HashMap<Long, List<Long>>();
+
+        while (rs.next()) {
+            Long hostId = rs.getLong(1);
+            Long id = rs.getLong(2);
+            List<Long> list = getGroupIdOrTemplateIdList(hostId, map);
+
+            if (null == list) {
+                list = new ArrayList<Long>();
+                map.put(hostId, list);
+            }
+            list.add(id);
+        }
+
+        return map;
+    }
+	
+	private List<Long> getGroupIdOrTemplateIdList(Long groupIdOrTemplateId, Map<Long, List<Long>> map) {
+        Set<Long> keys = map.keySet();
+        for (Long key : keys) {
+            if (groupIdOrTemplateId.equals(key)) {
+                List<Long> list = map.get(key);
+                return list;
+            }
+        }
+        return null;
+    }
 }

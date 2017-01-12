@@ -7,7 +7,7 @@ import org.javatuples.Pair;
 
 import module.SDK.SdkCenter;
 import module.SDK.info.ActionInfo;
-import module.SDK.info.ActionOperationInfo;
+import module.SDK.info.OperationInfo;
 import module.SDK.inner.IActionApi;
 import module.SDK.inner.IBeans;
 import monitor.exception.LogicalException;
@@ -63,13 +63,13 @@ public class ActionApi implements IActionApi{
 	 * @return
 	 * @throws SQLException 
 	 */
-	public Pair<Integer, List<ActionOperationInfo>> listActionOperation(Integer pageIndex, Integer pageSize, 
+	public Pair<Integer, List<OperationInfo>> listActionOperation(Integer pageIndex, Integer pageSize, 
 			String order, String sort) throws SQLException {
-		List<ActionOperationInfo> result = null;
+		List<OperationInfo> result = null;
 		Integer count = null;
-		result = this.actionModel.listActionOperation(pageIndex, pageSize, order, sort);
-		count = this.actionModel.countActionOperation();
+		result = this.actionModel.listOperation(pageIndex, pageSize, order, sort);
+		count = this.actionModel.countOperation();
 		
-		return new Pair<Integer, List<ActionOperationInfo>>(count, result);
+		return new Pair<Integer, List<OperationInfo>>(count, result);
 	}
 }

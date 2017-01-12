@@ -5,14 +5,11 @@ package module.SDK.info;
  * 
  * @author Demon
  */
-public class ActionOperationInfo {
-	public ActionOperationInfo(){}
+public class OperationInfo {
+	public OperationInfo(){}
 	
 	/** 报警设置 ID */
-    public Long action_operation_id;
-    
-    /** 报警 ID */
-    public Long action_id;
+    public Long operation_id;
     
     /** 报警设置名称 */
     public String name;

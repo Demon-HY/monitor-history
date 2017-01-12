@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-import module.SDK.info.TriggerExpressionInfo;
+import module.SDK.info.ExpressionInfo;
 import module.SDK.info.TriggerInfo;
 import monitor.service.db.MySql;
 
@@ -142,7 +142,7 @@ public class TriggerModel {
 	}
 	
 	/******************************************* Trigger Expression ********************************************/
-	public List<TriggerExpressionInfo> listTriggerExpression(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
+	public List<ExpressionInfo> listTriggerExpression(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
@@ -197,10 +197,10 @@ public class TriggerModel {
         }
 	}
 	
-	private List<TriggerExpressionInfo> parseTriggerExpressions(ResultSet rs) throws SQLException {
-		List<TriggerExpressionInfo> listExpressions = new LinkedList<>();
+	private List<ExpressionInfo> parseTriggerExpressions(ResultSet rs) throws SQLException {
+		List<ExpressionInfo> listExpressions = new LinkedList<>();
 		while (rs.next()) {
-			TriggerExpressionInfo expression = new TriggerExpressionInfo();
+			ExpressionInfo expression = new ExpressionInfo();
 			expression.trigger_expression_id = rs.getLong("trigger_expression_id");
 			expression.trigger_id = rs.getLong("trigger_id");
 			expression.service_id = rs.getLong("service_id");
@@ -218,8 +218,8 @@ public class TriggerModel {
 	}
 	
 	@SuppressWarnings("unused")
-	private TriggerExpressionInfo parseTriggerExpression(ResultSet rs) throws SQLException {
-		TriggerExpressionInfo expression = new TriggerExpressionInfo();
+	private ExpressionInfo parseTriggerExpression(ResultSet rs) throws SQLException {
+		ExpressionInfo expression = new ExpressionInfo();
 		if (rs.next()) {
 			expression.trigger_expression_id = rs.getLong("trigger_expression_id");
 			expression.trigger_id = rs.getLong("trigger_id");

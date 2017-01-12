@@ -4,13 +4,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
 import module.SDK.info.GroupInfo;
 import monitor.service.db.MySql;
+import monitor.utils.DBUtil;
+import monitor.utils.Time;
 
 public class GroupModel {
 
@@ -115,7 +122,6 @@ public class GroupModel {
 		return listGroups;
 	}
 	
-	@SuppressWarnings("unused")
 	private GroupInfo parseGroup(ResultSet rs) throws SQLException {
 		GroupInfo group = null;
 		if (rs.next()) {
@@ -128,4 +134,216 @@ public class GroupModel {
 		}
 		return group;
 	}
+
+	public boolean addGroup(GroupInfo groupInfo) throws SQLException {
+		if (null == groupInfo) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "INSERT INTO `" + TABLE_GROUP + "` "
+					+ "(`name`,`memo`,`ctime`,`mtime`) "
+					+ "values (?, ?, ?, ?);";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, groupInfo.name);
+			pstmt.setString(2, groupInfo.memo);
+			pstmt.setTimestamp(3, Time.getTimestamp());
+			pstmt.setTimestamp(4, Time.getTimestamp());
+			
+			return pstmt.executeUpdate() == 1 ?  true : false;
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public boolean editGroupByGroupId(GroupInfo groupInfo) throws SQLException {
+		if (null == groupInfo) {
+			throw new IllegalArgumentException();
+		}
+        Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            final String sql = "UPDATE `" + TABLE_GROUP + "` set "
+                    + "`name`=?,`memo`=?,`mtime`=? WHERE `group_id`=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, groupInfo.name);
+            pstmt.setString(2, groupInfo.memo);
+            pstmt.setTimestamp(3, Time.getTimestamp());
+            pstmt.setLong(4, groupInfo.group_id);
+            
+            return pstmt.executeUpdate() == 1 ?  true : false;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+	
+	public GroupInfo getGroupByGroupName(String groupName) throws SQLException {
+		if (null == groupName) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "SELECT `group_id`,`name`,`memo`,`ctime`,`mtime` from `"
+					+ TABLE_GROUP + "` where `name`=?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, groupName);
+			ResultSet rs = pstmt.executeQuery();
+			
+			return parseGroup(rs);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public GroupInfo getGroupByGroupId(Long group_id) throws SQLException {
+		if (null == group_id || group_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            final String sql = "SELECT `group_id`,`name`,`memo`,`ctime`,`mtime` from `"
+                    + TABLE_GROUP + "` where `group_id`=?";
+            
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, group_id);
+            ResultSet rs = pstmt.executeQuery();
+            
+            return parseGroup(rs);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	public boolean deleteGroupByGroupId(Long group_id) throws SQLException {
+		if (null == group_id || group_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "DELETE FROM `" + TABLE_GROUP + "` WHERE `group_id`=?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, group_id);
+            pstmt.executeUpdate();
+
+            return true;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	public boolean addGroupTemplate(Long group_id, List<Long> templateIdList) throws SQLException {
+		if (null == templateIdList || templateIdList.size() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+	    try {
+	        conn = this.mysql.getConnection();
+	        String sql = "INSERT INTO `" + TABLE_GROUP_TEMPLATE + "` (`group_id`, `template_id`) values %s";
+
+	        List<String> list = new ArrayList<String>();
+	        for (Long templateId : templateIdList) {
+	            String tmp = DBUtil.wrapParams(group_id, templateId);
+	            list.add(tmp);
+	        }
+	        String datas = Arrays.toString(list.toArray());
+	        datas = datas.substring(1, datas.length() - 1);
+
+	        sql = String.format(sql, datas);
+
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.executeUpdate();
+
+	        return true;
+	    } finally {
+	        if (conn != null) {
+	            conn.close();
+	        }
+	    }
+	}
+	
+	public boolean deleteGroupTemplateByGroupId(Long group_id) throws SQLException {
+		if (null == group_id || group_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "DELETE FROM `" + TABLE_GROUP_TEMPLATE + "` WHERE `group_id`=?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, group_id);
+            pstmt.executeUpdate();
+
+            return true;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	public Map<Long, List<Long>> getGroupTemplateByGroupId(Long group_id) throws SQLException {
+		if (null == group_id || group_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "select `group_id`, `template_id` from `" + TABLE_GROUP_TEMPLATE+ "`;";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            return parseGroupTemplateMap(rs);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	private Map<Long, List<Long>> parseGroupTemplateMap(ResultSet rs) throws SQLException {
+        Map<Long, List<Long>> map = new HashMap<Long, List<Long>>();
+
+        while (rs.next()) {
+            Long groupId = rs.getLong(1);
+            Long templateId = rs.getLong(2);
+            List<Long> list = getTemplateIdList(groupId, map);
+
+            if (null == list) {
+                list = new ArrayList<Long>();
+                map.put(groupId, list);
+            }
+            list.add(templateId);
+        }
+
+        return map;
+    }
+	
+	private List<Long> getTemplateIdList(Long groupId, Map<Long, List<Long>> map) {
+        Set<Long> keys = map.keySet();
+        for (Long key : keys) {
+            if (groupId.equals(key)) {
+                List<Long> list = map.get(key);
+                return list;
+            }
+        }
+        return null;
+    }
 }

@@ -9,10 +9,7 @@ public class ServiceIndexInfo {
 	public ServiceIndexInfo(){}
 
     /** 服务指标 ID */
-    public Long service_index_id;
-    
-    /** 服务 ID */
-    public Long service_id;
+    public Long index_id;
     
     /** 服务指标名  */
     public String name;

@@ -6,7 +6,7 @@ import java.util.List;
 import org.javatuples.Pair;
 
 import module.SDK.SdkCenter;
-import module.SDK.info.TriggerExpressionInfo;
+import module.SDK.info.ExpressionInfo;
 import module.SDK.info.TriggerInfo;
 import module.SDK.inner.IBeans;
 import module.SDK.inner.ITriggerApi;
@@ -63,13 +63,13 @@ public class TriggerApi implements ITriggerApi{
 	 * @return
 	 * @throws SQLException 
 	 */
-	public Pair<Integer, List<TriggerExpressionInfo>> listTriggerExpression(Integer pageIndex, Integer pageSize, 
+	public Pair<Integer, List<ExpressionInfo>> listTriggerExpression(Integer pageIndex, Integer pageSize, 
 			String order, String sort) throws SQLException {
-		List<TriggerExpressionInfo> result = null;
+		List<ExpressionInfo> result = null;
 		Integer count = null;
 		result = this.triggerModel.listTriggerExpression(pageIndex, pageSize, order, sort);
 		count = this.triggerModel.countTriggerExpression();
 		
-		return new Pair<Integer, List<TriggerExpressionInfo>>(count, result);
+		return new Pair<Integer, List<ExpressionInfo>>(count, result);
 	}
 }

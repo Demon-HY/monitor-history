@@ -16,6 +16,7 @@ import monitor.service.db.MySql;
 public class ServiceModel {
 
 	public static final String TABLE_SERVICE = "service";
+	public static final String TABLE_INDEX = "index";
 	public static final String TABLE_SERVICE_INDEX = "service_index";
 	private MySql mysql;
 
@@ -38,14 +39,20 @@ public class ServiceModel {
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 			
-			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_SERVICE_INDEX + "` (" 
-					+ "`service_index_id` bigint(20) NOT NULL AUTO_INCREMENT,"
-					+ "`service_id` bigint(20) NOT NULL,"
+			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_INDEX + "` (" 
+					+ "`index_id` bigint(20) NOT NULL AUTO_INCREMENT,"
 					+ "`name` varchar(32) NOT NULL,"
 					+ "`key` varchar(32) NOT NULL,"
 					+ "`type` varchar(32) NOT NULL DEFAULT 'int'," // 指标数据类型,默认 int
 					+ "`memo` varchar(1024) DEFAULT NULL,"
                     + "PRIMARY KEY (`service_index_id`)"
+					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			conn.createStatement().executeUpdate(sql);
+			
+			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_SERVICE_INDEX + "` (" 
+					+ "`service_id` bigint(20) NOT NULL,"
+					+ "`index_id` bigint(20) NOT NULL,"
+					+ "PRIMARY KEY (`service_id`, `index_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 		} finally {
@@ -195,8 +202,7 @@ public class ServiceModel {
     	List<ServiceIndexInfo> listServiceIndexs = new LinkedList<>();
         while (rs.next()) {
         	ServiceIndexInfo index = new ServiceIndexInfo();
-        	index.service_index_id = rs.getLong("service_index_id");
-        	index.service_id = rs.getLong("service_id");
+        	index.index_id = rs.getLong("index_id");
         	index.name = rs.getString("name");
         	index.key = rs.getString("key");
         	index.type = rs.getString("type");
@@ -211,8 +217,7 @@ public class ServiceModel {
 	private ServiceIndexInfo parseServiceIndex(ResultSet rs) throws SQLException {
 		ServiceIndexInfo index = new ServiceIndexInfo();
 		if (rs.next()) {
-			index.service_index_id = rs.getLong("service_index_id");
-        	index.service_id = rs.getLong("service_id");
+			index.index_id = rs.getLong("index_id");
         	index.name = rs.getString("name");
         	index.key = rs.getString("key");
         	index.type = rs.getString("type");

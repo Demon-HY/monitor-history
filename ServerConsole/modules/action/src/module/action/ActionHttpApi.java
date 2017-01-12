@@ -7,7 +7,7 @@ import org.javatuples.Pair;
 import module.SDK.http.AuthedJsonProtocol;
 import module.SDK.http.AuthedJsonReq;
 import module.SDK.info.ActionInfo;
-import module.SDK.info.ActionOperationInfo;
+import module.SDK.info.OperationInfo;
 import monitor.exception.ParamException;
 import monitor.exception.UnInitilized;
 import monitor.service.http.ApiGateway;
@@ -250,7 +250,7 @@ public class ActionHttpApi {
 					String.format("sort(%s) or order(%s) check have sql injection.", sort, order));
 		}
 		
-		Pair<Integer, List<ActionOperationInfo>> result = this.actionApi.listActionOperation(pageIndex, pageSize, order, sort);
+		Pair<Integer, List<OperationInfo>> result = this.actionApi.listActionOperation(pageIndex, pageSize, order, sort);
 		JsonResp resp = new JsonResp(RetStat.OK);
         resp.resultMap.put("total", result.getValue0());
         resp.resultMap.put("rows", result.getValue1());

@@ -4,18 +4,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
 import module.SDK.info.ActionInfo;
-import module.SDK.info.ActionOperationInfo;
+import module.SDK.info.OperationInfo;
 import monitor.service.db.MySql;
+import monitor.utils.DBUtil;
 
 public class ActionModel {
 
 	public static final String TABLE_ACTION = "action";
+	public static final String TABLE_OPERATION = "operation";
 	public static final String TABLE_ACTION_OPERATION = "action_operation";
 	public static final String TABLE_ACTION_HOST = "action_host";
 	public static final String TABLE_ACTION_GROUP = "action_group";
@@ -42,14 +49,20 @@ public class ActionModel {
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 			
-			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_ACTION_OPERATION + "` (" 
-					+ "`action_operation_id` bigint(20) NOT NULL AUTO_INCREMENT,"
-					+ "`action_id` bigint(20) NOT NULL,"
+			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_OPERATION + "` (" 
+					+ "`operation_id` bigint(20) NOT NULL AUTO_INCREMENT,"
 					+ "`name` varchar(64) NOT NULL,"
 					+ "`step` int(4) NOT NULL,"
 					+ "`action_type` varchar(32) NOT NULL," // 动作类型：email，sms，RunScript
 					+ "`msg_format` varchar(1024) NOT NULL,"
-					+ "PRIMARY KEY (`action_operation_id`)"
+					+ "PRIMARY KEY (`operation_id`)"
+					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			conn.createStatement().executeUpdate(sql);
+			
+			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_ACTION_OPERATION + "` (" 
+					+ "`action_id` bigint(20) NOT NULL,"
+					+ "`operation_id` bigint(20) NOT NULL,"
+					+ "PRIMARY KEY (`action_id`, `host_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 			
@@ -150,7 +163,6 @@ public class ActionModel {
 		return listActions;
 	}
 	
-	@SuppressWarnings("unused")
 	private ActionInfo parseAction(ResultSet rs) throws SQLException {
 		ActionInfo listActions = new ActionInfo();
 		ActionInfo action = new ActionInfo();
@@ -166,12 +178,129 @@ public class ActionModel {
 		return listActions;
 	}
 	
-	/******************************************* Action Operation ********************************************/
-	public List<ActionOperationInfo> listActionOperation(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
+	public boolean addAction(ActionInfo actionInfo) throws SQLException {
+		if (null == actionInfo) {
+			throw new IllegalArgumentException();
+		}
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
-			String sql = "select `action_operation_id`,`action_id`,`name`,`step`,`action_type`,`msg_format` from `" + TABLE_ACTION_OPERATION + "` ";
+			final String sql = "INSERT INTO `" + TABLE_ACTION + "` "
+					+ "(`name`,`interval`,`notice`,`subject`,`message`,`enabled`) "
+					+ "values (?, ?, ?, ?, ?, ?);";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, actionInfo.name);
+			pstmt.setLong(2, actionInfo.interval);
+			pstmt.setInt(3, actionInfo.notice);
+			pstmt.setString(4, actionInfo.subject);
+			pstmt.setString(5, actionInfo.message);
+			pstmt.setInt(6, actionInfo.enabled);
+			
+			return pstmt.executeUpdate() == 1 ?  true : false;
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public boolean editActionByActionId(ActionInfo actionInfo) throws SQLException {
+		if (null == actionInfo) {
+			throw new IllegalArgumentException();
+		}
+        Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            final String sql = "UPDATE `" + TABLE_ACTION + "` set "
+                    + "`name`=?,`interval`=?,`notice`=?,`subject`=?,`message`=?,`enabled`=? WHERE `action_id`=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, actionInfo.name);
+			pstmt.setLong(2, actionInfo.interval);
+			pstmt.setInt(3, actionInfo.notice);
+			pstmt.setString(4, actionInfo.subject);
+			pstmt.setString(5, actionInfo.message);
+			pstmt.setInt(6, actionInfo.enabled);
+            pstmt.setLong(7, actionInfo.action_id);
+            
+            return pstmt.executeUpdate() == 1 ?  true : false;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+	
+	public ActionInfo getActionByActionName(String actionName) throws SQLException {
+		if (null == actionName) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "SELECT `action_id`,`name`,`interval`,`notice`,`subject`,`message`,`enabled` from `"
+					+ TABLE_ACTION + "` where `name`=?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, actionName);
+			ResultSet rs = pstmt.executeQuery();
+			
+			return parseAction(rs);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public ActionInfo getActionByActionId(Long action_id) throws SQLException {
+		if (null == action_id || action_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "SELECT `action_id`,`name`,`interval`,`notice`,`subject`,`message`,`enabled` from `"
+					+ TABLE_ACTION + "` where `action_id`=?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, action_id);
+			ResultSet rs = pstmt.executeQuery();
+			
+			return parseAction(rs);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public boolean deleteActionByActionId(Long action_id) throws SQLException {
+		if (null == action_id || action_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "DELETE FROM `" + TABLE_ACTION + "` WHERE `action_id`=?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, action_id);
+            pstmt.executeUpdate();
+
+            return true;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	/******************************************* Action Operation ********************************************/
+	public List<OperationInfo> listOperation(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			String sql = "select `operation_id`,`name`,`step`,`action_type`,`msg_format` from `" + TABLE_OPERATION + "` ";
 			String factors = "";
 			String limit = "";
             if (null != pageIndex && pageIndex > 0 && null != pageSize && pageSize > 0) {
@@ -193,7 +322,7 @@ public class ActionModel {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             
-            return parseActionOperations(rs);
+            return parseOperations(rs);
 		} finally {
 			if (conn != null) {
                 conn.close();
@@ -201,11 +330,11 @@ public class ActionModel {
 		}
 	}
 	
-	public Integer countActionOperation() throws SQLException {
+	public Integer countOperation() throws SQLException {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "SELECT TABLE_ROWS from information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_ACTION_OPERATION + "'";
+            final String sql = "SELECT TABLE_ROWS from information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_OPERATION + "'";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -220,19 +349,458 @@ public class ActionModel {
         }
 	}
 	
-	private List<ActionOperationInfo> parseActionOperations(ResultSet rs) throws SQLException {
-		List<ActionOperationInfo> listActionOperations = new LinkedList<>();
+	private List<OperationInfo> parseOperations(ResultSet rs) throws SQLException {
+		List<OperationInfo> listOperations = new LinkedList<>();
 		while (rs.next()) {
-			ActionOperationInfo action = new ActionOperationInfo();
-			action.action_operation_id = rs.getLong("action_operation_id");
-			action.action_id = rs.getLong("action_id");
+			OperationInfo action = new OperationInfo();
+			action.operation_id = rs.getLong("operation_id");
 			action.name = rs.getString("name");
 			action.step = rs.getInt("step");
 			action.action_type = rs.getString("action_type");
 			action.msg_format = rs.getString("msg_format");
 			
-			listActionOperations.add(action);
+			listOperations.add(action);
 		}
-		return listActionOperations;
+		return listOperations;
 	}
+	
+	private OperationInfo parseOperation(ResultSet rs) throws SQLException {
+		OperationInfo actionOperation = new OperationInfo();
+		if (rs.next()) {
+			actionOperation.operation_id = rs.getLong("operation_id");
+			actionOperation.name = rs.getString("name");
+			actionOperation.step = rs.getInt("step");
+			actionOperation.action_type = rs.getString("action_type");
+			actionOperation.msg_format = rs.getString("msg_format");
+		}
+		return actionOperation;
+	}
+
+	public boolean addOperation(OperationInfo actionOperationInfo) throws SQLException {
+		if (null == actionOperationInfo) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "INSERT INTO `" + TABLE_OPERATION + "` "
+					+ "(`name`,`step`,`action_type`,`msg_format`) "
+					+ "values (?, ?, ?, ?);";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, actionOperationInfo.name);
+			pstmt.setInt(2, actionOperationInfo.step);
+			pstmt.setString(3, actionOperationInfo.action_type);
+			pstmt.setString(4, actionOperationInfo.msg_format);
+			
+			return pstmt.executeUpdate() == 1 ?  true : false;
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public boolean editOperationByOperationId(OperationInfo actionOperationInfo) 
+			throws SQLException {
+		if (null == actionOperationInfo) {
+			throw new IllegalArgumentException();
+		}
+        Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            final String sql = "UPDATE `" + TABLE_OPERATION + "` set "
+                    + "`name`=?,`step`=?,`action_type`=?,`msg_format`=? WHERE `operation_id`=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, actionOperationInfo.name);
+			pstmt.setInt(2, actionOperationInfo.step);
+			pstmt.setString(3, actionOperationInfo.action_type);
+			pstmt.setString(4, actionOperationInfo.msg_format);
+            pstmt.setLong(5, actionOperationInfo.operation_id);
+            
+            return pstmt.executeUpdate() == 1 ?  true : false;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+	
+	public OperationInfo getOperationByName(String operationName) throws SQLException {
+		if (null == operationName) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "SELECT `operation_id`,`name`,`step`,`action_type`,`msg_format` from `"
+					+ TABLE_OPERATION + "` where `name`=?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, operationName);
+			ResultSet rs = pstmt.executeQuery();
+			
+			return parseOperation(rs);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public OperationInfo getOperationByOperationId(Long operation_id) throws SQLException {
+		if (null == operation_id || operation_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "SELECT `operation_id`,`action_id`,`name`,`step`,`action_type`,`msg_format` from `"
+					+ TABLE_OPERATION + "` where `operation_id`=?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, operation_id);
+			ResultSet rs = pstmt.executeQuery();
+			
+			return parseOperation(rs);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public boolean deleteOperationByOperationId(Long operation_id) throws SQLException {
+		if (null == operation_id || operation_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "DELETE FROM `" + TABLE_OPERATION + "` WHERE `actionOperation_id`=?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, operation_id);
+            pstmt.executeUpdate();
+
+            return true;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	public boolean addActionOperation(Long action_id, List<Long> operationIdList) throws SQLException {
+		if (null == operationIdList || operationIdList.size() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+	    try {
+	        conn = this.mysql.getConnection();
+	        String sql = "INSERT INTO `" + TABLE_ACTION_OPERATION + "` (`action_id`, `operation_id`) values %s";
+
+	        List<String> list = new ArrayList<String>();
+	        for (Long operationId : operationIdList) {
+	            String tmp = DBUtil.wrapParams(operationIdList, operationId);
+	            list.add(tmp);
+	        }
+	        String datas = Arrays.toString(list.toArray());
+	        datas = datas.substring(1, datas.length() - 1);
+
+	        sql = String.format(sql, datas);
+
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.executeUpdate();
+
+	        return true;
+	    } finally {
+	        if (conn != null) {
+	            conn.close();
+	        }
+	    }
+	}
+	
+	public boolean addActionHost(Long action_id, List<Long> hostIdList) throws SQLException {
+		if (null == hostIdList || hostIdList.size() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+	    try {
+	        conn = this.mysql.getConnection();
+	        String sql = "INSERT INTO `" + TABLE_ACTION_HOST + "` (`action_id`, `host_id`) values %s";
+
+	        List<String> list = new ArrayList<String>();
+	        for (Long hostId : hostIdList) {
+	            String tmp = DBUtil.wrapParams(hostIdList, hostId);
+	            list.add(tmp);
+	        }
+	        String datas = Arrays.toString(list.toArray());
+	        datas = datas.substring(1, datas.length() - 1);
+
+	        sql = String.format(sql, datas);
+
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.executeUpdate();
+
+	        return true;
+	    } finally {
+	        if (conn != null) {
+	            conn.close();
+	        }
+	    }
+	}
+	
+	public boolean addActionGroup(Long action_id, List<Long> groupIdList) throws SQLException {
+		if (null == groupIdList || groupIdList.size() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+	    try {
+	        conn = this.mysql.getConnection();
+	        String sql = "INSERT INTO `" + TABLE_ACTION_GROUP + "` (`action_id`, `group_id`) values %s";
+
+	        List<String> list = new ArrayList<String>();
+	        for (Long groupId : groupIdList) {
+	            String tmp = DBUtil.wrapParams(groupIdList, groupId);
+	            list.add(tmp);
+	        }
+	        String datas = Arrays.toString(list.toArray());
+	        datas = datas.substring(1, datas.length() - 1);
+
+	        sql = String.format(sql, datas);
+
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.executeUpdate();
+
+	        return true;
+	    } finally {
+	        if (conn != null) {
+	            conn.close();
+	        }
+	    }
+	}
+	
+	public boolean addActionTrigger(Long action_id, List<Long> triggerIdList) throws SQLException {
+		if (null == triggerIdList || triggerIdList.size() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+	    try {
+	        conn = this.mysql.getConnection();
+	        String sql = "INSERT INTO `" + TABLE_ACTION_TRIGGER + "` (`action_id`, `trigger_id`) values %s";
+
+	        List<String> list = new ArrayList<String>();
+	        for (Long triggerId : triggerIdList) {
+	            String tmp = DBUtil.wrapParams(triggerIdList, triggerId);
+	            list.add(tmp);
+	        }
+	        String datas = Arrays.toString(list.toArray());
+	        datas = datas.substring(1, datas.length() - 1);
+
+	        sql = String.format(sql, datas);
+
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.executeUpdate();
+
+	        return true;
+	    } finally {
+	        if (conn != null) {
+	            conn.close();
+	        }
+	    }
+	}
+	
+	public Map<Long, List<Long>> getActionOperationByActionId(Long action_id) throws SQLException {
+		if (null == action_id || action_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "select `action_id`, `operation_id` from `" + TABLE_ACTION_OPERATION + "`;";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            return parseAction_OperationOrHostOrGroupOrTriggerMap(rs);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	public Map<Long, List<Long>> getActionHostByActionId(Long action_id) throws SQLException {
+		if (null == action_id || action_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "select `action_id`, `host_id` from `" + TABLE_ACTION_HOST + "`;";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            return parseAction_OperationOrHostOrGroupOrTriggerMap(rs);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	public Map<Long, List<Long>> getActionGroupByActionId(Long action_id) throws SQLException {
+		if (null == action_id || action_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "select `action_id`, `group_id` from `" + TABLE_ACTION_GROUP + "`;";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            return parseAction_OperationOrHostOrGroupOrTriggerMap(rs);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	public Map<Long, List<Long>> getActionTriggerByActionId(Long action_id) throws SQLException {
+		if (null == action_id || action_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "select `action_id`, `trigger_id` from `" + TABLE_ACTION_TRIGGER + "`;";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+
+            return parseAction_OperationOrHostOrGroupOrTriggerMap(rs);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	private Map<Long, List<Long>> parseAction_OperationOrHostOrGroupOrTriggerMap(ResultSet rs) throws SQLException {
+        Map<Long, List<Long>> map = new HashMap<Long, List<Long>>();
+
+        while (rs.next()) {
+            Long actionId = rs.getLong(1);
+            Long id = rs.getLong(2);
+            List<Long> list = getHostIdOrGroupIdOrTemplateIdList(actionId, map);
+
+            if (null == list) {
+                list = new ArrayList<Long>();
+                map.put(actionId, list);
+            }
+            list.add(id);
+        }
+
+        return map;
+    }
+	
+	private List<Long> getHostIdOrGroupIdOrTemplateIdList(Long actionId, Map<Long, List<Long>> map) {
+        Set<Long> keys = map.keySet();
+        for (Long key : keys) {
+            if (actionId.equals(key)) {
+                List<Long> list = map.get(key);
+                return list;
+            }
+        }
+        return null;
+    }
+	
+	public boolean deleteActionOperationByActionId(Long action_id) throws SQLException {
+		if (null == action_id || action_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "DELETE FROM `" + TABLE_ACTION_OPERATION + "` WHERE `action_id`=?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, action_id);
+            pstmt.executeUpdate();
+
+            return true;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+	
+	public boolean deleteActionHostByActionId(Long action_id) throws SQLException {
+		if (null == action_id || action_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "DELETE FROM `" + TABLE_ACTION_HOST + "` WHERE `action_id`=?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, action_id);
+            pstmt.executeUpdate();
+
+            return true;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+	
+	public boolean deleteActionGroupByActionId(Long action_id) throws SQLException {
+		if (null == action_id || action_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "DELETE FROM `" + TABLE_ACTION_GROUP + "` WHERE `action_id`=?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, action_id);
+            pstmt.executeUpdate();
+
+            return true;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+	
+	public boolean deleteActionTriggerByActionId(Long action_id) throws SQLException {
+		if (null == action_id || action_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "DELETE FROM `" + TABLE_ACTION_TRIGGER + "` WHERE `action_id`=?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, action_id);
+            pstmt.executeUpdate();
+
+            return true;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+	
 }

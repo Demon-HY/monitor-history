@@ -6,7 +6,7 @@ import org.javatuples.Pair;
 
 import module.SDK.event.Event;
 import module.SDK.event.EventType;
-import module.SDK.info.TriggerExpressionInfo;
+import module.SDK.info.ExpressionInfo;
 import monitor.service.http.Env;
 
 public class TriggerExpressionEvent extends Event {
@@ -80,9 +80,9 @@ public class TriggerExpressionEvent extends Event {
 	
 	public String order;
 	public String sort;
-	public Pair<Integer, List<TriggerExpressionInfo>> listTriggerExpressions;
+	public Pair<Integer, List<ExpressionInfo>> listTriggerExpressions;
 	
-	public TriggerExpressionInfo expressionInfo;
+	public ExpressionInfo expressionInfo;
 	public TriggerExpressionEvent(){}
 
 	/**
@@ -90,7 +90,7 @@ public class TriggerExpressionEvent extends Event {
 	 * @param env
 	 * @param expressionInfo
 	 */
-	public TriggerExpressionEvent(Env env, TriggerExpressionInfo expressionInfo) {
+	public TriggerExpressionEvent(Env env, ExpressionInfo expressionInfo) {
 		this.env = env;
 		this.expressionInfo = expressionInfo;
 	}
@@ -122,7 +122,7 @@ public class TriggerExpressionEvent extends Event {
 	 * @param env
 	 * @param listTriggerExpressions
 	 */
-	public TriggerExpressionEvent(Env env, Pair<Integer, List<TriggerExpressionInfo>> listTriggerExpressions) {
+	public TriggerExpressionEvent(Env env, Pair<Integer, List<ExpressionInfo>> listTriggerExpressions) {
 		this.env = env;
 		this.listTriggerExpressions = listTriggerExpressions;
 	}

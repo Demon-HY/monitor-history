@@ -6,7 +6,7 @@ import org.javatuples.Pair;
 
 import module.SDK.event.Event;
 import module.SDK.event.EventType;
-import module.SDK.info.ActionOperationInfo;
+import module.SDK.info.OperationInfo;
 import monitor.service.http.Env;
 
 public class ActionOperationEvent extends Event {
@@ -76,9 +76,9 @@ public class ActionOperationEvent extends Event {
 	
 	public String order;
 	public String sort;
-	public Pair<Integer, List<ActionOperationInfo>> listActionOperations;
+	public Pair<Integer, List<OperationInfo>> listActionOperations;
 	
-	public ActionOperationInfo actionOperationInfo;
+	public OperationInfo actionOperationInfo;
 	public ActionOperationEvent(){}
 
 	/**
@@ -86,7 +86,7 @@ public class ActionOperationEvent extends Event {
 	 * @param env
 	 * @param actionOperationInfo
 	 */
-	public ActionOperationEvent(Env env, ActionOperationInfo actionOperationInfo) {
+	public ActionOperationEvent(Env env, OperationInfo actionOperationInfo) {
 		this.env = env;
 		this.actionOperationInfo = actionOperationInfo;
 	}
@@ -118,7 +118,7 @@ public class ActionOperationEvent extends Event {
 	 * @param env
 	 * @param listActionOperations
 	 */
-	public ActionOperationEvent(Env env, Pair<Integer, List<ActionOperationInfo>> listActionOperations) {
+	public ActionOperationEvent(Env env, Pair<Integer, List<OperationInfo>> listActionOperations) {
 		this.env = env;
 		this.listActionOperations = listActionOperations;
 	}
