@@ -63,7 +63,7 @@ public class ActionApi implements IActionApi{
 	 * @return
 	 * @throws SQLException 
 	 */
-	public Pair<Integer, List<OperationInfo>> listActionOperation(Integer pageIndex, Integer pageSize, 
+	public Pair<Integer, List<OperationInfo>> listOperation(Integer pageIndex, Integer pageSize, 
 			String order, String sort) throws SQLException {
 		List<OperationInfo> result = null;
 		Integer count = null;

@@ -45,7 +45,7 @@ public class ServiceApi implements IServiceApi{
         return new Pair<Integer, List<ServiceInfo>>(count, result);
     }
 
-    public Pair<Integer, List<IndexInfo>> listServiceIndex(Integer pageIndex, Integer pageSize, 
+    public Pair<Integer, List<IndexInfo>> listIndex(Integer pageIndex, Integer pageSize, 
     		String order, String sort) throws SQLException {
     	List<IndexInfo> result = null;
     	Integer count = null;

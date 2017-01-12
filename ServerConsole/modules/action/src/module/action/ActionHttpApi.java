@@ -233,7 +233,7 @@ public class ActionHttpApi {
 	 * @right 该接口需要管理员权限
 	 */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
-	public JsonResp listActionOperation(AuthedJsonReq req) throws Exception {
+	public JsonResp listOperation(AuthedJsonReq req) throws Exception {
 		Integer pageIndex = req.paramGetInteger("pageIndex", false);
 		Integer pageSize = req.paramGetInteger("pageSize", false);
 		String order = req.paramGetString("order", false);
@@ -250,7 +250,7 @@ public class ActionHttpApi {
 					String.format("sort(%s) or order(%s) check have sql injection.", sort, order));
 		}
 		
-		Pair<Integer, List<OperationInfo>> result = this.actionApi.listActionOperation(pageIndex, pageSize, order, sort);
+		Pair<Integer, List<OperationInfo>> result = this.actionApi.listOperation(pageIndex, pageSize, order, sort);
 		JsonResp resp = new JsonResp(RetStat.OK);
         resp.resultMap.put("total", result.getValue0());
         resp.resultMap.put("rows", result.getValue1());

@@ -228,7 +228,7 @@ public class ServiceHttpApi {
      * @right 该接口需要管理员权限
      */
     @ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
-    public JsonResp listServiceIndex(AuthedJsonReq req) throws Exception {
+    public JsonResp listIndex(AuthedJsonReq req) throws Exception {
         Integer pageIndex = req.paramGetInteger("pageIndex", false);
         Integer pageSize = req.paramGetInteger("pageSize", false);
         String order = req.paramGetString("order", false);
@@ -245,7 +245,7 @@ public class ServiceHttpApi {
                     String.format("sort(%s) or order(%s) check have sql injection.", sort, order));
         }
         
-        Pair<Integer, List<IndexInfo>> result = this.serviceApi.listServiceIndex(pageIndex, pageSize, order, sort);
+        Pair<Integer, List<IndexInfo>> result = this.serviceApi.listIndex(pageIndex, pageSize, order, sort);
         JsonResp resp = new JsonResp(RetStat.OK);
         resp.resultMap.put("total", result.getValue0());
         resp.resultMap.put("rows", result.getValue1());
