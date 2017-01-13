@@ -85,13 +85,13 @@ public class HostModel {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
-			String sql = "select `host_id`,`name`,`ip`,`monitored`,`status`,`interval`,`memo`,`ctime`,`mtime` from `" + TABLE_HOST + "` ";
+			String sql = "SELECT `host_id`,`name`,`ip`,`monitored`,`status`,`interval`,`memo`,`ctime`,`mtime` FROM `" + TABLE_HOST + "` ";
 			String factors = "";
 			String limit = "";
             if (null != pageIndex && pageIndex > 0 && null != pageSize && pageSize > 0) {
                 limit = String.format(" limit %s, %s", (pageIndex - 1) * pageSize, pageSize);
             }
-            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "where" : ""), factors);
+            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "WHERE" : ""), factors);
             
             if (null != sort && sort.length() > 0) {
             	sort = "`" + sort + "`";
@@ -159,7 +159,7 @@ public class HostModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "SELECT TABLE_ROWS from information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_HOST + "'";
+            final String sql = "SELECT TABLE_ROWS FROM information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_HOST + "'";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -209,7 +209,7 @@ public class HostModel {
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "UPDATE `" + TABLE_HOST + "` set "
+            final String sql = "UPDATE `" + TABLE_HOST + "` SET "
                     + "`name`=?,`ip`=?,`monitored`=?,`status`=?,`interval`=?,`memo`=?,`mtime`=? WHERE `host_id`=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, hostInfo.name);
@@ -242,8 +242,8 @@ public class HostModel {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
-			final String sql = "SELECT `host_id`,`name`,`ip`,`monitored`,`status`,`interval`,`memo`,`ctime`,`mtime` from `"
-					+ TABLE_HOST + "` where `ip`=?";
+			final String sql = "SELECT `host_id`,`name`,`ip`,`monitored`,`status`,`interval`,`memo`,`ctime`,`mtime` FROM `"
+					+ TABLE_HOST + "` WHERE `ip`=?";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, ip);
@@ -270,8 +270,8 @@ public class HostModel {
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "SELECT `host_id`,`name`,`ip`,`monitored`,`status`,`interval`,`memo`,`ctime`,`mtime` from `"
-                    + TABLE_HOST + "` where `host_id`=?";
+            final String sql = "SELECT `host_id`,`name`,`ip`,`monitored`,`status`,`interval`,`memo`,`ctime`,`mtime` FROM `"
+                    + TABLE_HOST + "` WHERE `host_id`=?";
             
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, host_id);
@@ -286,13 +286,13 @@ public class HostModel {
     }
 
 	public boolean addHostGroup(Long host_id, List<Long> groupIdList) throws SQLException {
-		if (null == groupIdList || groupIdList.size() < 1) {
+		if (null == host_id || host_id.longValue() < 1 || null == groupIdList || groupIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "insert into `" + TABLE_HOST_GROUP + "` (`host_id`, `group_id`) values %s";
+	        String sql = "INSERT INTO `" + TABLE_HOST_GROUP + "` (`host_id`, `group_id`) VALUES %s";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long groupId : groupIdList) {
@@ -337,13 +337,13 @@ public class HostModel {
     }
 
 	public boolean addHostTemplate(Long host_id, List<Long> templateIdList) throws SQLException {
-		if (null == templateIdList || templateIdList.size() < 1) {
+		if (null == host_id || host_id.longValue() < 1 || null == templateIdList || templateIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "INSERT INTO `" + TABLE_HOST_TEMPLATE + "` (`host_id`, `template_id`) values %s";
+	        String sql = "INSERT INTO `" + TABLE_HOST_TEMPLATE + "` (`host_id`, `template_id`) VALUES %s";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long templateId : templateIdList) {
@@ -415,9 +415,10 @@ public class HostModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "select `host_id`, `group_id` from `" + TABLE_HOST_GROUP + "`;";
+            String sql = "SELECT `host_id`, `group_id` FROM `" + TABLE_HOST_GROUP + "` WHERE `host_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, host_id);
             ResultSet rs = pstmt.executeQuery();
 
             return parseHost_GroupOrTemplateMap(rs);
@@ -435,9 +436,10 @@ public class HostModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "select `host_id`, `template_id` from `" + TABLE_HOST_TEMPLATE+ "`;";
+            String sql = "SELECT `host_id`, `template_id` FROM `" + TABLE_HOST_TEMPLATE+ "` WHERE `host_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, host_id);
             ResultSet rs = pstmt.executeQuery();
 
             return parseHost_GroupOrTemplateMap(rs);

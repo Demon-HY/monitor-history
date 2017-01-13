@@ -12,13 +12,13 @@ public class ExpressionInfo {
     public Long trigger_id;
     
     /** 触发条件 ID */
-    public Long trigger_expression_id;
+    public Long expression_id;
     
     /** 服务 ID */
     public Long service_id;
     
     /** 服务指标 ID */
-    public Long service_index_id;
+    public Long index_id;
     
     /** 只监控专门指定的指标key，这里的key是 Agent 客户端返回的具体指标 */
     public String key;
@@ -33,7 +33,7 @@ public class ExpressionInfo {
     public String params;
     
     /** 阈值 */
-    public Long threshold;
+    public Double threshold;
     
     /** 与上一条条件的逻辑关系 */
     public String logic_type;

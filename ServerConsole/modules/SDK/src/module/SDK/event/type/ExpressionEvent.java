@@ -9,7 +9,7 @@ import module.SDK.event.EventType;
 import module.SDK.info.ExpressionInfo;
 import monitor.service.http.Env;
 
-public class TriggerExpressionEvent extends Event {
+public class ExpressionEvent extends Event {
 
 	public enum Type implements EventType {
 		/**
@@ -41,7 +41,7 @@ public class TriggerExpressionEvent extends Event {
         /**
          * 事件类型标识：删除报警前</br>
          * 有效参数：</br>
-         * trigger_expression_id
+         * expression_id
          */
         PRE_DELETE_TRIGGER_EXPRESSION,
         /**
@@ -61,16 +61,16 @@ public class TriggerExpressionEvent extends Event {
         /**
          * 事件类型标识：查询报警后</br>
          * 有效参数：</br>
-         * listTriggerExpressions
+         * listExpressions
          */
         POST_LIST_TRIGGER_EXPRESSION,
 	}
 	
 	public Env env;
     public Long trigger_id;
-    public Long trigger_expression_id;
+    public Long expression_id;
     public Long service_id;
-    public Long service_index_id;
+    public Long index_id;
     public String key;
     public String operator_type;
     public String func;
@@ -80,17 +80,17 @@ public class TriggerExpressionEvent extends Event {
 	
 	public String order;
 	public String sort;
-	public Pair<Integer, List<ExpressionInfo>> listTriggerExpressions;
+	public Pair<Integer, List<ExpressionInfo>> listExpressions;
 	
 	public ExpressionInfo expressionInfo;
-	public TriggerExpressionEvent(){}
+	public ExpressionEvent(){}
 
 	/**
 	 * 添加报警/修改报警/删除报警后
 	 * @param env
 	 * @param expressionInfo
 	 */
-	public TriggerExpressionEvent(Env env, ExpressionInfo expressionInfo) {
+	public ExpressionEvent(Env env, ExpressionInfo expressionInfo) {
 		this.env = env;
 		this.expressionInfo = expressionInfo;
 	}
@@ -98,11 +98,11 @@ public class TriggerExpressionEvent extends Event {
 	/**
 	 * 删除报警前
 	 * @param env
-	 * @param trigger_expression_id
+	 * @param expression_id
 	 */
-	public TriggerExpressionEvent(Env env, Long trigger_expression_id) {
+	public ExpressionEvent(Env env, Long expression_id) {
 		this.env = env;
-		this.trigger_expression_id = trigger_expression_id;
+		this.expression_id = expression_id;
 	}
 	
 	/**
@@ -111,7 +111,7 @@ public class TriggerExpressionEvent extends Event {
 	 * @param order
 	 * @param sort
 	 */
-	public TriggerExpressionEvent(Env env, String order, String sort) {
+	public ExpressionEvent(Env env, String order, String sort) {
 		this.env = env;
 		this.order = order;
 		this.sort = sort;
@@ -120,11 +120,11 @@ public class TriggerExpressionEvent extends Event {
 	/**
 	 * 查询报警后
 	 * @param env
-	 * @param listTriggerExpressions
+	 * @param listExpressions
 	 */
-	public TriggerExpressionEvent(Env env, Pair<Integer, List<ExpressionInfo>> listTriggerExpressions) {
+	public ExpressionEvent(Env env, Pair<Integer, List<ExpressionInfo>> listExpressions) {
 		this.env = env;
-		this.listTriggerExpressions = listTriggerExpressions;
+		this.listExpressions = listExpressions;
 	}
 	
 }

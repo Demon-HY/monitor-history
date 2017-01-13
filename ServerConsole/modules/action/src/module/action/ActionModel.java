@@ -62,7 +62,7 @@ public class ActionModel {
 			sql = "CREATE TABLE IF NOT EXISTS `" + TABLE_ACTION_OPERATION + "` (" 
 					+ "`action_id` bigint(20) NOT NULL,"
 					+ "`operation_id` bigint(20) NOT NULL,"
-					+ "PRIMARY KEY (`action_id`, `host_id`)"
+					+ "PRIMARY KEY (`action_id`, `operation_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 			
@@ -97,13 +97,13 @@ public class ActionModel {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
-			String sql = "select `action_id`,`name`,`interval`,`notice`,`subject`,`message`,`enabled` from `" + TABLE_ACTION + "` ";
+			String sql = "SELECT `action_id`,`name`,`interval`,`notice`,`subject`,`message`,`enabled` FROM `" + TABLE_ACTION + "` ";
 			String factors = "";
 			String limit = "";
             if (null != pageIndex && pageIndex > 0 && null != pageSize && pageSize > 0) {
                 limit = String.format(" limit %s, %s", (pageIndex - 1) * pageSize, pageSize);
             }
-            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "where" : ""), factors);
+            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "WHERE" : ""), factors);
             
             if (null != sort && sort.length() > 0) {
             	sort = "`" + sort + "`";
@@ -131,7 +131,7 @@ public class ActionModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "SELECT TABLE_ROWS from information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_ACTION + "'";
+            final String sql = "SELECT TABLE_ROWS FROM information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_ACTION + "'";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -211,7 +211,7 @@ public class ActionModel {
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "UPDATE `" + TABLE_ACTION + "` set "
+            final String sql = "UPDATE `" + TABLE_ACTION + "` SET "
                     + "`name`=?,`interval`=?,`notice`=?,`subject`=?,`message`=?,`enabled`=? WHERE `action_id`=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, actionInfo.name);
@@ -237,8 +237,8 @@ public class ActionModel {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
-			final String sql = "SELECT `action_id`,`name`,`interval`,`notice`,`subject`,`message`,`enabled` from `"
-					+ TABLE_ACTION + "` where `name`=?";
+			final String sql = "SELECT `action_id`,`name`,`interval`,`notice`,`subject`,`message`,`enabled` FROM `"
+					+ TABLE_ACTION + "` WHERE `name`=?";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, actionName);
@@ -259,8 +259,8 @@ public class ActionModel {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
-			final String sql = "SELECT `action_id`,`name`,`interval`,`notice`,`subject`,`message`,`enabled` from `"
-					+ TABLE_ACTION + "` where `action_id`=?";
+			final String sql = "SELECT `action_id`,`name`,`interval`,`notice`,`subject`,`message`,`enabled` FROM `"
+					+ TABLE_ACTION + "` WHERE `action_id`=?";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, action_id);
@@ -300,13 +300,13 @@ public class ActionModel {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
-			String sql = "select `operation_id`,`name`,`step`,`action_type`,`msg_format` from `" + TABLE_OPERATION + "` ";
+			String sql = "SELECT `operation_id`,`name`,`step`,`action_type`,`msg_format` FROM `" + TABLE_OPERATION + "` ";
 			String factors = "";
 			String limit = "";
             if (null != pageIndex && pageIndex > 0 && null != pageSize && pageSize > 0) {
                 limit = String.format(" limit %s, %s", (pageIndex - 1) * pageSize, pageSize);
             }
-            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "where" : ""), factors);
+            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "WHERE" : ""), factors);
             
             if (null != sort && sort.length() > 0) {
             	sort = "`" + sort + "`";
@@ -334,7 +334,7 @@ public class ActionModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "SELECT TABLE_ROWS from information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_OPERATION + "'";
+            final String sql = "SELECT TABLE_ROWS FROM information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_OPERATION + "'";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -408,7 +408,7 @@ public class ActionModel {
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "UPDATE `" + TABLE_OPERATION + "` set "
+            final String sql = "UPDATE `" + TABLE_OPERATION + "` SET "
                     + "`name`=?,`step`=?,`action_type`=?,`msg_format`=? WHERE `operation_id`=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, actionOperationInfo.name);
@@ -432,8 +432,8 @@ public class ActionModel {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
-			final String sql = "SELECT `operation_id`,`name`,`step`,`action_type`,`msg_format` from `"
-					+ TABLE_OPERATION + "` where `name`=?";
+			final String sql = "SELECT `operation_id`,`name`,`step`,`action_type`,`msg_format` FROM `"
+					+ TABLE_OPERATION + "` WHERE `name`=?";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, operationName);
@@ -454,8 +454,8 @@ public class ActionModel {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
-			final String sql = "SELECT `operation_id`,`action_id`,`name`,`step`,`action_type`,`msg_format` from `"
-					+ TABLE_OPERATION + "` where `operation_id`=?";
+			final String sql = "SELECT `operation_id`,`action_id`,`name`,`step`,`action_type`,`msg_format` FROM `"
+					+ TABLE_OPERATION + "` WHERE `operation_id`=?";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, operation_id);
@@ -491,13 +491,13 @@ public class ActionModel {
 	}
 	
 	public boolean addActionOperation(Long action_id, List<Long> operationIdList) throws SQLException {
-		if (null == operationIdList || operationIdList.size() < 1) {
+		if (null == action_id || action_id.longValue() < 1 || null == operationIdList || operationIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "INSERT INTO `" + TABLE_ACTION_OPERATION + "` (`action_id`, `operation_id`) values %s";
+	        String sql = "INSERT INTO `" + TABLE_ACTION_OPERATION + "` (`action_id`, `operation_id`) VALUES %s";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long operationId : operationIdList) {
@@ -521,13 +521,13 @@ public class ActionModel {
 	}
 	
 	public boolean addActionHost(Long action_id, List<Long> hostIdList) throws SQLException {
-		if (null == hostIdList || hostIdList.size() < 1) {
+		if (null == action_id || action_id.longValue() < 1 || null == hostIdList || hostIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "INSERT INTO `" + TABLE_ACTION_HOST + "` (`action_id`, `host_id`) values %s";
+	        String sql = "INSERT INTO `" + TABLE_ACTION_HOST + "` (`action_id`, `host_id`) VALUES %s";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long hostId : hostIdList) {
@@ -551,13 +551,13 @@ public class ActionModel {
 	}
 	
 	public boolean addActionGroup(Long action_id, List<Long> groupIdList) throws SQLException {
-		if (null == groupIdList || groupIdList.size() < 1) {
+		if (null == action_id || action_id.longValue() < 1 || null == groupIdList || groupIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "INSERT INTO `" + TABLE_ACTION_GROUP + "` (`action_id`, `group_id`) values %s";
+	        String sql = "INSERT INTO `" + TABLE_ACTION_GROUP + "` (`action_id`, `group_id`) VALUES %s";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long groupId : groupIdList) {
@@ -581,13 +581,13 @@ public class ActionModel {
 	}
 	
 	public boolean addActionTrigger(Long action_id, List<Long> triggerIdList) throws SQLException {
-		if (null == triggerIdList || triggerIdList.size() < 1) {
+		if (null == action_id || action_id.longValue() < 1 || null == triggerIdList || triggerIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "INSERT INTO `" + TABLE_ACTION_TRIGGER + "` (`action_id`, `trigger_id`) values %s";
+	        String sql = "INSERT INTO `" + TABLE_ACTION_TRIGGER + "` (`action_id`, `trigger_id`) VALUES %s";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long triggerId : triggerIdList) {
@@ -617,7 +617,7 @@ public class ActionModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "select `action_id`, `operation_id` from `" + TABLE_ACTION_OPERATION + "`;";
+            String sql = "SELECT `action_id`, `operation_id` FROM `" + TABLE_ACTION_OPERATION + "`;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -637,7 +637,7 @@ public class ActionModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "select `action_id`, `host_id` from `" + TABLE_ACTION_HOST + "`;";
+            String sql = "SELECT `action_id`, `host_id` FROM `" + TABLE_ACTION_HOST + "`;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -657,7 +657,7 @@ public class ActionModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "select `action_id`, `group_id` from `" + TABLE_ACTION_GROUP + "`;";
+            String sql = "SELECT `action_id`, `group_id` FROM `" + TABLE_ACTION_GROUP + "`;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -677,7 +677,7 @@ public class ActionModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "select `action_id`, `trigger_id` from `" + TABLE_ACTION_TRIGGER + "`;";
+            String sql = "SELECT `action_id`, `trigger_id` FROM `" + TABLE_ACTION_TRIGGER + "`;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();

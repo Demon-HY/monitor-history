@@ -191,7 +191,7 @@ public class UserModel implements IUserApi.IUserModel{
             
             String sql = "SELECT `uid`,`name`,`phone`,`email`,`nick`,`password`,`qq`,`type`,`status`,`exattr`,"
             		+ "`ctime`,`mtime`,`load_time` FROM `" + TABLE_USER + "` ";
-            sql = String.format("%s%s%s", sql, (factors.length() > 0 ? "where" : ""), factors);
+            sql = String.format("%s%s%s", sql, (factors.length() > 0 ? "WHERE" : ""), factors);
 			PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
 
@@ -257,7 +257,7 @@ public class UserModel implements IUserApi.IUserModel{
 //		if (uid < 1) {
 //			Connection conn = this.mysql.getConnection();
 //			try {
-//				String sql = "insert into `" + TABLE_USER + "` (`phone`,`nickName`,`email`,`password`,`uuid`,`ctime`) "
+//				String sql = "INSERT INTO `" + TABLE_USER + "` (`phone`,`nickName`,`email`,`password`,`uuid`,`ctime`) "
 //						+ "values (?, ?, ?, ?, ?, ?);";
 //				PreparedStatement ps = conn.prepareStatement(sql);
 //				ps.setString(1, "admin");

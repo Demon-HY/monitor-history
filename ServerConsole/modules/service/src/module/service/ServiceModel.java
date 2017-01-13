@@ -4,14 +4,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
 import module.SDK.info.IndexInfo;
 import module.SDK.info.ServiceInfo;
 import monitor.service.db.MySql;
+import monitor.utils.DBUtil;
 
 public class ServiceModel {
 
@@ -45,7 +51,7 @@ public class ServiceModel {
 					+ "`key` varchar(32) NOT NULL,"
 					+ "`type` varchar(32) NOT NULL DEFAULT 'int'," // 指标数据类型,默认 int
 					+ "`memo` varchar(1024) DEFAULT NULL,"
-                    + "PRIMARY KEY (`service_index_id`)"
+                    + "PRIMARY KEY (`index_id`)"
 					+ ") ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			conn.createStatement().executeUpdate(sql);
 			
@@ -65,13 +71,13 @@ public class ServiceModel {
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "select `service_id`,`name`,`interval`,`plugin_name`,`has_sub_service`,`memo` from `" + TABLE_SERVICE + "` ";
+            String sql = "SELECT `service_id`,`name`,`interval`,`plugin_name`,`has_sub_service`,`memo` FROM `" + TABLE_SERVICE + "` ";
             String factors = "";
             String limit = "";
             if (null != pageIndex && pageIndex > 0 && null != pageSize && pageSize > 0) {
                 limit = String.format(" limit %s, %s", (pageIndex - 1) * pageSize, pageSize);
             }
-            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "where" : ""), factors);
+            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "WHERE" : ""), factors);
             
             if (null != sort && sort.length() > 0) {
                 sort = "`" + sort + "`";
@@ -99,7 +105,7 @@ public class ServiceModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "SELECT TABLE_ROWS from information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_SERVICE + "'";
+            final String sql = "SELECT TABLE_ROWS FROM information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_SERVICE + "'";
             
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -130,7 +136,6 @@ public class ServiceModel {
         return listServices;
     }
     
-    @SuppressWarnings("unused")
 	private ServiceInfo parseService(ResultSet rs) throws SQLException {
     	ServiceInfo service = new ServiceInfo();
     	if (rs.next()) {
@@ -144,18 +149,133 @@ public class ServiceModel {
         return service;
     }
     
+	public boolean addService(ServiceInfo serviceInfo) throws SQLException {
+		if (null == serviceInfo) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "INSERT INTO `" + TABLE_SERVICE + "` "
+					+ "(`name`,`interval`,`plugin_name`,`has_sub_service`,`memo`) "
+					+ "values (?, ?, ?, ?, ?);";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, serviceInfo.name);
+			pstmt.setLong(2, serviceInfo.interval);
+			pstmt.setString(3, serviceInfo.plugin_name);
+			pstmt.setInt(4, serviceInfo.has_sub_service);
+			pstmt.setString(5, serviceInfo.memo);
+			
+			return pstmt.executeUpdate() == 1 ?  true : false;
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public boolean editServiceByServiceId(ServiceInfo serviceInfo) throws SQLException {
+		if (null == serviceInfo) {
+			throw new IllegalArgumentException();
+		}
+        Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            final String sql = "UPDATE `" + TABLE_SERVICE + "` SET "
+                    + "`name`=?,`interval`=?,`plugin_name`=?,`has_sub_service`=?,`memo`=? WHERE `service_id`=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, serviceInfo.name);
+			pstmt.setLong(2, serviceInfo.interval);
+			pstmt.setString(3, serviceInfo.plugin_name);
+			pstmt.setInt(4, serviceInfo.has_sub_service);
+			pstmt.setString(5, serviceInfo.memo);
+            pstmt.setLong(6, serviceInfo.service_id);
+            
+            return pstmt.executeUpdate() == 1 ?  true : false;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+	
+	public ServiceInfo getServiceByServiceName(String serviceName) throws SQLException {
+		if (null == serviceName) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "SELECT `service_id`,`name`,`interval`,`plugin_name`,`has_sub_service`,`memo` FROM `"
+					+ TABLE_SERVICE + "` WHERE `name`=?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, serviceName);
+			ResultSet rs = pstmt.executeQuery();
+			
+			return parseService(rs);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public ServiceInfo getServiceByServiceId(Long service_id) throws SQLException {
+		if (null == service_id || service_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "SELECT `service_id`,`name`,`interval`,`plugin_name`,`has_sub_service`,`memo` FROM `"
+					+ TABLE_SERVICE + "` WHERE `service_id`=?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, service_id);
+			ResultSet rs = pstmt.executeQuery();
+			
+			return parseService(rs);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public boolean deleteServiceByServiceId(Long service_id) throws SQLException {
+		if (null == service_id || service_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "DELETE FROM `" + TABLE_SERVICE + "` WHERE `service_id`=?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, service_id);
+            pstmt.executeUpdate();
+
+            return true;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
     /******************************************* Index ********************************************/
     public List<IndexInfo> listIndex(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "select `service_index_id`,`service_id`,`name`,`key`,`type`,`memo` from `" + TABLE_SERVICE_INDEX + "` ";
+            String sql = "SELECT `index_id`,`service_id`,`name`,`key`,`type`,`memo` FROM `" + TABLE_SERVICE_INDEX + "` ";
             String factors = "";
             String limit = "";
             if (null != pageIndex && pageIndex > 0 && null != pageSize && pageSize > 0) {
                 limit = String.format(" limit %s, %s", (pageIndex - 1) * pageSize, pageSize);
             }
-            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "where" : ""), factors);
+            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "WHERE" : ""), factors);
             
             if (null != sort && sort.length() > 0) {
                 sort = "`" + sort + "`";
@@ -183,7 +303,7 @@ public class ServiceModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "select count(*) from `" + TABLE_SERVICE_INDEX + "` ";
+            final String sql = "SELECT count(*) FROM `" + TABLE_SERVICE_INDEX + "` ";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -213,7 +333,6 @@ public class ServiceModel {
         return listIndexs;
 	}
 	
-	@SuppressWarnings("unused")
 	private IndexInfo parseIndex(ResultSet rs) throws SQLException {
 		IndexInfo index = new IndexInfo();
 		if (rs.next()) {
@@ -225,4 +344,218 @@ public class ServiceModel {
 		}
 		return index;
 	}
+
+	public boolean addIndex(IndexInfo indexInfo) throws SQLException {
+		if (null == indexInfo) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "INSERT INTO `" + TABLE_INDEX + "` "
+					+ "(`name`,`key`,`type`,`memo`) "
+					+ "values (?, ?, ?, ?);";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, indexInfo.name);
+			pstmt.setString(2, indexInfo.key);
+			pstmt.setString(3, indexInfo.type);
+			pstmt.setString(4, indexInfo.memo);
+			
+			return pstmt.executeUpdate() == 1 ?  true : false;
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public boolean editIndexByIndexId(IndexInfo indexInfo) throws SQLException {
+		if (null == indexInfo) {
+			throw new IllegalArgumentException();
+		}
+        Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            final String sql = "UPDATE `" + TABLE_INDEX + "` SET "
+                    + "`name`=?,`key`=?,`type`=?,`memo`=? WHERE `index_id`=?";
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, indexInfo.name);
+			pstmt.setString(2, indexInfo.key);
+			pstmt.setString(3, indexInfo.type);
+			pstmt.setString(4, indexInfo.memo);
+            pstmt.setLong(5, indexInfo.index_id);
+            
+            return pstmt.executeUpdate() == 1 ?  true : false;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
+	
+	public IndexInfo getIndexByIndexName(String indexName) throws SQLException {
+		if (null == indexName) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "SELECT `index_id`,`name`,`key`,`type`,`memo` FROM `"
+					+ TABLE_INDEX + "` WHERE `name`=?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, indexName);
+			ResultSet rs = pstmt.executeQuery();
+			
+			return parseIndex(rs);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public IndexInfo getIndexByIndexId(Long index_id) throws SQLException {
+		if (null == index_id || index_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "SELECT `index_id`,`name`,`key`,`type`,`memo` FROM `"
+					+ TABLE_INDEX + "` WHERE `index_id`=?";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, index_id);
+			ResultSet rs = pstmt.executeQuery();
+			
+			return parseIndex(rs);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public boolean deleteIndexByIndexId(Long index_id) throws SQLException {
+		if (null == index_id || index_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "DELETE FROM `" + TABLE_INDEX + "` WHERE `index_id`=?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, index_id);
+            pstmt.executeUpdate();
+
+            return true;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+	
+	public boolean addServiceIndex(Long service_id, List<Long> indexIdList) throws SQLException {
+		if (null == service_id || service_id.longValue() < 1 || null == indexIdList || indexIdList.size() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+	    try {
+	        conn = this.mysql.getConnection();
+	        String sql = "INSERT INTO `" + TABLE_SERVICE_INDEX + "` (`service_id`, `index_id`) VALUES %s";
+
+	        List<String> list = new ArrayList<String>();
+	        for (Long indexId : indexIdList) {
+	            String tmp = DBUtil.wrapParams(indexIdList, indexId);
+	            list.add(tmp);
+	        }
+	        String datas = Arrays.toString(list.toArray());
+	        datas = datas.substring(1, datas.length() - 1);
+
+	        sql = String.format(sql, datas);
+
+	        PreparedStatement pstmt = conn.prepareStatement(sql);
+	        pstmt.executeUpdate();
+
+	        return true;
+	    } finally {
+	        if (conn != null) {
+	            conn.close();
+	        }
+	    }
+	}
+	
+	public Map<Long, List<Long>> getServiceindexByServiceId(Long service_id) throws SQLException {
+		if (null == service_id || service_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "SELECT `service_id`, `index_id` FROM `" + TABLE_SERVICE_INDEX + "` WHERE `service_id`=?;";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, service_id);
+            ResultSet rs = pstmt.executeQuery();
+
+            return parseServiceIndexMap(rs);
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+	}
+
+	private Map<Long, List<Long>> parseServiceIndexMap(ResultSet rs) throws SQLException {
+		Map<Long, List<Long>> map = new HashMap<Long, List<Long>>();
+
+        while (rs.next()) {
+            Long serviceId = rs.getLong(1);
+            Long indexId = rs.getLong(2);
+            List<Long> list = getIndexIdList(serviceId, map);
+
+            if (null == list) {
+                list = new ArrayList<Long>();
+                map.put(serviceId, list);
+            }
+            list.add(indexId);
+        }
+
+        return map;
+	}
+
+	private List<Long> getIndexIdList(Long serviceId, Map<Long, List<Long>> map) {
+		Set<Long> keys = map.keySet();
+        for (Long key : keys) {
+            if (serviceId.equals(key)) {
+                List<Long> list = map.get(key);
+                return list;
+            }
+        }
+        return null;
+	}
+	
+	public boolean deleteServiceIndexByServiceId(Long service_id) throws SQLException {
+		if (null == service_id || service_id.longValue() < 1) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+        try {
+            conn = this.mysql.getConnection();
+            String sql = "DELETE FROM `" + TABLE_SERVICE_INDEX + "` WHERE `service_id`=?";
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, service_id);
+            pstmt.executeUpdate();
+
+            return true;
+        } finally {
+            if (conn != null) {
+                conn.close();
+            }
+        }
+    }
 }

@@ -167,7 +167,7 @@ public class TriggerHttpApi {
      * @param sort 
 	 * <blockquote>
      * 		类型：字符型<br/>
-     * 		描述：按什么字段排序(默认 trigger_expression_id)<br/>
+     * 		描述：按什么字段排序(默认 expression_id)<br/>
      * 		必需：NO
      * </blockquote>
      * 
@@ -186,7 +186,7 @@ public class TriggerHttpApi {
 	 * <blockquote>
      * 		类型：JSON 数组<br/>
      * 		描述：群组信息集<br/>
-     * 		trigger_expression_id
+     * 		expression_id
      * 		<blockquote>
      * 		类型：整数<br/>
      * 		描述：触发条件 ID
@@ -201,7 +201,7 @@ public class TriggerHttpApi {
      * 		类型：整数<br/>
      * 		描述：服务 ID
      * 		</blockquote>
-     * 		service_index_id
+     * 		index_id
      * 		<blockquote>
      * 		类型：整数<br/>
      * 		描述：服务指标  ID
@@ -241,7 +241,7 @@ public class TriggerHttpApi {
 	 * @right 该接口需要管理员权限
 	 */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
-	public JsonResp listTriggerExpression(AuthedJsonReq req) throws Exception {
+	public JsonResp listExpression(AuthedJsonReq req) throws Exception {
 		Integer pageIndex = req.paramGetInteger("pageIndex", false);
 		Integer pageSize = req.paramGetInteger("pageSize", false);
 		String order = req.paramGetString("order", false);
@@ -250,7 +250,7 @@ public class TriggerHttpApi {
 			order = "desc";
 		}
 		if (null == sort) {
-			sort = "trigger_expression_id";
+			sort = "expression_id";
 		}
 		// 检查 SQL 注入
 		if (!DBUtil.checkSqlInjection(sort) || !DBUtil.checkSqlInjection(order)) {
@@ -258,7 +258,7 @@ public class TriggerHttpApi {
 					String.format("sort(%s) or order(%s) check have sql injection.", sort, order));
 		}
 		
-		Pair<Integer, List<ExpressionInfo>> result = this.triggerApi.listTriggerExpression(pageIndex, pageSize, order, sort);
+		Pair<Integer, List<ExpressionInfo>> result = this.triggerApi.listExpression(pageIndex, pageSize, order, sort);
 		JsonResp resp = new JsonResp(RetStat.OK);
         resp.resultMap.put("total", result.getValue0());
         resp.resultMap.put("rows", result.getValue1());

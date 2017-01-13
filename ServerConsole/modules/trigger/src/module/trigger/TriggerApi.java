@@ -63,12 +63,12 @@ public class TriggerApi implements ITriggerApi{
 	 * @return
 	 * @throws SQLException 
 	 */
-	public Pair<Integer, List<ExpressionInfo>> listTriggerExpression(Integer pageIndex, Integer pageSize, 
+	public Pair<Integer, List<ExpressionInfo>> listExpression(Integer pageIndex, Integer pageSize, 
 			String order, String sort) throws SQLException {
 		List<ExpressionInfo> result = null;
 		Integer count = null;
-		result = this.triggerModel.listTriggerExpression(pageIndex, pageSize, order, sort);
-		count = this.triggerModel.countTriggerExpression();
+		result = this.triggerModel.listExpression(pageIndex, pageSize, order, sort);
+		count = this.triggerModel.countExpression();
 		
 		return new Pair<Integer, List<ExpressionInfo>>(count, result);
 	}

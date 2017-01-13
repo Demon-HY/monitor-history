@@ -202,11 +202,6 @@ public class ActionHttpApi {
      * 		类型：整数<br/>
      * 		描述：报警设置 ID
      * 		</blockquote>
-     * 		action_id
-     * 		<blockquote>
-     * 		类型：整数<br/>
-     * 		描述：报警 ID
-     * 		</blockquote>
      * 		name
      * 		<blockquote>
      * 		类型：字符型<br/>

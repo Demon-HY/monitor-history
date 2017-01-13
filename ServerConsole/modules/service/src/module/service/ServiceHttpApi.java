@@ -173,7 +173,7 @@ public class ServiceHttpApi {
      * @param sort 
      * <blockquote>
      *      类型：字符型<br/>
-     *      描述：按什么字段排序(默认 service_index_id)<br/>
+     *      描述：按什么字段排序(默认 name)<br/>
      *      必需：NO
      * </blockquote>
      * 
@@ -194,15 +194,10 @@ public class ServiceHttpApi {
      * <blockquote>
      *      类型：JSON 数组<br/>
      *      描述：群组信息集<br/>
-     *      service_index_id
+     *      index_id
      *      <blockquote>
      *      类型：整数<br/>
      *      描述：服务指标 ID
-     *      </blockquote>
-     *      service_id
-     *      <blockquote>
-     *      类型：整数<br/>
-     *      描述：服务 ID
      *      </blockquote>
      *      name
      *      <blockquote>
@@ -237,7 +232,7 @@ public class ServiceHttpApi {
             order = "desc";
         }
         if (null == sort) {
-            sort = "service_index_id";
+            sort = "name";
         }
         // 检查 SQL 注入
         if (!DBUtil.checkSqlInjection(sort) || !DBUtil.checkSqlInjection(order)) {

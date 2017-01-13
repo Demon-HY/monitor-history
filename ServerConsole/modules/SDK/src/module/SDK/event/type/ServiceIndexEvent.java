@@ -41,7 +41,7 @@ public class ServiceIndexEvent extends Event {
         /**
          * 事件类型标识：删除服务指标前</br>
          * 有效参数：</br>
-         * service_index_id
+         * index_id
          */
         PRE_DELETE_SERVICE_INDEX,
         /**
@@ -67,7 +67,7 @@ public class ServiceIndexEvent extends Event {
 	}
 	
 	public Env env;
-    public Long service_index_id;
+    public Long index_id;
     public Long service_id;
     public String name;
     public String key;
@@ -94,11 +94,11 @@ public class ServiceIndexEvent extends Event {
 	/**
 	 * 删除服务指标前
 	 * @param env
-	 * @param service_index_id
+	 * @param index_id
 	 */
-	public ServiceIndexEvent(Env env, Long service_index_id) {
+	public ServiceIndexEvent(Env env, Long index_id) {
 		this.env = env;
-		this.service_index_id = service_index_id;
+		this.index_id = index_id;
 	}
 	
 	/**

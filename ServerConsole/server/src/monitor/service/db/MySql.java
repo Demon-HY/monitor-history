@@ -87,7 +87,7 @@ public class MySql {
         ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(url, pool.user, pool.psw);
 
         PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(connectionFactory, null);
-        poolableConnectionFactory.setValidationQuery("select 1");
+        poolableConnectionFactory.setValidationQuery("SELECT 1");
         poolableConnectionFactory.setDefaultReadOnly(false);
         poolableConnectionFactory.setDefaultAutoCommit(true);
         

@@ -65,13 +65,13 @@ public class MaintainModel {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
-			String sql = "select `maintain_id`,`name`,`content`,`start_time`,`end_time` from `" + TABLE_MAINTAIN + "` ";
+			String sql = "SELECT `maintain_id`,`name`,`content`,`start_time`,`end_time` FROM `" + TABLE_MAINTAIN + "` ";
 			String factors = "";
 			String limit = "";
             if (null != pageIndex && pageIndex > 0 && null != pageSize && pageSize > 0) {
                 limit = String.format(" limit %s, %s", (pageIndex - 1) * pageSize, pageSize);
             }
-            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "where" : ""), factors);
+            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "WHERE" : ""), factors);
             
             if (null != sort && sort.length() > 0) {
             	sort = "`" + sort + "`";
@@ -99,7 +99,7 @@ public class MaintainModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "SELECT TABLE_ROWS from information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_MAINTAIN + "'";
+            final String sql = "SELECT TABLE_ROWS FROM information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_MAINTAIN + "'";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -174,7 +174,7 @@ public class MaintainModel {
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "UPDATE `" + TABLE_MAINTAIN + "` set "
+            final String sql = "UPDATE `" + TABLE_MAINTAIN + "` SET "
                     + "`name`=?,`content`=?,`start_time`=?,`end_time`=? WHERE `maintain_id`=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, maintainInfo.name);
@@ -198,8 +198,8 @@ public class MaintainModel {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
-			final String sql = "SELECT `maintain_id`,`name`,`content`,`start_time`,`end_time` from `"
-					+ TABLE_MAINTAIN + "` where `name`=?";
+			final String sql = "SELECT `maintain_id`,`name`,`content`,`start_time`,`end_time` FROM `"
+					+ TABLE_MAINTAIN + "` WHERE `name`=?";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, maintainName);
@@ -220,8 +220,8 @@ public class MaintainModel {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
-			final String sql = "SELECT `maintain_id`,`name`,`content`,`start_time`,`end_time` from `"
-					+ TABLE_MAINTAIN + "` where `maintain_id`=?";
+			final String sql = "SELECT `maintain_id`,`name`,`content`,`start_time`,`end_time` FROM `"
+					+ TABLE_MAINTAIN + "` WHERE `maintain_id`=?";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, maintain_id);
@@ -257,13 +257,13 @@ public class MaintainModel {
 	}
 	
 	public boolean addMaintainHost(Long maintain_id, List<Long> hostIdList) throws SQLException {
-		if (null == hostIdList || hostIdList.size() < 1) {
+		if (null == maintain_id || maintain_id.longValue() < 1 || null == hostIdList || hostIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "INSERT INTO `" + TABLE_MAINTAIN_HOST + "` (`maintain_id`, `host_id`) values %s";
+	        String sql = "INSERT INTO `" + TABLE_MAINTAIN_HOST + "` (`maintain_id`, `host_id`) VALUES %s";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long templateId : hostIdList) {
@@ -287,13 +287,13 @@ public class MaintainModel {
 	}
 	
 	public boolean addMaintainGroup(Long maintain_id, List<Long> groupIdList) throws SQLException {
-		if (null == groupIdList || groupIdList.size() < 1) {
+		if (null == maintain_id || maintain_id.longValue() < 1 || null == groupIdList || groupIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "INSERT INTO `" + TABLE_MAINTAIN_GROUP + "` (`maintain_id`, `group_id`) values %s";
+	        String sql = "INSERT INTO `" + TABLE_MAINTAIN_GROUP + "` (`maintain_id`, `group_id`) VALUES %s";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long templateId : groupIdList) {
@@ -365,7 +365,7 @@ public class MaintainModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "select `maintain_id`, `host_id` from `" + TABLE_MAINTAIN_HOST + "`;";
+            String sql = "SELECT `maintain_id`, `host_id` FROM `" + TABLE_MAINTAIN_HOST + "`;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -385,7 +385,7 @@ public class MaintainModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "select `maintain_id`, `group_id` from `" + TABLE_MAINTAIN_GROUP + "`;";
+            String sql = "SELECT `maintain_id`, `group_id` FROM `" + TABLE_MAINTAIN_GROUP + "`;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();

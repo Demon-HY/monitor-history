@@ -58,13 +58,13 @@ public class GroupModel {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
-			String sql = "select `group_id`,`name`,`memo`,`ctime`,`mtime` from `" + TABLE_GROUP + "` ";
+			String sql = "SELECT `group_id`,`name`,`memo`,`ctime`,`mtime` FROM `" + TABLE_GROUP + "` ";
 			String factors = "";
 			String limit = "";
             if (null != pageIndex && pageIndex > 0 && null != pageSize && pageSize > 0) {
                 limit = String.format(" limit %s, %s", (pageIndex - 1) * pageSize, pageSize);
             }
-            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "where" : ""), factors);
+            sql = String.format("%s %s %s", sql, (factors.length() > 0 ? "WHERE" : ""), factors);
             
             if (null != sort && sort.length() > 0) {
             	sort = "`" + sort + "`";
@@ -92,7 +92,7 @@ public class GroupModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "SELECT TABLE_ROWS from information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_GROUP + "'";
+            final String sql = "SELECT TABLE_ROWS FROM information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_GROUP + "'";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -166,7 +166,7 @@ public class GroupModel {
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "UPDATE `" + TABLE_GROUP + "` set "
+            final String sql = "UPDATE `" + TABLE_GROUP + "` SET "
                     + "`name`=?,`memo`=?,`mtime`=? WHERE `group_id`=?";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, groupInfo.name);
@@ -189,8 +189,8 @@ public class GroupModel {
 		Connection conn = null;
 		try {
 			conn = this.mysql.getConnection();
-			final String sql = "SELECT `group_id`,`name`,`memo`,`ctime`,`mtime` from `"
-					+ TABLE_GROUP + "` where `name`=?";
+			final String sql = "SELECT `group_id`,`name`,`memo`,`ctime`,`mtime` FROM `"
+					+ TABLE_GROUP + "` WHERE `name`=?";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, groupName);
@@ -211,8 +211,8 @@ public class GroupModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "SELECT `group_id`,`name`,`memo`,`ctime`,`mtime` from `"
-                    + TABLE_GROUP + "` where `group_id`=?";
+            final String sql = "SELECT `group_id`,`name`,`memo`,`ctime`,`mtime` FROM `"
+                    + TABLE_GROUP + "` WHERE `group_id`=?";
             
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, group_id);
@@ -248,13 +248,13 @@ public class GroupModel {
 	}
 	
 	public boolean addGroupTemplate(Long group_id, List<Long> templateIdList) throws SQLException {
-		if (null == templateIdList || templateIdList.size() < 1) {
+		if (null == group_id || group_id.longValue() < 1 || null == templateIdList || templateIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "INSERT INTO `" + TABLE_GROUP_TEMPLATE + "` (`group_id`, `template_id`) values %s";
+	        String sql = "INSERT INTO `" + TABLE_GROUP_TEMPLATE + "` (`group_id`, `template_id`) VALUES %s";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long templateId : templateIdList) {
@@ -305,9 +305,10 @@ public class GroupModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "select `group_id`, `template_id` from `" + TABLE_GROUP_TEMPLATE+ "`;";
+            String sql = "SELECT `group_id`, `template_id` FROM `" + TABLE_GROUP_TEMPLATE+ "` WHERE `group_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setLong(1, group_id);
             ResultSet rs = pstmt.executeQuery();
 
             return parseGroupTemplateMap(rs);
