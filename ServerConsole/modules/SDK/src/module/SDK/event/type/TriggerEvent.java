@@ -52,14 +52,14 @@ public class TriggerEvent extends Event {
         POST_DELETE_TRIGGER,
         
         /**
-         * 事件类型标识：查询触发器前</br>
+         * 事件类型标识：获取触发器前</br>
          * 有效参数：</br>
          * order</br>
          * sort
          */
         PRE_LIST_TRIGGER,
         /**
-         * 事件类型标识：查询触发器后</br>
+         * 事件类型标识：获取触发器后</br>
          * 有效参数：</br>
          * pairTriggers
          */
@@ -101,7 +101,7 @@ public class TriggerEvent extends Event {
 	}
 	
 	/**
-	 * 查询触发器前
+	 * 获取触发器前
 	 * @param env
 	 * @param order
 	 * @param sort
@@ -113,7 +113,7 @@ public class TriggerEvent extends Event {
 	}
 	
 	/**
-	 * 查询触发器后
+	 * 获取触发器后
 	 * @param env
 	 * @param pairTriggers
 	 */

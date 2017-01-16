@@ -54,66 +54,66 @@ public class ActionEvent extends Event {
         POST_DELETE_ACTION,
         
         /**
-         * 事件类型标识：查询报警前</br>
+         * 事件类型标识：获取报警前</br>
          * 有效参数：</br>
          * order</br>
          * sort
          */
         PRE_LIST_ACTION,
         /**
-         * 事件类型标识：查询报警后</br>
+         * 事件类型标识：获取报警后</br>
          * 有效参数：</br>
          * listActions
          */
         POST_LIST_ACTION,
         
         /**
-         * 事件类型标识：查询报警装置所属的报警设置前</br>
+         * 事件类型标识：获取报警装置关联的报警设置前</br>
          * 有效参数：</br>
          * action_id
          */
         PRE_LIST_ACTION_OPERATION,
         /**
-         * 事件类型标识：查询报警装置所属的报警设置后</br>
+         * 事件类型标识：获取报警装置关联的报警设置后</br>
          * 有效参数：</br>
          * actionOperations
          */
         POST_LIST_ACTION_OPERATION,
         
         /**
-         * 事件类型标识：查询报警装置所属的群组前</br>
+         * 事件类型标识：获取报警装置关联的群组前</br>
          * 有效参数：</br>
          * action_id
          */
         PRE_LIST_ACTION_GROUP,
         /**
-         * 事件类型标识：查询报警装置所属的群组后</br>
+         * 事件类型标识：获取报警装置关联的群组后</br>
          * 有效参数：</br>
          * actionGroups
          */
         POST_LIST_ACTION_GROUP,
         
         /**
-         * 事件类型标识：查询报警装置所属的主机前</br>
+         * 事件类型标识：获取报警装置关联的主机前</br>
          * 有效参数：</br>
          * action_id
          */
         PRE_LIST_ACTION_HOST,
         /**
-         * 事件类型标识：查询报警装置所属的主机后</br>
+         * 事件类型标识：获取报警装置关联的主机后</br>
          * 有效参数：</br>
          * actionHosts
          */
         POST_LIST_ACTION_HOST,
         
         /**
-         * 事件类型标识：查询报警装置所属的触发器前</br>
+         * 事件类型标识：获取报警装置关联的触发器前</br>
          * 有效参数：</br>
          * action_id
          */
         PRE_LIST_ACTION_TRIGGER,
         /**
-         * 事件类型标识：查询报警装置所属的触发器后</br>
+         * 事件类型标识：获取报警装置关联的触发器后</br>
          * 有效参数：</br>
          * actionHosts
          */
@@ -131,10 +131,8 @@ public class ActionEvent extends Event {
 	public String sort;
 	public Pair<Integer, List<ActionInfo>> pairActions;
 	
-	public Map<Long, List<Long>> actionOperations;
-	public Map<Long, List<Long>> actionGroups;
-	public Map<Long, List<Long>> actionHosts;
-	public Map<Long, List<Long>> actionTriggers;
+	/** 报警装置关联的对象 Id 集合 */
+	public Map<Long, List<Long>> actionRelationObjectIds;
 	
 	public ActionInfo actionInfo;
 	public ActionEvent(){}
@@ -150,7 +148,7 @@ public class ActionEvent extends Event {
 	}
 	
 	/**
-	 * 删除报警前
+	 * 删除报警前/获取报警装置关联的对象前
 	 * @param env
 	 * @param action_id
 	 */
@@ -160,7 +158,7 @@ public class ActionEvent extends Event {
 	}
 	
 	/**
-	 * 查询报警前
+	 * 获取报警前
 	 * @param env
 	 * @param order
 	 * @param sort
@@ -172,13 +170,23 @@ public class ActionEvent extends Event {
 	}
 	
 	/**
-	 * 查询报警后
+	 * 获取报警后
 	 * @param env
 	 * @param pairActions
 	 */
 	public ActionEvent(Env env, Pair<Integer, List<ActionInfo>> pairActions) {
 		this.env = env;
 		this.pairActions = pairActions;
+	}
+	
+	/**
+	 * 获取报警装置关联的对象后
+	 * @param env
+	 * @param actionRelationObjectIds
+	 */
+	public ActionEvent(Env env, Map<Long, List<Long>> actionRelationObjectIds) {
+		this.env = env;
+		this.actionRelationObjectIds = actionRelationObjectIds;
 	}
 	
 }

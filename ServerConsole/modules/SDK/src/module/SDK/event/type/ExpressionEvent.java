@@ -52,14 +52,14 @@ public class ExpressionEvent extends Event {
         POST_DELETE_TRIGGER_EXPRESSION,
         
         /**
-         * 事件类型标识：查询报警前</br>
+         * 事件类型标识：获取报警前</br>
          * 有效参数：</br>
          * order</br>
          * sort
          */
         PRE_LIST_TRIGGER_EXPRESSION,
         /**
-         * 事件类型标识：查询报警后</br>
+         * 事件类型标识：获取报警后</br>
          * 有效参数：</br>
          * pairExpressions
          */
@@ -106,7 +106,7 @@ public class ExpressionEvent extends Event {
 	}
 	
 	/**
-	 * 查询报警前
+	 * 获取报警前
 	 * @param env
 	 * @param order
 	 * @param sort
@@ -118,7 +118,7 @@ public class ExpressionEvent extends Event {
 	}
 	
 	/**
-	 * 查询报警后
+	 * 获取报警后
 	 * @param env
 	 * @param pairExpressions
 	 */

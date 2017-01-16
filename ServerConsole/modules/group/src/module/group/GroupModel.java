@@ -92,7 +92,7 @@ public class GroupModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "SELECT TABLE_ROWS FROM information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_GROUP + "'";
+            final String sql = "SELECT TABLE_ROWS FROM information_schema.`TABLES` WHERE TABLE_NAME = '" + TABLE_GROUP + "';";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -247,14 +247,14 @@ public class GroupModel {
         }
 	}
 	
-	public boolean addGroupTemplate(Long group_id, List<Long> templateIdList) throws SQLException {
+	public boolean addGroupTemplates(Long group_id, List<Long> templateIdList) throws SQLException {
 		if (null == group_id || group_id.longValue() < 1 || null == templateIdList || templateIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "INSERT INTO `" + TABLE_GROUP_TEMPLATE + "` (`group_id`, `template_id`) VALUES %s";
+	        String sql = "INSERT INTO `" + TABLE_GROUP_TEMPLATE + "` (`group_id`, `template_id`) VALUES %s;";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long templateId : templateIdList) {
@@ -277,7 +277,7 @@ public class GroupModel {
 	    }
 	}
 	
-	public boolean deleteGroupTemplateByGroupId(Long group_id) throws SQLException {
+	public boolean deleteGroupTemplatesByGroupId(Long group_id) throws SQLException {
 		if (null == group_id || group_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -298,7 +298,7 @@ public class GroupModel {
         }
 	}
 	
-	public Map<Long, List<Long>> getGroupTemplateByGroupId(Long group_id) throws SQLException {
+	public Map<Long, List<Long>> getGroupTemplatesByGroupId(Long group_id) throws SQLException {
 		if (null == group_id || group_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}

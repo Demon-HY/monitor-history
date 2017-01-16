@@ -2,6 +2,7 @@ package module.SDK.event.type;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import org.javatuples.Pair;
 
@@ -53,18 +54,31 @@ public class GroupEvent extends Event {
         POST_DELETE_GROUP,
         
         /**
-         * 事件类型标识：查询群组前</br>
+         * 事件类型标识：获取群组前</br>
          * 有效参数：</br>
          * order</br>
          * sort
          */
         PRE_LIST_GROUP,
         /**
-         * 事件类型标识：查询群组后</br>
+         * 事件类型标识：获取群组后</br>
          * 有效参数：</br>
          * pairGroups
          */
         POST_LIST_GROUP,
+        
+        /**
+         * 事件类型标识：获取群组关联的模板前</br>
+         * 有效参数：</br>
+         * action_id
+         */
+        PRE_LIST_GROUP_TEMPLATE,
+        /**
+         * 事件类型标识：获取群组关联的模板后</br>
+         * 有效参数：</br>
+         * actionOperations
+         */
+        POST_LIST_GROUP_TEMPLATE,
 	}
 	
 	public Env env;
@@ -77,6 +91,9 @@ public class GroupEvent extends Event {
 	public String order;
 	public String sort;
 	public Pair<Integer, List<GroupInfo>> pairGroups;
+	
+	/** 群组关联的对象 Id 集合 */
+	public Map<Long, List<Long>> groupRelationObjectIds;
 	
 	public GroupInfo groupInfo;
 	
@@ -97,7 +114,7 @@ public class GroupEvent extends Event {
 	}
 	
 	/**
-	 * 删除群组前
+	 * 删除群组前/获取群组关联的对象前
 	 * @param env
 	 * @param group_id
 	 */
@@ -107,7 +124,7 @@ public class GroupEvent extends Event {
 	}
 	
 	/**
-	 * 查询群组前
+	 * 获取群组前
 	 * @param env
 	 * @param order
 	 * @param sort
@@ -119,12 +136,22 @@ public class GroupEvent extends Event {
 	}
 	
 	/**
-	 * 查询群组后
+	 * 获取群组后
 	 * @param env
 	 * @param pairGroups
 	 */
 	public GroupEvent(Env env, Pair<Integer, List<GroupInfo>> pairGroups) {
 		this.env = env;
 		this.pairGroups = pairGroups;
+	}
+	
+	/**
+	 * 获取群组关联的对象后
+	 * @param env
+	 * @param groupRelationObjectIds
+	 */
+	public GroupEvent(Env env, Map<Long, List<Long>> groupRelationObjectIds) {
+		this.env = env;
+		this.groupRelationObjectIds = groupRelationObjectIds;
 	}
 }

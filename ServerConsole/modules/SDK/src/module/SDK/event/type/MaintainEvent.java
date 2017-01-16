@@ -53,14 +53,14 @@ public class MaintainEvent extends Event {
         POST_DELETE_MAINTAIN,
         
         /**
-         * 事件类型标识：查询维护前</br>
+         * 事件类型标识：获取维护前</br>
          * 有效参数：</br>
          * order</br>
          * sort
          */
         PRE_LIST_MAINTAIN,
         /**
-         * 事件类型标识：查询维护后</br>
+         * 事件类型标识：获取维护后</br>
          * 有效参数：</br>
          * pairMaintains
          */
@@ -106,7 +106,7 @@ public class MaintainEvent extends Event {
 	}
 	
 	/**
-	 * 查询维护前
+	 * 获取维护前
 	 * @param env
 	 * @param order
 	 * @param sort
@@ -118,7 +118,7 @@ public class MaintainEvent extends Event {
 	}
 	
 	/**
-	 * 查询维护后
+	 * 获取维护后
 	 * @param env
 	 * @param pairMaintains
 	 */

@@ -52,14 +52,14 @@ public class ServiceEvent extends Event {
         POST_DELETE_SERVICE,
         
         /**
-         * 事件类型标识：查询服务前</br>
+         * 事件类型标识：获取服务前</br>
          * 有效参数：</br>
          * order</br>
          * sort
          */
         PRE_LIST_SERVICE,
         /**
-         * 事件类型标识：查询服务后</br>
+         * 事件类型标识：获取服务后</br>
          * 有效参数：</br>
          * pairServices
          */
@@ -102,7 +102,7 @@ public class ServiceEvent extends Event {
 	}
 	
 	/**
-	 * 查询服务前
+	 * 获取服务前
 	 * @param env
 	 * @param order
 	 * @param sort
@@ -114,7 +114,7 @@ public class ServiceEvent extends Event {
 	}
 	
 	/**
-	 * 查询服务后
+	 * 获取服务后
 	 * @param env
 	 * @param pairServices
 	 */

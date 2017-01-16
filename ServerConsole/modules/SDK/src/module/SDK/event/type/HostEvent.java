@@ -53,14 +53,14 @@ public class HostEvent extends Event {
         POST_DELETE_HOST,
         
         /**
-         * 事件类型标识：查询主机前</br>
+         * 事件类型标识：获取主机前</br>
          * 有效参数：</br>
          * order</br>
          * sort
          */
         PRE_LIST_HOST,
         /**
-         * 事件类型标识：查询主机后</br>
+         * 事件类型标识：获取主机后</br>
          * 有效参数：</br>
          * pairHosts
          */
@@ -110,7 +110,7 @@ public class HostEvent extends Event {
 	}
 	
 	/**
-	 * 查询主机前
+	 * 获取主机前
 	 * @param env
 	 * @param order
 	 * @param sort
@@ -122,7 +122,7 @@ public class HostEvent extends Event {
 	}
 	
 	/**
-	 * 查询主机后
+	 * 获取主机后
 	 * @param env
 	 * @param pairHosts
 	 */

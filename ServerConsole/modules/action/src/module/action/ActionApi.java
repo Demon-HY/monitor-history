@@ -74,13 +74,14 @@ public class ActionApi implements IActionApi{
 	
 	public ActionInfo addAction(Env env, ActionInfo actionInfo, List<Long> operationIdList, List<Long> groupIdList, 
 			List<Long> hostIdList, List<Long> triggerIdList) throws LogicalException, SQLException {
-		// 发送获取报警列表前事件
+		// 发送添加报警列表前事件
 		ActionEvent actionEvent = new ActionEvent(env, actionInfo);
 		this.beans.getEventHub().dispatchEvent(ActionEvent.Type.PRE_ADD_ACTION, actionEvent);
 		
 		ActionInfo temp = this.actionModel.getActionByActionName(actionInfo.name);
 		if (null != temp) {
-			throw new LogicalException(ActionRetStat.ERR_NAME_EXISTED, "ActionApi.addAction add name(" + actionInfo.name + ") existed!");
+			throw new LogicalException(ActionRetStat.ERR_NAME_EXISTED, 
+					"ActionApi.addAction add name(" + actionInfo.name + ") existed!");
 		}
 		
 		this.actionModel.addAction(actionInfo);
@@ -98,7 +99,7 @@ public class ActionApi implements IActionApi{
 			this.actionModel.addActionTriggers(actionInfo.action_id, triggerIdList);
 		}
 		
-		// 发送获取报警列表后事件
+		// 发送添加报警列表后事件
 		actionEvent = new ActionEvent(env,  actionInfo);
 		this.beans.getEventHub().dispatchEvent(ActionEvent.Type.POST_ADD_ACTION, actionEvent);
 		
@@ -113,7 +114,8 @@ public class ActionApi implements IActionApi{
 		
 		ActionInfo temp = this.actionModel.getActionByActionId(actionInfo.action_id);
 		if (null == temp) {
-			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, "ActionApi.addAction action_id(" + actionInfo.action_id + ") not found!");
+			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, 
+					"ActionApi.addAction action_id(" + actionInfo.action_id + ") not found!");
 		}
 		
 		this.actionModel.editActionByActionId(actionInfo);
@@ -151,20 +153,22 @@ public class ActionApi implements IActionApi{
 	
 	public boolean deleteAction(Env env, Long action_id) throws LogicalException, SQLException {
 		if (null == action_id || action_id.longValue() < 1) {
-			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, "ActionApi.deleteAction action_id(" + action_id + ") not found!");
+			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, 
+					"ActionApi.deleteAction action_id(" + action_id + ") not found!");
 		}
-		// 发送修改报警列表前事件
+		// 发送删除报警列表前事件
 		ActionEvent actionEvent = new ActionEvent(env, action_id);
 		this.beans.getEventHub().dispatchEvent(ActionEvent.Type.PRE_DELETE_ACTION, actionEvent);
 		
 		ActionInfo actionInfo = this.actionModel.getActionByActionId(action_id);
 		if (null == actionInfo) {
-			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, "ActionApi.deleteAction action_id(" + action_id + ") not found!");
+			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, 
+					"ActionApi.deleteAction action_id(" + action_id + ") not found!");
 		}
 		
 		boolean result = this.actionModel.deleteActionByActionId(action_id);
 		
-		// 发送修改报警列表后事件
+		// 发送删除报警列表后事件
 		actionEvent = new ActionEvent(env,  actionInfo);
 		this.beans.getEventHub().dispatchEvent(ActionEvent.Type.POST_DELETE_ACTION, actionEvent);
 		
@@ -173,20 +177,23 @@ public class ActionApi implements IActionApi{
 	
 	public Map<Long, List<Long>> getActionOperations(Env env, Long action_id) throws LogicalException, SQLException {
 		if (null == action_id || action_id.longValue() < 1) {
-			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, "ActionApi.getActionOperation action_id(" + action_id + ") not found!");
+			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, 
+					"ActionApi.getActionOperation action_id(" + action_id + ") not found!");
 		}
-		ActionInfo actionInfo = this.actionModel.getActionByActionId(action_id);
-		if (null == actionInfo) {
-			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, "ActionApi.getActionOperation action_id(" + action_id + ") not found!");
-		}
-		// 发送查询报警装置所属的报警设置前事件
+		// 发送获取报警装置关联的报警设置前事件
 		ActionEvent actionEvent = new ActionEvent(env, action_id);
 		this.beans.getEventHub().dispatchEvent(ActionEvent.Type.PRE_LIST_ACTION_OPERATION, actionEvent);
 		
+		ActionInfo actionInfo = this.actionModel.getActionByActionId(action_id);
+		if (null == actionInfo) {
+			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND,
+					"ActionApi.getActionOperation action_id(" + action_id + ") not found!");
+		}
+		
 		Map<Long, List<Long>> actionOperations = this.actionModel.getActionOperationsByActionId(action_id);
 		
-		// 发送修改报警列表后事件
-		actionEvent = new ActionEvent(env,  actionInfo);
+		// 发送获取报警装置关联的报警设置后事件
+		actionEvent = new ActionEvent(env,  actionOperations);
 		this.beans.getEventHub().dispatchEvent(ActionEvent.Type.POST_LIST_ACTION_OPERATION, actionEvent);
 		
 		return actionOperations;
@@ -194,20 +201,23 @@ public class ActionApi implements IActionApi{
 	
 	public Map<Long, List<Long>> getActionGroups(Env env, Long action_id) throws LogicalException, SQLException {
 		if (null == action_id || action_id.longValue() < 1) {
-			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, "ActionApi.getActionGroup action_id(" + action_id + ") not found!");
+			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, 
+					"ActionApi.getActionGroup action_id(" + action_id + ") not found!");
 		}
-		ActionInfo actionInfo = this.actionModel.getActionByActionId(action_id);
-		if (null == actionInfo) {
-			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, "ActionApi.getActionGroup action_id(" + action_id + ") not found!");
-		}
-		// 发送查询报警装置所属的报警群组前事件
+		// 发送获取报警装置关联的群组前事件
 		ActionEvent actionEvent = new ActionEvent(env, action_id);
 		this.beans.getEventHub().dispatchEvent(ActionEvent.Type.PRE_LIST_ACTION_GROUP, actionEvent);
 		
+		ActionInfo actionInfo = this.actionModel.getActionByActionId(action_id);
+		if (null == actionInfo) {
+			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, 
+					"ActionApi.getActionGroup action_id(" + action_id + ") not found!");
+		}
+
 		Map<Long, List<Long>> actionGroups = this.actionModel.getActionGroupsByActionId(action_id);
 		
-		// 发送查询报警装置所属的报警群组后事件
-		actionEvent = new ActionEvent(env,  actionInfo);
+		// 发送获取报警装置关联的群组后事件
+		actionEvent = new ActionEvent(env,  actionGroups);
 		this.beans.getEventHub().dispatchEvent(ActionEvent.Type.POST_LIST_ACTION_GROUP, actionEvent);
 		
 		return actionGroups;
@@ -215,20 +225,23 @@ public class ActionApi implements IActionApi{
 	
 	public Map<Long, List<Long>> getActionHosts(Env env, Long action_id) throws LogicalException, SQLException {
 		if (null == action_id || action_id.longValue() < 1) {
-			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, "ActionApi.getActionHost action_id(" + action_id + ") not found!");
+			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND,
+					"ActionApi.getActionHost action_id(" + action_id + ") not found!");
 		}
-		ActionInfo actionInfo = this.actionModel.getActionByActionId(action_id);
-		if (null == actionInfo) {
-			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, "ActionApi.getActionHost action_id(" + action_id + ") not found!");
-		}
-		// 发送查询报警装置所属的主机前事件
+		// 发送获取报警装置关联的主机前事件
 		ActionEvent actionEvent = new ActionEvent(env, action_id);
 		this.beans.getEventHub().dispatchEvent(ActionEvent.Type.PRE_LIST_ACTION_HOST, actionEvent);
 		
+		ActionInfo actionInfo = this.actionModel.getActionByActionId(action_id);
+		if (null == actionInfo) {
+			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND,
+					"ActionApi.getActionHost action_id(" + action_id + ") not found!");
+		}
+		
 		Map<Long, List<Long>> actionHosts = this.actionModel.getActionHostsByActionId(action_id);
 		
-		// 发送查询报警装置所属的主机后事件
-		actionEvent = new ActionEvent(env,  actionInfo);
+		// 发送获取报警装置关联的主机后事件
+		actionEvent = new ActionEvent(env,  actionHosts);
 		this.beans.getEventHub().dispatchEvent(ActionEvent.Type.POST_LIST_ACTION_HOST, actionEvent);
 		
 		return actionHosts;
@@ -236,20 +249,23 @@ public class ActionApi implements IActionApi{
 	
 	public Map<Long, List<Long>> getActionTriggers(Env env, Long action_id) throws LogicalException, SQLException {
 		if (null == action_id || action_id.longValue() < 1) {
-			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, "ActionApi.getActionTrigger action_id(" + action_id + ") not found!");
+			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, 
+					"ActionApi.getActionTrigger action_id(" + action_id + ") not found!");
 		}
-		ActionInfo actionInfo = this.actionModel.getActionByActionId(action_id);
-		if (null == actionInfo) {
-			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, "ActionApi.getActionTrigger action_id(" + action_id + ") not found!");
-		}
-		// 发送查询报警装置所属的触发器前事件
+		// 发送获取报警装置关联的触发器前事件
 		ActionEvent actionEvent = new ActionEvent(env, action_id);
 		this.beans.getEventHub().dispatchEvent(ActionEvent.Type.PRE_LIST_ACTION_TRIGGER, actionEvent);
 		
+		ActionInfo actionInfo = this.actionModel.getActionByActionId(action_id);
+		if (null == actionInfo) {
+			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND,
+					"ActionApi.getActionTrigger action_id(" + action_id + ") not found!");
+		}
+		
 		Map<Long, List<Long>> actionTriggers = this.actionModel.getActionTriggersByActionId(action_id);
 		
-		// 发送查询报警装置所属的触发器后事件
-		actionEvent = new ActionEvent(env,  actionInfo);
+		// 发送获取报警装置关联的触发器后事件
+		actionEvent = new ActionEvent(env,  actionTriggers);
 		this.beans.getEventHub().dispatchEvent(ActionEvent.Type.POST_LIST_ACTION_TRIGGER, actionEvent);
 		
 		return actionTriggers;
@@ -286,7 +302,7 @@ public class ActionApi implements IActionApi{
 	}
 	
 	public OperationInfo addOperation(Env env, OperationInfo operationInfo, List<Long> userIdList) throws LogicalException, SQLException {
-		// 发送获取报警列表前事件
+		// 发送添加报警设置前事件
 		OperationEvent operationEvent = new OperationEvent(env, operationInfo);
 		this.beans.getEventHub().dispatchEvent(OperationEvent.Type.PRE_ADD_OPERATION, operationEvent);
 		
@@ -302,7 +318,7 @@ public class ActionApi implements IActionApi{
 			this.actionModel.addOperationUsers(operationInfo.operation_id, userIdList);
 		}
 		
-		// 发送获取报警列表后事件
+		// 发送添加报警设置后事件
 		operationEvent = new OperationEvent(env,  operationInfo);
 		this.beans.getEventHub().dispatchEvent(OperationEvent.Type.POST_ADD_OPERATION, operationEvent);
 		
@@ -310,7 +326,7 @@ public class ActionApi implements IActionApi{
 	}
 	
 	public OperationInfo editOperation(Env env, OperationInfo operationInfo, List<Long> userIdList) throws LogicalException, SQLException {
-		// 发送修改报警列表前事件
+		// 发送修改报警设置前事件
 		OperationEvent operationEvent = new OperationEvent(env, operationInfo);
 		this.beans.getEventHub().dispatchEvent(OperationEvent.Type.PRE_EDIT_OPERATION, operationEvent);
 		
@@ -328,7 +344,7 @@ public class ActionApi implements IActionApi{
 			this.actionModel.deleteOperationUsersByOperationId(operationInfo.operation_id);
 		}
 		
-		// 发送修改报警列表后事件
+		// 发送修改报警设置后事件
 		operationEvent = new OperationEvent(env,  operationInfo);
 		this.beans.getEventHub().dispatchEvent(OperationEvent.Type.POST_EDIT_OPERATION, operationEvent);
 		
@@ -340,7 +356,7 @@ public class ActionApi implements IActionApi{
 			throw new LogicalException(OperationRetStat.ERR_OPERATION_ID_NOT_FOUND, 
 					"ActionApi.deleteOperation operation_id(" + operation_id + ") not found!");
 		}
-		// 发送修改报警列表前事件
+		// 发送删除报警设置前事件
 		OperationEvent operationEvent = new OperationEvent(env, operation_id);
 		this.beans.getEventHub().dispatchEvent(OperationEvent.Type.PRE_DELETE_OPERATION, operationEvent);
 		
@@ -352,7 +368,7 @@ public class ActionApi implements IActionApi{
 		
 		boolean result = this.actionModel.deleteOperationByOperationId(operation_id);
 		
-		// 发送修改报警列表后事件
+		// 发送删除报警设置后事件
 		operationEvent = new OperationEvent(env,  operationInfo);
 		this.beans.getEventHub().dispatchEvent(OperationEvent.Type.POST_DELETE_OPERATION, operationEvent);
 		
@@ -364,18 +380,19 @@ public class ActionApi implements IActionApi{
 			throw new LogicalException(OperationRetStat.ERR_OPERATION_ID_NOT_FOUND, 
 					"ActionApi.getOperationGroup operation_id(" + operation_id + ") not found!");
 		}
+		// 发送获取报警设置关联的用户前事件
+		OperationEvent operationEvent = new OperationEvent(env, operation_id);
+		this.beans.getEventHub().dispatchEvent(OperationEvent.Type.PRE_LIST_OPERATION_USER, operationEvent);
+
 		OperationInfo operationInfo = this.actionModel.getOperationByOperationId(operation_id);
 		if (null == operationInfo) {
 			throw new LogicalException(OperationRetStat.ERR_OPERATION_ID_NOT_FOUND, 
 					"ActionApi.getOperationGroup operation_id(" + operation_id + ") not found!");
 		}
-		// 发送查询报警设置所属的用户前事件
-		OperationEvent operationEvent = new OperationEvent(env, operation_id);
-		this.beans.getEventHub().dispatchEvent(OperationEvent.Type.PRE_LIST_OPERATION_USER, operationEvent);
 		
 		Map<Long, List<Long>> operationGroups = this.actionModel.getOperationUsersByOperationId(operation_id);
 		
-		// 发送查询报警设置所属的用户后事件
+		// 发送获取报警设置关联的用户后事件
 		operationEvent = new OperationEvent(env,  operationInfo);
 		this.beans.getEventHub().dispatchEvent(OperationEvent.Type.POST_LIST_OPERATION_USER, operationEvent);
 		

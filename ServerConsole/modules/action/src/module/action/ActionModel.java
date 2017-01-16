@@ -565,7 +565,7 @@ public class ActionModel {
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "INSERT INTO `" + TABLE_ACTION_GROUP + "` (`action_id`, `group_id`) VALUES %s";
+	        String sql = "INSERT INTO `" + TABLE_ACTION_GROUP + "` (`action_id`, `group_id`) VALUES %s;";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long groupId : groupIdList) {
@@ -595,7 +595,7 @@ public class ActionModel {
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "INSERT INTO `" + TABLE_ACTION_TRIGGER + "` (`action_id`, `trigger_id`) VALUES %s";
+	        String sql = "INSERT INTO `" + TABLE_ACTION_TRIGGER + "` (`action_id`, `trigger_id`) VALUES %s;";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long triggerId : triggerIdList) {
@@ -625,7 +625,7 @@ public class ActionModel {
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "INSERT INTO `" + TABLE_OPERATION_USER + "` (`operation_id`, `user_id`) VALUES %s";
+	        String sql = "INSERT INTO `" + TABLE_OPERATION_USER + "` (`operation_id`, `user_id`) VALUES %s;";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long userId : userIdList) {

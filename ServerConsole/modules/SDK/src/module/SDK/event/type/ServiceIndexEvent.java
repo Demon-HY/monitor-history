@@ -52,14 +52,14 @@ public class ServiceIndexEvent extends Event {
         POST_DELETE_SERVICE_INDEX,
         
         /**
-         * 事件类型标识：查询服务指标前</br>
+         * 事件类型标识：获取服务指标前</br>
          * 有效参数：</br>
          * order</br>
          * sort
          */
         PRE_LIST_SERVICE_INDEX,
         /**
-         * 事件类型标识：查询服务指标后</br>
+         * 事件类型标识：获取服务指标后</br>
          * 有效参数：</br>
          * pairServiceIndexs
          */
@@ -102,7 +102,7 @@ public class ServiceIndexEvent extends Event {
 	}
 	
 	/**
-	 * 查询服务指标前
+	 * 获取服务指标前
 	 * @param env
 	 * @param order
 	 * @param sort
@@ -114,7 +114,7 @@ public class ServiceIndexEvent extends Event {
 	}
 	
 	/**
-	 * 查询服务指标后
+	 * 获取服务指标后
 	 * @param env
 	 * @param pairServiceIndexs
 	 */

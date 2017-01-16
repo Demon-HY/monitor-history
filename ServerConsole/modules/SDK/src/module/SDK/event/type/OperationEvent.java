@@ -53,27 +53,27 @@ public class OperationEvent extends Event {
         POST_DELETE_OPERATION,
         
         /**
-         * 事件类型标识：查询报警设置前</br>
+         * 事件类型标识：获取报警设置前</br>
          * 有效参数：</br>
          * order</br>
          * sort
          */
         PRE_LIST_OPERATION,
         /**
-         * 事件类型标识：查询报警设置后</br>
+         * 事件类型标识：获取报警设置后</br>
          * 有效参数：</br>
          * pairOperations
          */
         POST_LIST_OPERATION,
         
         /**
-         * 事件类型标识：查询报警设置所属的用户前</br>
+         * 事件类型标识：获取报警设置所属的用户前</br>
          * 有效参数：</br>
          * operation_id
          */
         PRE_LIST_OPERATION_USER,
         /**
-         * 事件类型标识：查询报警设置所属的用户后</br>
+         * 事件类型标识：获取报警设置所属的用户后</br>
          * 有效参数：</br>
          * operationUsers
          */
@@ -118,7 +118,7 @@ public class OperationEvent extends Event {
 	}
 	
 	/**
-	 * 查询报警设置前
+	 * 获取报警设置前
 	 * @param env
 	 * @param order
 	 * @param sort
@@ -130,7 +130,7 @@ public class OperationEvent extends Event {
 	}
 	
 	/**
-	 * 查询报警设置后
+	 * 获取报警设置后
 	 * @param env
 	 * @param pairOperations
 	 */
