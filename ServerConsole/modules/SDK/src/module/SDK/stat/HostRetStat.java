@@ -14,6 +14,6 @@ public class HostRetStat extends RetStat {
     public static final String ERR_IP_EXISTED = "ERR_IP_EXISTED";
     
     /** 主机名已存在 */
-    public static final String ERR_NAME_EXISTED = "ERR_NAME_EXISTED";
+    public static final String ERR_HOST_NAME_EXISTED = "ERR_HOST_NAME_EXISTED";
 
 }

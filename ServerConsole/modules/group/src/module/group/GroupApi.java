@@ -65,7 +65,7 @@ public class GroupApi implements IGroupApi{
 		
 		GroupInfo temp = this.groupModel.getGroupByGroupName(groupInfo.name);
 		if (null != temp) {
-			throw new LogicalException(GroupRetStat.ERR_NAME_EXISTED, 
+			throw new LogicalException(GroupRetStat.ERR_GROUP_NAME_EXISTED, 
 					"GroupApi.addGroup add name(" + groupInfo.name + ") existed!");
 		}
 		

@@ -81,7 +81,7 @@ public class HostApi implements IHostApi{
 		}
 		temp = this.hostModel.getHostByName(hostInfo.name);
 		if (null != temp) {
-			throw new LogicalException(HostRetStat.ERR_NAME_EXISTED, "HostApi.addHost add name(" + hostInfo.name + ") existed!");
+			throw new LogicalException(HostRetStat.ERR_HOST_NAME_EXISTED, "HostApi.addHost add name(" + hostInfo.name + ") existed!");
 		}
 		
 		this.hostModel.addHost(hostInfo);

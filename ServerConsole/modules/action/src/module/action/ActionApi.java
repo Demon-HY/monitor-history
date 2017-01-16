@@ -80,7 +80,7 @@ public class ActionApi implements IActionApi{
 		
 		ActionInfo temp = this.actionModel.getActionByActionName(actionInfo.name);
 		if (null != temp) {
-			throw new LogicalException(ActionRetStat.ERR_NAME_EXISTED, 
+			throw new LogicalException(ActionRetStat.ERR_ACTION_NAME_EXISTED, 
 					"ActionApi.addAction add name(" + actionInfo.name + ") existed!");
 		}
 		
@@ -308,7 +308,7 @@ public class ActionApi implements IActionApi{
 		
 		OperationInfo temp = this.actionModel.getOperationByName(operationInfo.name);
 		if (null != temp) {
-			throw new LogicalException(OperationRetStat.ERR_NAME_EXISTED, 
+			throw new LogicalException(OperationRetStat.ERR_OPERATION_NAME_EXISTED, 
 					"ActionApi.addOperation add name(" + operationInfo.name + ") existed!");
 		}
 		
