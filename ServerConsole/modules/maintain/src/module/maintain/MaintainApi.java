@@ -6,13 +6,11 @@ import java.util.List;
 import org.javatuples.Pair;
 
 import module.SDK.SdkCenter;
-import module.SDK.event.type.GroupEvent;
 import module.SDK.event.type.MaintainEvent;
-import module.SDK.info.GroupInfo;
 import module.SDK.info.MaintainInfo;
 import module.SDK.inner.IBeans;
 import module.SDK.inner.IMaintainApi;
-import module.SDK.stat.GroupRetStat;
+import module.SDK.stat.MaintainRetStat;
 
 import monitor.exception.LogicalException;
 import monitor.exception.UnInitilized;
@@ -59,24 +57,27 @@ public class MaintainApi implements IMaintainApi{
 		return new Pair<Integer, List<MaintainInfo>>(count, result);
 	}
 	
-	public MaintainInfo addMaintain(Env env, MaintainInfo maintainInfo, List<Long> templateIdList) throws LogicalException, SQLException {
-		// 发送添加群组前事件
+	public MaintainInfo addMaintain(Env env, MaintainInfo maintainInfo, List<Long> hostIdList, List<Long> groupIdList) throws LogicalException, SQLException {
+		// 发送添加维护前事件
 		MaintainEvent maintainEvent = new MaintainEvent(env, maintainInfo);
 		this.beans.getEventHub().dispatchEvent(MaintainEvent.Type.PRE_ADD_MAINTAIN, maintainEvent);
 		
 		MaintainInfo temp = this.maintainModel.getMaintainByMaintainName(maintainInfo.name);
 		if (null != temp) {
-			throw new LogicalException(MaintainRetStat.ERR_NAME_EXISTED, 
+			throw new LogicalException(MaintainRetStat.ERR_MAINTAIN_NAME_EXISTED, 
 					"MaintainApi.addMaintain add name(" + maintainInfo.name + ") existed!");
 		}
 		
 		this.maintainModel.addMaintain(maintainInfo);
 		maintainInfo = this.maintainModel.getMaintainByMaintainName(maintainInfo.name);
-		if (null != templateIdList && templateIdList.size() > 0) {
-			this.maintainModel.addMaintainTemplates(maintainInfo.maintain_id, templateIdList);
+		if (null != hostIdList && hostIdList.size() > 0) {
+			this.maintainModel.addMaintainHosts(maintainInfo.maintain_id, hostIdList);
+		}
+		if (null != groupIdList && groupIdList.size() > 0) {
+			this.maintainModel.addMaintainGroups(maintainInfo.maintain_id, groupIdList);
 		}
 		
-		// 发送添加群组后事件
+		// 发送添加维护后事件
 		maintainEvent = new MaintainEvent(env,  maintainInfo);
 		this.beans.getEventHub().dispatchEvent(MaintainEvent.Type.POST_ADD_MAINTAIN, maintainEvent);
 		

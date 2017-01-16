@@ -256,7 +256,7 @@ public class MaintainModel {
         }
 	}
 	
-	public boolean addMaintainHost(Long maintain_id, List<Long> hostIdList) throws SQLException {
+	public boolean addMaintainHosts(Long maintain_id, List<Long> hostIdList) throws SQLException {
 		if (null == maintain_id || maintain_id.longValue() < 1 || null == hostIdList || hostIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -286,7 +286,7 @@ public class MaintainModel {
 	    }
 	}
 	
-	public boolean addMaintainGroup(Long maintain_id, List<Long> groupIdList) throws SQLException {
+	public boolean addMaintainGroups(Long maintain_id, List<Long> groupIdList) throws SQLException {
 		if (null == maintain_id || maintain_id.longValue() < 1 || null == groupIdList || groupIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -316,7 +316,7 @@ public class MaintainModel {
 	    }
 	}
 	
-	public boolean deleteMaintainHostByMaintainId(Long maintain_id) throws SQLException {
+	public boolean deleteMaintainHostsByMaintainId(Long maintain_id) throws SQLException {
 		if (null == maintain_id || maintain_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -337,7 +337,7 @@ public class MaintainModel {
         }
 	}
 	
-	public boolean deleteMaintainGroupByMaintainId(Long maintain_id) throws SQLException {
+	public boolean deleteMaintainGroupsByMaintainId(Long maintain_id) throws SQLException {
 		if (null == maintain_id || maintain_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -358,7 +358,7 @@ public class MaintainModel {
         }
 	}
 	
-	public Map<Long, List<Long>> getMaintainHostByMaintainID(Long maintain_id) throws SQLException {
+	public Map<Long, List<Long>> getMaintainHostsByMaintainID(Long maintain_id) throws SQLException {
 		if (null == maintain_id || maintain_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -378,7 +378,7 @@ public class MaintainModel {
         }
 	}
 	
-	public Map<Long, List<Long>> getMaintainGroupByMaintainID(Long maintain_id) throws SQLException {
+	public Map<Long, List<Long>> getMaintainGroupsByMaintainID(Long maintain_id) throws SQLException {
 		if (null == maintain_id || maintain_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}
