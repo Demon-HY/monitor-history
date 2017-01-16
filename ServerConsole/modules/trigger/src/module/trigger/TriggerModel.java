@@ -173,7 +173,7 @@ public class TriggerModel {
             conn = this.mysql.getConnection();
             final String sql = "UPDATE `" + TABLE_TRIGGER + "` SET "
                     + "`name`=?,`severity`=?,`enabled`=?,`memo`=? "
-                    + " WHERE `trigger_id`=?";
+                    + " WHERE `trigger_id`=?;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, triggerInfo.name);
 			pstmt.setInt(2, triggerInfo.severity);
@@ -197,7 +197,7 @@ public class TriggerModel {
 		try {
 			conn = this.mysql.getConnection();
 			final String sql = "SELECT `trigger_id`,`name`,`severity`,`enabled`,`memo` FROM `"
-					+ TABLE_TRIGGER + "` WHERE `name`=?";
+					+ TABLE_TRIGGER + "` WHERE `name`=?;";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, triggerName);
@@ -219,7 +219,7 @@ public class TriggerModel {
         try {
             conn = this.mysql.getConnection();
             final String sql = "SELECT `trigger_id`,`name`,`severity`,`enabled`,`memo` FROM `"
-                    + TABLE_TRIGGER + "` WHERE `trigger_id`=?";
+                    + TABLE_TRIGGER + "` WHERE `trigger_id`=?;";
             
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, trigger_id);
@@ -240,7 +240,7 @@ public class TriggerModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_TRIGGER + "` WHERE `trigger_id`=?";
+            String sql = "DELETE FROM `" + TABLE_TRIGGER + "` WHERE `trigger_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, trigger_id);
@@ -385,7 +385,7 @@ public class TriggerModel {
             conn = this.mysql.getConnection();
             final String sql = "UPDATE `" + TABLE_EXPRESSION + "` SET "
                     + "`trigger_id`=?,`service_id`=?,`index_id`=?,`key`=?,`operator_type`=?,`func`=?,`params`=?,`threshold`=?,`logic_type`=? "
-                    + "WHERE `expression_id`=?";
+                    + "WHERE `expression_id`=?;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, expressionInfo.trigger_id);
 			pstmt.setLong(2, expressionInfo.service_id);
@@ -415,7 +415,7 @@ public class TriggerModel {
 			conn = this.mysql.getConnection();
 			final String sql = "SELECT `expression_id`,`trigger_id`,`service_id`,`index_id`,`key`,`operator_type`,"
 					+ "`func`,`params`,`threshold`,`logic_type` FROM `"
-					+ TABLE_EXPRESSION + "` WHERE `name`=?";
+					+ TABLE_EXPRESSION + "` WHERE `name`=?;";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, expressionName);
@@ -438,7 +438,7 @@ public class TriggerModel {
             conn = this.mysql.getConnection();
             final String sql = "SELECT `expression_id`,`trigger_id`,`service_id`,`index_id`,`key`,`operator_type`,"
 					+ "`func`,`params`,`threshold`,`logic_type` FROM `"
-                    + TABLE_EXPRESSION + "` WHERE `expression_id`=?";
+                    + TABLE_EXPRESSION + "` WHERE `expression_id`=?;";
             
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, expression_id);
@@ -459,7 +459,7 @@ public class TriggerModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_EXPRESSION + "` WHERE `expression_id`=?";
+            String sql = "DELETE FROM `" + TABLE_EXPRESSION + "` WHERE `expression_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, expression_id);

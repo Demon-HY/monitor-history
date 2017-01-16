@@ -62,7 +62,7 @@ public class GroupEvent extends Event {
         /**
          * 事件类型标识：查询群组后</br>
          * 有效参数：</br>
-         * listGroups
+         * pairGroups
          */
         POST_LIST_GROUP,
 	}
@@ -76,7 +76,7 @@ public class GroupEvent extends Event {
 	
 	public String order;
 	public String sort;
-	public Pair<Integer, List<GroupInfo>> listGroups;
+	public Pair<Integer, List<GroupInfo>> pairGroups;
 	
 	public GroupInfo groupInfo;
 	
@@ -121,10 +121,10 @@ public class GroupEvent extends Event {
 	/**
 	 * 查询群组后
 	 * @param env
-	 * @param listGroups
+	 * @param pairGroups
 	 */
-	public GroupEvent(Env env, Pair<Integer, List<GroupInfo>> listGroups) {
+	public GroupEvent(Env env, Pair<Integer, List<GroupInfo>> pairGroups) {
 		this.env = env;
-		this.listGroups = listGroups;
+		this.pairGroups = pairGroups;
 	}
 }

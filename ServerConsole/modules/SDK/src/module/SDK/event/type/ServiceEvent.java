@@ -61,7 +61,7 @@ public class ServiceEvent extends Event {
         /**
          * 事件类型标识：查询服务后</br>
          * 有效参数：</br>
-         * listServices
+         * pairServices
          */
         POST_LIST_SERVICE,
 	}
@@ -76,7 +76,7 @@ public class ServiceEvent extends Event {
 	
 	public String order;
 	public String sort;
-	public Pair<Integer, List<ServiceInfo>> listServices;
+	public Pair<Integer, List<ServiceInfo>> pairServices;
 	
 	public ServiceInfo serviceInfo;
 	public ServiceEvent(){}
@@ -116,11 +116,11 @@ public class ServiceEvent extends Event {
 	/**
 	 * 查询服务后
 	 * @param env
-	 * @param listServices
+	 * @param pairServices
 	 */
-	public ServiceEvent(Env env, Pair<Integer, List<ServiceInfo>> listServices) {
+	public ServiceEvent(Env env, Pair<Integer, List<ServiceInfo>> pairServices) {
 		this.env = env;
-		this.listServices = listServices;
+		this.pairServices = pairServices;
 	}
 	
 }

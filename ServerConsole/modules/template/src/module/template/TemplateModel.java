@@ -170,7 +170,7 @@ public class TemplateModel {
         try {
             conn = this.mysql.getConnection();
             final String sql = "UPDATE `" + TABLE_TEMPLATE + "` SET "
-                    + "`name`=?,`mtime`=? WHERE `template_id`=?";
+                    + "`name`=?,`mtime`=? WHERE `template_id`=?;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, templateInfo.name);
 			pstmt.setTimestamp(2, Time.getTimestamp());
@@ -192,7 +192,7 @@ public class TemplateModel {
 		try {
 			conn = this.mysql.getConnection();
 			final String sql = "SELECT `template_id`,`name`,`ctime`,`mtime` FROM `"
-					+ TABLE_TEMPLATE + "` WHERE `name`=?";
+					+ TABLE_TEMPLATE + "` WHERE `name`=?;";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, templateName);
@@ -214,7 +214,7 @@ public class TemplateModel {
         try {
             conn = this.mysql.getConnection();
             final String sql = "SELECT `template_id`,`name`,`ctime`,`mtime` FROM `"
-                    + TABLE_TEMPLATE + "` WHERE `template_id`=?";
+                    + TABLE_TEMPLATE + "` WHERE `template_id`=?;";
             
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, template_id);
@@ -295,7 +295,7 @@ public class TemplateModel {
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_TEMPLATE_SERVICE + "` WHERE `template_id`=?";
+            String sql = "DELETE FROM `" + TABLE_TEMPLATE_SERVICE + "` WHERE `template_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, template_id);
@@ -316,7 +316,7 @@ public class TemplateModel {
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_TEMPLATE_TRIGGER + "` WHERE `template_id`=?";
+            String sql = "DELETE FROM `" + TABLE_TEMPLATE_TRIGGER + "` WHERE `template_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, template_id);
@@ -337,7 +337,7 @@ public class TemplateModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_TEMPLATE + "` WHERE `template_id`=?";
+            String sql = "DELETE FROM `" + TABLE_TEMPLATE + "` WHERE `template_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, template_id);

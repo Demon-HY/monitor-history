@@ -61,7 +61,7 @@ public class TriggerEvent extends Event {
         /**
          * 事件类型标识：查询触发器后</br>
          * 有效参数：</br>
-         * listTriggers
+         * pairTriggers
          */
         POST_LIST_TRIGGER,
 	}
@@ -75,7 +75,7 @@ public class TriggerEvent extends Event {
 	
 	public String order;
 	public String sort;
-	public Pair<Integer, List<TriggerInfo>> listTriggers;
+	public Pair<Integer, List<TriggerInfo>> pairTriggers;
 	
 	public TriggerInfo triggerInfo;
 	public TriggerEvent(){}
@@ -115,11 +115,11 @@ public class TriggerEvent extends Event {
 	/**
 	 * 查询触发器后
 	 * @param env
-	 * @param listTriggers
+	 * @param pairTriggers
 	 */
-	public TriggerEvent(Env env, Pair<Integer, List<TriggerInfo>> listTriggers) {
+	public TriggerEvent(Env env, Pair<Integer, List<TriggerInfo>> pairTriggers) {
 		this.env = env;
-		this.listTriggers = listTriggers;
+		this.pairTriggers = pairTriggers;
 	}
 	
 }

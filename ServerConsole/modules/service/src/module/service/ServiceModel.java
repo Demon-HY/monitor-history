@@ -182,7 +182,7 @@ public class ServiceModel {
         try {
             conn = this.mysql.getConnection();
             final String sql = "UPDATE `" + TABLE_SERVICE + "` SET "
-                    + "`name`=?,`interval`=?,`plugin_name`=?,`has_sub_service`=?,`memo`=? WHERE `service_id`=?";
+                    + "`name`=?,`interval`=?,`plugin_name`=?,`has_sub_service`=?,`memo`=? WHERE `service_id`=?;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, serviceInfo.name);
 			pstmt.setLong(2, serviceInfo.interval);
@@ -207,7 +207,7 @@ public class ServiceModel {
 		try {
 			conn = this.mysql.getConnection();
 			final String sql = "SELECT `service_id`,`name`,`interval`,`plugin_name`,`has_sub_service`,`memo` FROM `"
-					+ TABLE_SERVICE + "` WHERE `name`=?";
+					+ TABLE_SERVICE + "` WHERE `name`=?;";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, serviceName);
@@ -229,7 +229,7 @@ public class ServiceModel {
 		try {
 			conn = this.mysql.getConnection();
 			final String sql = "SELECT `service_id`,`name`,`interval`,`plugin_name`,`has_sub_service`,`memo` FROM `"
-					+ TABLE_SERVICE + "` WHERE `service_id`=?";
+					+ TABLE_SERVICE + "` WHERE `service_id`=?;";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, service_id);
@@ -250,7 +250,7 @@ public class ServiceModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_SERVICE + "` WHERE `service_id`=?";
+            String sql = "DELETE FROM `" + TABLE_SERVICE + "` WHERE `service_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, service_id);
@@ -377,7 +377,7 @@ public class ServiceModel {
         try {
             conn = this.mysql.getConnection();
             final String sql = "UPDATE `" + TABLE_INDEX + "` SET "
-                    + "`name`=?,`key`=?,`type`=?,`memo`=? WHERE `index_id`=?";
+                    + "`name`=?,`key`=?,`type`=?,`memo`=? WHERE `index_id`=?;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, indexInfo.name);
 			pstmt.setString(2, indexInfo.key);
@@ -401,7 +401,7 @@ public class ServiceModel {
 		try {
 			conn = this.mysql.getConnection();
 			final String sql = "SELECT `index_id`,`name`,`key`,`type`,`memo` FROM `"
-					+ TABLE_INDEX + "` WHERE `name`=?";
+					+ TABLE_INDEX + "` WHERE `name`=?;";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, indexName);
@@ -423,7 +423,7 @@ public class ServiceModel {
 		try {
 			conn = this.mysql.getConnection();
 			final String sql = "SELECT `index_id`,`name`,`key`,`type`,`memo` FROM `"
-					+ TABLE_INDEX + "` WHERE `index_id`=?";
+					+ TABLE_INDEX + "` WHERE `index_id`=?;";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, index_id);
@@ -444,7 +444,7 @@ public class ServiceModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_INDEX + "` WHERE `index_id`=?";
+            String sql = "DELETE FROM `" + TABLE_INDEX + "` WHERE `index_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, index_id);
@@ -545,7 +545,7 @@ public class ServiceModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_SERVICE_INDEX + "` WHERE `service_id`=?";
+            String sql = "DELETE FROM `" + TABLE_SERVICE_INDEX + "` WHERE `service_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, service_id);

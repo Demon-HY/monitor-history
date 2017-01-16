@@ -61,7 +61,7 @@ public class ExpressionEvent extends Event {
         /**
          * 事件类型标识：查询报警后</br>
          * 有效参数：</br>
-         * listExpressions
+         * pairExpressions
          */
         POST_LIST_TRIGGER_EXPRESSION,
 	}
@@ -80,7 +80,7 @@ public class ExpressionEvent extends Event {
 	
 	public String order;
 	public String sort;
-	public Pair<Integer, List<ExpressionInfo>> listExpressions;
+	public Pair<Integer, List<ExpressionInfo>> pairExpressions;
 	
 	public ExpressionInfo expressionInfo;
 	public ExpressionEvent(){}
@@ -120,11 +120,11 @@ public class ExpressionEvent extends Event {
 	/**
 	 * 查询报警后
 	 * @param env
-	 * @param listExpressions
+	 * @param pairExpressions
 	 */
-	public ExpressionEvent(Env env, Pair<Integer, List<ExpressionInfo>> listExpressions) {
+	public ExpressionEvent(Env env, Pair<Integer, List<ExpressionInfo>> pairExpressions) {
 		this.env = env;
-		this.listExpressions = listExpressions;
+		this.pairExpressions = pairExpressions;
 	}
 	
 }

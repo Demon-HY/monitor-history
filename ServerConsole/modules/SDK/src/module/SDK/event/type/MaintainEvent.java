@@ -62,7 +62,7 @@ public class MaintainEvent extends Event {
         /**
          * 事件类型标识：查询维护后</br>
          * 有效参数：</br>
-         * listMaintains
+         * pairMaintains
          */
         POST_LIST_MAINTAIN,
 	}
@@ -76,7 +76,7 @@ public class MaintainEvent extends Event {
 	
 	public String order;
 	public String sort;
-	public Pair<Integer, List<MaintainInfo>> listMaintains;
+	public Pair<Integer, List<MaintainInfo>> pairMaintains;
 	
 	public MaintainInfo maintainInfo;
 	public MaintainEvent(){}
@@ -120,11 +120,11 @@ public class MaintainEvent extends Event {
 	/**
 	 * 查询维护后
 	 * @param env
-	 * @param listMaintains
+	 * @param pairMaintains
 	 */
-	public MaintainEvent(Env env, Pair<Integer, List<MaintainInfo>> listMaintains) {
+	public MaintainEvent(Env env, Pair<Integer, List<MaintainInfo>> pairMaintains) {
 		this.env = env;
-		this.listMaintains = listMaintains;
+		this.pairMaintains = pairMaintains;
 	}
 	
 }

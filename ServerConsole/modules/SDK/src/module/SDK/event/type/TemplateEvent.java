@@ -62,7 +62,7 @@ public class TemplateEvent extends Event {
         /**
          * 事件类型标识：查询模板后</br>
          * 有效参数：</br>
-         * listTemplates
+         * pairTemplates
          */
         POST_LIST_TEMPLATE,
 	}
@@ -75,7 +75,7 @@ public class TemplateEvent extends Event {
 	
 	public String order;
 	public String sort;
-	public Pair<Integer, List<TemplateInfo>> listTemplates;
+	public Pair<Integer, List<TemplateInfo>> pairTemplates;
 	
 	public TemplateInfo templateInfo;
 	public TemplateEvent(){}
@@ -115,11 +115,11 @@ public class TemplateEvent extends Event {
 	/**
 	 * 查询模板后
 	 * @param env
-	 * @param listTemplates
+	 * @param pairTemplates
 	 */
-	public TemplateEvent(Env env, Pair<Integer, List<TemplateInfo>> listTemplates) {
+	public TemplateEvent(Env env, Pair<Integer, List<TemplateInfo>> pairTemplates) {
 		this.env = env;
-		this.listTemplates = listTemplates;
+		this.pairTemplates = pairTemplates;
 	}
 	
 }

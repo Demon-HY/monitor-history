@@ -175,7 +175,7 @@ public class MaintainModel {
         try {
             conn = this.mysql.getConnection();
             final String sql = "UPDATE `" + TABLE_MAINTAIN + "` SET "
-                    + "`name`=?,`content`=?,`start_time`=?,`end_time`=? WHERE `maintain_id`=?";
+                    + "`name`=?,`content`=?,`start_time`=?,`end_time`=? WHERE `maintain_id`=?;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, maintainInfo.name);
 			pstmt.setString(2, maintainInfo.content);
@@ -199,7 +199,7 @@ public class MaintainModel {
 		try {
 			conn = this.mysql.getConnection();
 			final String sql = "SELECT `maintain_id`,`name`,`content`,`start_time`,`end_time` FROM `"
-					+ TABLE_MAINTAIN + "` WHERE `name`=?";
+					+ TABLE_MAINTAIN + "` WHERE `name`=?;";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, maintainName);
@@ -221,7 +221,7 @@ public class MaintainModel {
 		try {
 			conn = this.mysql.getConnection();
 			final String sql = "SELECT `maintain_id`,`name`,`content`,`start_time`,`end_time` FROM `"
-					+ TABLE_MAINTAIN + "` WHERE `maintain_id`=?";
+					+ TABLE_MAINTAIN + "` WHERE `maintain_id`=?;";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setLong(1, maintain_id);
@@ -242,7 +242,7 @@ public class MaintainModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_MAINTAIN + "` WHERE `maintain_id`=?";
+            String sql = "DELETE FROM `" + TABLE_MAINTAIN + "` WHERE `maintain_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, maintain_id);
@@ -323,7 +323,7 @@ public class MaintainModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_MAINTAIN_HOST + "` WHERE `maintain_id`=?";
+            String sql = "DELETE FROM `" + TABLE_MAINTAIN_HOST + "` WHERE `maintain_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, maintain_id);
@@ -344,7 +344,7 @@ public class MaintainModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_MAINTAIN_GROUP + "` WHERE `maintain_id`=?";
+            String sql = "DELETE FROM `" + TABLE_MAINTAIN_GROUP + "` WHERE `maintain_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, maintain_id);

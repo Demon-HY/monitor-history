@@ -83,7 +83,7 @@ public class AuthModel implements IAuthApi.IAuthModel {
         try {
         	conn = this.mysql.getConnection();
 
-            String sql = "SELECT `uid`, `expires` , `ctime`, `ip`, `device` FROM `token` WHERE `token` = ?";
+            String sql = "SELECT `uid`, `expires` , `ctime`, `ip`, `device` FROM `token` WHERE `token` = ?;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, token);
             ResultSet rs = pstmt.executeQuery();
@@ -107,7 +107,7 @@ public class AuthModel implements IAuthApi.IAuthModel {
 		try {
 			conn = this.mysql.getConnection();
 			
-			String sql = "DELETE FROM `" + TABLE_TOKEN + "` WHERE `token` = ?";
+			String sql = "DELETE FROM `" + TABLE_TOKEN + "` WHERE `token` = ?;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, token);
             return pstmt.executeUpdate() == 1 ? true : false;
@@ -155,7 +155,7 @@ public class AuthModel implements IAuthApi.IAuthModel {
         try {
             conn = this.mysql.getConnection();
 
-            String sql = "SELECT `uid` FROM `" + TABLE_LOGIN_ID + "` WHERE `type` = ? and `value` = ?";
+            String sql = "SELECT `uid` FROM `" + TABLE_LOGIN_ID + "` WHERE `type` = ? and `value` = ?;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, type);
             pstmt.setString(2, value);

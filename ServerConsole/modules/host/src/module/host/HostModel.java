@@ -210,7 +210,7 @@ public class HostModel {
         try {
             conn = this.mysql.getConnection();
             final String sql = "UPDATE `" + TABLE_HOST + "` SET "
-                    + "`name`=?,`ip`=?,`monitored`=?,`status`=?,`interval`=?,`memo`=?,`mtime`=? WHERE `host_id`=?";
+                    + "`name`=?,`ip`=?,`monitored`=?,`status`=?,`interval`=?,`memo`=?,`mtime`=? WHERE `host_id`=?;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, hostInfo.name);
             pstmt.setString(2, hostInfo.ip);
@@ -243,10 +243,32 @@ public class HostModel {
 		try {
 			conn = this.mysql.getConnection();
 			final String sql = "SELECT `host_id`,`name`,`ip`,`monitored`,`status`,`interval`,`memo`,`ctime`,`mtime` FROM `"
-					+ TABLE_HOST + "` WHERE `ip`=?";
+					+ TABLE_HOST + "` WHERE `ip`=?;";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, ip);
+			ResultSet rs = pstmt.executeQuery();
+			
+			return parseHost(rs);
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+	}
+	
+	public HostInfo getHostByName(String hostName) throws SQLException {
+		if (null == hostName) {
+			throw new IllegalArgumentException();
+		}
+		Connection conn = null;
+		try {
+			conn = this.mysql.getConnection();
+			final String sql = "SELECT `host_id`,`name`,`ip`,`monitored`,`status`,`interval`,`memo`,`ctime`,`mtime` FROM `"
+					+ TABLE_HOST + "` WHERE `name`=?;";
+			
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, hostName);
 			ResultSet rs = pstmt.executeQuery();
 			
 			return parseHost(rs);
@@ -271,7 +293,7 @@ public class HostModel {
         try {
             conn = this.mysql.getConnection();
             final String sql = "SELECT `host_id`,`name`,`ip`,`monitored`,`status`,`interval`,`memo`,`ctime`,`mtime` FROM `"
-                    + TABLE_HOST + "` WHERE `host_id`=?";
+                    + TABLE_HOST + "` WHERE `host_id`=?;";
             
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, host_id);
@@ -322,7 +344,7 @@ public class HostModel {
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_HOST_GROUP + "` WHERE `host_id`=?";
+            String sql = "DELETE FROM `" + TABLE_HOST_GROUP + "` WHERE `host_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, host_id);
@@ -373,7 +395,7 @@ public class HostModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_HOST_TEMPLATE + "` WHERE `host_id`=?";
+            String sql = "DELETE FROM `" + TABLE_HOST_TEMPLATE + "` WHERE `host_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, host_id);
@@ -394,7 +416,7 @@ public class HostModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_HOST + "` WHERE `host_id`=?";
+            String sql = "DELETE FROM `" + TABLE_HOST + "` WHERE `host_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, host_id);

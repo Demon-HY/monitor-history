@@ -111,7 +111,7 @@ public class UserModel implements IUserApi.IUserModel{
 		Connection conn = this.mysql.getConnection();
 		try {
 			final String sql  = "SELECT `uid`,`name`,`phone`,`email`,`nick`,`password`, `qq`,`type`,`status`,`exattr`,"
-            		+ "`ctime`,`mtime`,`load_time` FROM `" + TABLE_USER + "` WHERE `uid` = ?";
+            		+ "`ctime`,`mtime`,`load_time` FROM `" + TABLE_USER + "` WHERE `uid` = ?;";
             
 			PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, uid);
@@ -146,7 +146,7 @@ public class UserModel implements IUserApi.IUserModel{
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            final String sql = "UPDATE `" + TABLE_USER + "` SET `phone`,`email`,`nick`,`qq`,`exattr`,`mtime` WHERE `uid`=?";
+            final String sql = "UPDATE `" + TABLE_USER + "` SET `phone`,`email`,`nick`,`qq`,`exattr`,`mtime` WHERE `uid`=?;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, userInfo.phone);
             pstmt.setString(2, userInfo.email);
@@ -223,7 +223,7 @@ public class UserModel implements IUserApi.IUserModel{
 //	public UserInfo queryUserInfoByNamePassword(String name, String password) throws SQLException {
 //		Connection conn = this.mysql.getConnection();
 //		try {
-//			String sql = "SELECT * FROM `" + TABLE_USER + "` WHERE `name` = ? and `password` = ?";
+//			String sql = "SELECT * FROM `" + TABLE_USER + "` WHERE `name` = ? and `password` = ?;";
 //			PreparedStatement pstmt = conn.prepareStatement(sql);
 //			pstmt.setString(1, name);
 //			pstmt.setString(2, password);

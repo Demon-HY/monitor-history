@@ -61,7 +61,7 @@ public class ServiceIndexEvent extends Event {
         /**
          * 事件类型标识：查询服务指标后</br>
          * 有效参数：</br>
-         * listServiceIndexs
+         * pairServiceIndexs
          */
         POST_LIST_SERVICE_INDEX,
 	}
@@ -76,7 +76,7 @@ public class ServiceIndexEvent extends Event {
 	
 	public String order;
 	public String sort;
-	public Pair<Integer, List<IndexInfo>> listServiceIndexs;
+	public Pair<Integer, List<IndexInfo>> pairServiceIndexs;
 	
 	public IndexInfo serviceIndexInfo;
 	public ServiceIndexEvent(){}
@@ -116,11 +116,11 @@ public class ServiceIndexEvent extends Event {
 	/**
 	 * 查询服务指标后
 	 * @param env
-	 * @param listServiceIndexs
+	 * @param pairServiceIndexs
 	 */
-	public ServiceIndexEvent(Env env, Pair<Integer, List<IndexInfo>> listServiceIndexs) {
+	public ServiceIndexEvent(Env env, Pair<Integer, List<IndexInfo>> pairServiceIndexs) {
 		this.env = env;
-		this.listServiceIndexs = listServiceIndexs;
+		this.pairServiceIndexs = pairServiceIndexs;
 	}
 	
 }

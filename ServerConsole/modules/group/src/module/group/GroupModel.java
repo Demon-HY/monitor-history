@@ -167,7 +167,7 @@ public class GroupModel {
         try {
             conn = this.mysql.getConnection();
             final String sql = "UPDATE `" + TABLE_GROUP + "` SET "
-                    + "`name`=?,`memo`=?,`mtime`=? WHERE `group_id`=?";
+                    + "`name`=?,`memo`=?,`mtime`=? WHERE `group_id`=?;";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, groupInfo.name);
             pstmt.setString(2, groupInfo.memo);
@@ -190,7 +190,7 @@ public class GroupModel {
 		try {
 			conn = this.mysql.getConnection();
 			final String sql = "SELECT `group_id`,`name`,`memo`,`ctime`,`mtime` FROM `"
-					+ TABLE_GROUP + "` WHERE `name`=?";
+					+ TABLE_GROUP + "` WHERE `name`=?;";
 			
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, groupName);
@@ -212,7 +212,7 @@ public class GroupModel {
         try {
             conn = this.mysql.getConnection();
             final String sql = "SELECT `group_id`,`name`,`memo`,`ctime`,`mtime` FROM `"
-                    + TABLE_GROUP + "` WHERE `group_id`=?";
+                    + TABLE_GROUP + "` WHERE `group_id`=?;";
             
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, group_id);
@@ -233,7 +233,7 @@ public class GroupModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_GROUP + "` WHERE `group_id`=?";
+            String sql = "DELETE FROM `" + TABLE_GROUP + "` WHERE `group_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, group_id);
@@ -284,7 +284,7 @@ public class GroupModel {
 		Connection conn = null;
         try {
             conn = this.mysql.getConnection();
-            String sql = "DELETE FROM `" + TABLE_GROUP_TEMPLATE + "` WHERE `group_id`=?";
+            String sql = "DELETE FROM `" + TABLE_GROUP_TEMPLATE + "` WHERE `group_id`=?;";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, group_id);

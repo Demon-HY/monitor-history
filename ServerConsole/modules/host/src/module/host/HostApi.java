@@ -60,25 +60,9 @@ public class HostApi implements IHostApi{
 	 * 添加主机
 	 * 
 	 * @param env
-	 * <blockquote>
-     * 		类型：对象<br/>
-     * 		描述：上下文对象<br/>
-     * </blockquote>
-	 * @param hostInfo 
-	 * <blockquote>
-     * 		类型：对象<br/>
-     * 		描述：主机信息<br/>
-     * </blockquote>
-     * @param groupIdList 
-	 * <blockquote>
-     * 		类型：数组<br/>
-     * 		描述：群组 Id 集合<br/>
-     * </blockquote>
-     * @param templateIdList 
-	 * <blockquote>
-     * 		类型：数组<br/>
-     * 		描述：模板 Id 集合<br/>
-     * </blockquote>
+	 * @param hostInfo 主机信息
+     * @param groupIdList 群组 Id 集合
+     * @param templateIdList 模板 Id 集合
      * 
      * @return HostInfo
      * 
@@ -91,24 +75,29 @@ public class HostApi implements IHostApi{
 		HostEvent hostEvent = new HostEvent(env, hostInfo);
 		this.beans.getEventHub().dispatchEvent(HostEvent.Type.PRE_ADD_HOST, hostEvent);
 		
-		HostInfo host = this.hostModel.getHostByIP(hostInfo.ip);
-		if (null != host) {
-		    throw new LogicalException(HostRetStat.ERR_ADD_IP_EXISTED, "HostApi.addHost add ip(" + hostInfo.ip + ") existed!");
+		HostInfo temp = this.hostModel.getHostByIP(hostInfo.ip);
+		if (null != temp) {
+		    throw new LogicalException(HostRetStat.ERR_IP_EXISTED, "HostApi.addHost add ip(" + hostInfo.ip + ") existed!");
+		}
+		temp = this.hostModel.getHostByName(hostInfo.name);
+		if (null != temp) {
+			throw new LogicalException(HostRetStat.ERR_NAME_EXISTED, "HostApi.addHost add name(" + hostInfo.name + ") existed!");
 		}
 		
 		this.hostModel.addHost(hostInfo);
-		host = this.hostModel.getHostByIP(hostInfo.ip);
+		hostInfo = this.hostModel.getHostByIP(hostInfo.ip);
 		if (null != groupIdList && groupIdList.size() > 0) {
-			this.hostModel.addHostGroup(host.host_id, groupIdList);
+			this.hostModel.addHostGroup(hostInfo.host_id, groupIdList);
 		}
 		if (null != templateIdList && templateIdList.size() > 0) {
-			this.hostModel.addHostTemplate(host.host_id, templateIdList);
+			this.hostModel.addHostTemplate(hostInfo.host_id, templateIdList);
 		}
 		
 		// 发送添加主机后事件
 		hostEvent = new HostEvent(env, hostInfo);
 		this.beans.getEventHub().dispatchEvent(HostEvent.Type.POST_ADD_HOST, hostEvent);
-		return null;
+		
+		return hostInfo;
 	}
 	
 	/**
@@ -159,11 +148,15 @@ public class HostApi implements IHostApi{
         if (null != groupIdList && groupIdList.size() > 0) {
         	this.hostModel.deleteHostGroupByHostId(hostInfo.host_id);
             this.hostModel.addHostGroup(hostInfo.host_id, groupIdList);
-        }
+        } else {
+        	this.hostModel.deleteHostGroupByHostId(hostInfo.host_id);
+		}
         if (null != templateIdList && templateIdList.size() > 0) {
         	this.hostModel.deleteHostTemplateByHostId(hostInfo.host_id);
             this.hostModel.addHostTemplate(hostInfo.host_id, templateIdList);
-        }
+        } else {
+        	this.hostModel.deleteHostTemplateByHostId(hostInfo.host_id);
+		}
         
         HostInfo host = this.hostModel.getHostByHostId(hostInfo.host_id);
         

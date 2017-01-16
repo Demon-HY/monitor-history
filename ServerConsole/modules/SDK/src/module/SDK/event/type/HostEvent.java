@@ -62,7 +62,7 @@ public class HostEvent extends Event {
         /**
          * 事件类型标识：查询主机后</br>
          * 有效参数：</br>
-         * listHosts
+         * pairHosts
          */
         POST_LIST_HOST,
 	}
@@ -80,7 +80,7 @@ public class HostEvent extends Event {
 	
 	public String order;
 	public String sort;
-	public Pair<Integer, List<HostInfo>> listHosts;
+	public Pair<Integer, List<HostInfo>> pairHosts;
 	
 	public HostInfo hostInfo;
 	public HostEvent(){}
@@ -124,11 +124,11 @@ public class HostEvent extends Event {
 	/**
 	 * 查询主机后
 	 * @param env
-	 * @param listHosts
+	 * @param pairHosts
 	 */
-	public HostEvent(Env env, Pair<Integer, List<HostInfo>> listHosts) {
+	public HostEvent(Env env, Pair<Integer, List<HostInfo>> pairHosts) {
 		this.env = env;
-		this.listHosts = listHosts;
+		this.pairHosts = pairHosts;
 	}
 	
 }

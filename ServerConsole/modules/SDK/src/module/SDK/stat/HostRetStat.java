@@ -11,6 +11,9 @@ public class HostRetStat extends RetStat {
     public static final String ERR_HOST_ID_NOT_FOUND = "ERR_HOST_ID_NOT_FOUND";
     
     /** 要添加的 IP 已存在 */
-    public static final String ERR_ADD_IP_EXISTED = "ERR_ADD_IP_EXISTED";
+    public static final String ERR_IP_EXISTED = "ERR_IP_EXISTED";
+    
+    /** 主机名已存在 */
+    public static final String ERR_NAME_EXISTED = "ERR_NAME_EXISTED";
 
 }

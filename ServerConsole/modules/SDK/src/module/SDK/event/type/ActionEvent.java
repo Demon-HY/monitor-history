@@ -2,6 +2,7 @@ package module.SDK.event.type;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import org.javatuples.Pair;
 
@@ -65,6 +66,58 @@ public class ActionEvent extends Event {
          * listActions
          */
         POST_LIST_ACTION,
+        
+        /**
+         * 事件类型标识：查询报警装置所属的报警设置前</br>
+         * 有效参数：</br>
+         * action_id
+         */
+        PRE_LIST_ACTION_OPERATION,
+        /**
+         * 事件类型标识：查询报警装置所属的报警设置后</br>
+         * 有效参数：</br>
+         * actionOperations
+         */
+        POST_LIST_ACTION_OPERATION,
+        
+        /**
+         * 事件类型标识：查询报警装置所属的群组前</br>
+         * 有效参数：</br>
+         * action_id
+         */
+        PRE_LIST_ACTION_GROUP,
+        /**
+         * 事件类型标识：查询报警装置所属的群组后</br>
+         * 有效参数：</br>
+         * actionGroups
+         */
+        POST_LIST_ACTION_GROUP,
+        
+        /**
+         * 事件类型标识：查询报警装置所属的主机前</br>
+         * 有效参数：</br>
+         * action_id
+         */
+        PRE_LIST_ACTION_HOST,
+        /**
+         * 事件类型标识：查询报警装置所属的主机后</br>
+         * 有效参数：</br>
+         * actionHosts
+         */
+        POST_LIST_ACTION_HOST,
+        
+        /**
+         * 事件类型标识：查询报警装置所属的触发器前</br>
+         * 有效参数：</br>
+         * action_id
+         */
+        PRE_LIST_ACTION_TRIGGER,
+        /**
+         * 事件类型标识：查询报警装置所属的触发器后</br>
+         * 有效参数：</br>
+         * actionHosts
+         */
+        POST_LIST_ACTION_TRIGGER,
 	}
 	
 	public Env env;
@@ -76,7 +129,12 @@ public class ActionEvent extends Event {
 	
 	public String order;
 	public String sort;
-	public Pair<Integer, List<ActionInfo>> listActions;
+	public Pair<Integer, List<ActionInfo>> pairActions;
+	
+	public Map<Long, List<Long>> actionOperations;
+	public Map<Long, List<Long>> actionGroups;
+	public Map<Long, List<Long>> actionHosts;
+	public Map<Long, List<Long>> actionTriggers;
 	
 	public ActionInfo actionInfo;
 	public ActionEvent(){}
@@ -116,11 +174,11 @@ public class ActionEvent extends Event {
 	/**
 	 * 查询报警后
 	 * @param env
-	 * @param listActions
+	 * @param pairActions
 	 */
-	public ActionEvent(Env env, Pair<Integer, List<ActionInfo>> listActions) {
+	public ActionEvent(Env env, Pair<Integer, List<ActionInfo>> pairActions) {
 		this.env = env;
-		this.listActions = listActions;
+		this.pairActions = pairActions;
 	}
 	
 }

@@ -42,7 +42,7 @@ public class CronModel {
             throw new IllegalArgumentException();
         }
         
-        String sql = "SELECT `task_id`, `last_run`, `status`, `ver`, `attr` FROM `cron` WHERE `task_id`=?";
+        String sql = "SELECT `task_id`, `last_run`, `status`, `ver`, `attr` FROM `cron` WHERE `task_id`=?;";
         Connection conn = this.mysql.getConnection();
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -102,7 +102,7 @@ public class CronModel {
         
         Connection conn = this.mysql.getConnection();
         try {
-            String sql = "UPDATE `cron` SET `last_run` = ?, `status` = ?, `ver` = ?, `attr` = ? WHERE `task_id` = ? AND `ver` = ?";
+            String sql = "UPDATE `cron` SET `last_run` = ?, `status` = ?, `ver` = ?, `attr` = ? WHERE `task_id` = ? AND `ver` = ?;";
             
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, cronTask.lastRunTm);
@@ -129,7 +129,7 @@ public class CronModel {
         
         Connection conn = this.mysql.getConnection();
         try {
-            String sql = "UPDATE `cron` SET `status` = ? WHERE `task_id` = ?";
+            String sql = "UPDATE `cron` SET `status` = ? WHERE `task_id` = ?;";
             
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setLong(1, status);

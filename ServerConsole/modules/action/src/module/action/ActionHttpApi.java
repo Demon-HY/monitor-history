@@ -141,7 +141,7 @@ public class ActionHttpApi {
 					String.format("sort(%s) or order(%s) check have sql injection.", sort, order));
 		}
 		
-		Pair<Integer, List<ActionInfo>> result = this.actionApi.listAction(pageIndex, pageSize, order, sort);
+		Pair<Integer, List<ActionInfo>> result = this.actionApi.listAction(req.env, pageIndex, pageSize, order, sort);
 		JsonResp resp = new JsonResp(RetStat.OK);
         resp.resultMap.put("total", result.getValue0());
         resp.resultMap.put("rows", result.getValue1());
@@ -245,7 +245,7 @@ public class ActionHttpApi {
 					String.format("sort(%s) or order(%s) check have sql injection.", sort, order));
 		}
 		
-		Pair<Integer, List<OperationInfo>> result = this.actionApi.listOperation(pageIndex, pageSize, order, sort);
+		Pair<Integer, List<OperationInfo>> result = this.actionApi.listOperation(req.env, pageIndex, pageSize, order, sort);
 		JsonResp resp = new JsonResp(RetStat.OK);
         resp.resultMap.put("total", result.getValue0());
         resp.resultMap.put("rows", result.getValue1());
