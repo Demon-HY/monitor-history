@@ -2,6 +2,7 @@ package module.SDK.event.type;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import org.javatuples.Pair;
 
@@ -65,6 +66,32 @@ public class HostEvent extends Event {
          * pairHosts
          */
         POST_LIST_HOST,
+        
+        /**
+         * 事件类型标识：获取主机关联的群组前</br>
+         * 有效参数：</br>
+         * host_id
+         */
+        PRE_LIST_HOST_GROUP,
+        /**
+         * 事件类型标识：获取主机关联的群组后</br>
+         * 有效参数：</br>
+         * hostRelationObjectIds
+         */
+        POST_LIST_HOST_GROUP,
+        
+        /**
+         * 事件类型标识：获取主机关联的模板前</br>
+         * 有效参数：</br>
+         * host_id
+         */
+        PRE_LIST_HOST_TEMPLATE,
+        /**
+         * 事件类型标识：获取主机关联的模板后</br>
+         * 有效参数：</br>
+         * hostRelationObjectIds
+         */
+        POST_LIST_HOST_TEMPLATE,
 	}
 	
 	public Env env;
@@ -82,9 +109,13 @@ public class HostEvent extends Event {
 	public String sort;
 	public Pair<Integer, List<HostInfo>> pairHosts;
 	
-	public HostInfo hostInfo;
-	public HostEvent(){}
+	/** 主机关联的对象 Id 集合 */
+	public Map<Long, List<Long>> hostRelationObjectIds;
+
 	
+	public HostInfo hostInfo;
+	
+	public HostEvent(){}
 	public HostEvent(Env env) {
 		this.env = env;
 	}
@@ -131,4 +162,13 @@ public class HostEvent extends Event {
 		this.pairHosts = pairHosts;
 	}
 	
+	/**
+	 * 获取主机关联的对象后
+	 * @param env
+	 * @param hostRelationObjectIds
+	 */
+	public HostEvent(Env env, Map<Long, List<Long>> hostRelationObjectIds) {
+		this.env = env;
+		this.hostRelationObjectIds = hostRelationObjectIds;
+	}
 }

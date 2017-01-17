@@ -307,7 +307,7 @@ public class HostModel {
         }
     }
 
-	public boolean addHostGroup(Long host_id, List<Long> groupIdList) throws SQLException {
+	public boolean addHostGroups(Long host_id, List<Long> groupIdList) throws SQLException {
 		if (null == host_id || host_id.longValue() < 1 || null == groupIdList || groupIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -358,7 +358,7 @@ public class HostModel {
         }
     }
 
-	public boolean addHostTemplate(Long host_id, List<Long> templateIdList) throws SQLException {
+	public boolean addHostTemplates(Long host_id, List<Long> templateIdList) throws SQLException {
 		if (null == host_id || host_id.longValue() < 1 || null == templateIdList || templateIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -430,7 +430,7 @@ public class HostModel {
         }
 	}
 	
-	public Map<Long, List<Long>> getHostGroupByHostId(Long host_id) throws SQLException {
+	public Map<Long, List<Long>> getHostGroupsByHostId(Long host_id) throws SQLException {
 		if (null == host_id || host_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -451,7 +451,7 @@ public class HostModel {
         }
 	}
 	
-	public Map<Long, List<Long>> getHostTemplateByHostId(Long host_id) throws SQLException {
+	public Map<Long, List<Long>> getHostTemplatesByHostId(Long host_id) throws SQLException {
 		if (null == host_id || host_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}
