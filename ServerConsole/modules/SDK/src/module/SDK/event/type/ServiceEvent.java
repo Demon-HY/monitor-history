@@ -147,7 +147,7 @@ public class ServiceEvent extends Event {
 	/**
 	 * 获取服务关联的对象后
 	 * @param env
-	 * @param groupRelationObjectIds
+	 * @param serviceRelationObjectIds
 	 */
 	public ServiceEvent(Env env, Map<Long, List<Long>> serviceRelationObjectIds) {
 		this.env = env;

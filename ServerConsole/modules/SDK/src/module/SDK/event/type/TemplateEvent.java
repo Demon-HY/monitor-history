@@ -2,6 +2,7 @@ package module.SDK.event.type;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import org.javatuples.Pair;
 
@@ -65,6 +66,32 @@ public class TemplateEvent extends Event {
          * pairTemplates
          */
         POST_LIST_TEMPLATE,
+        
+        /**
+         * 事件类型标识：获取模板关联的服务前</br>
+         * 有效参数：</br>
+         * action_id
+         */
+        PRE_LIST_TEMPLATE_SERVICE,
+        /**
+         * 事件类型标识：获取模板关联的服务后</br>
+         * 有效参数：</br>
+         * templateRelationObjectIds
+         */
+        POST_LIST_TEMPLATE_SERVICE,
+        
+        /**
+         * 事件类型标识：获取模板关联的触发器前</br>
+         * 有效参数：</br>
+         * action_id
+         */
+        PRE_LIST_TEMPLATE_TRIGGER,
+        /**
+         * 事件类型标识：获取模板关联的触发器后</br>
+         * 有效参数：</br>
+         * templateRelationObjectIds
+         */
+        POST_LIST_TEMPLATE_TRIGGER,
 	}
 	
 	public Env env;
@@ -77,8 +104,15 @@ public class TemplateEvent extends Event {
 	public String sort;
 	public Pair<Integer, List<TemplateInfo>> pairTemplates;
 	
+	/** 模板关联的对象 Id 集合 */
+	public Map<Long, List<Long>> templateRelationObjectIds;
+	
 	public TemplateInfo templateInfo;
+	
 	public TemplateEvent(){}
+	public TemplateEvent(Env env){
+		this.env = env;
+	}
 
 	/**
 	 * 添加模板/修改模板/删除模板后
@@ -91,7 +125,7 @@ public class TemplateEvent extends Event {
 	}
 	
 	/**
-	 * 删除模板前
+	 * 删除模板前/获取模板关联的对象前
 	 * @param env
 	 * @param template_id
 	 */
@@ -122,4 +156,13 @@ public class TemplateEvent extends Event {
 		this.pairTemplates = pairTemplates;
 	}
 	
+	/**
+	 * 获取模板关联的对象后
+	 * @param env
+	 * @param templateRelationObjectIds
+	 */
+	public TemplateEvent(Env env, Map<Long, List<Long>> templateRelationObjectIds) {
+		this.env = env;
+		this.templateRelationObjectIds = templateRelationObjectIds;
+	}
 }

@@ -228,7 +228,7 @@ public class TemplateModel {
         }
     }
 
-	public boolean addTemplateService(Long template_id, List<Long> serviceIdList) throws SQLException {
+	public boolean addTemplateServices(Long template_id, List<Long> serviceIdList) throws SQLException {
 		if (null == template_id || template_id.longValue() < 1 || null == serviceIdList || serviceIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -258,7 +258,7 @@ public class TemplateModel {
 	    }
 	}
 	
-	public boolean addTemplateTrigger(Long template_id, List<Long> triggerIdList) throws SQLException {
+	public boolean addTemplateTriggers(Long template_id, List<Long> triggerIdList) throws SQLException {
 		if (null == template_id || template_id.longValue() < 1 || null == triggerIdList || triggerIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -288,7 +288,7 @@ public class TemplateModel {
 	    }
 	}
 	
-	public boolean deleteTemplateServiceByTemplateId(Long template_id) throws SQLException {
+	public boolean deleteTemplateServicesByTemplateId(Long template_id) throws SQLException {
 		if (null == template_id || template_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -309,7 +309,7 @@ public class TemplateModel {
         }
     }
 	
-	public boolean deleteTemplateTriggerByTemplateId(Long template_id) throws SQLException {
+	public boolean deleteTemplateTriggersByTemplateId(Long template_id) throws SQLException {
 		if (null == template_id || template_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -351,7 +351,7 @@ public class TemplateModel {
         }
 	}
 	
-	public Map<Long, List<Long>> getTemplateServiceByTemplateId(Long template_id) throws SQLException {
+	public Map<Long, List<Long>> getTemplateServicesByTemplateId(Long template_id) throws SQLException {
 		if (null == template_id || template_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -372,7 +372,7 @@ public class TemplateModel {
         }
 	}
 	
-	public Map<Long, List<Long>> getTemplateTriggerByTemplateId(Long template_id) throws SQLException {
+	public Map<Long, List<Long>> getTemplateTriggersByTemplateId(Long template_id) throws SQLException {
 		if (null == template_id || template_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}

@@ -96,7 +96,6 @@ public class GroupEvent extends Event {
 	public Map<Long, List<Long>> groupRelationObjectIds;
 	
 	public GroupInfo groupInfo;
-	
 	public GroupEvent(){}
 	public GroupEvent(Env env){
 		this.env = env;

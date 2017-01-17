@@ -160,7 +160,7 @@ public class MaintainEvent extends Event {
 	/**
 	 * 获取维护关联的对象后
 	 * @param env
-	 * @param groupRelationObjectIds
+	 * @param maintainRelationObjectIds
 	 */
 	public MaintainEvent(Env env, Map<Long, List<Long>> maintainRelationObjectIds) {
 		this.env = env;
