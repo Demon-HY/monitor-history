@@ -13,53 +13,53 @@ public class ExpressionEvent extends Event {
 
 	public enum Type implements EventType {
 		/**
-         * 事件类型标识：添加报警前</br>
+         * 事件类型标识：添加触发表达式前</br>
          * 有效参数：</br>
          * expressionInfo
          */
 	    PRE_ADD_TRIGGER_EXPRESSION,
 	    /**
-         * 事件类型标识：添加报警后</br>
+         * 事件类型标识：添加触发表达式后</br>
          * 有效参数：</br>
          * expressionInfo
          */
 	    POST_ADD_TRIGGER_EXPRESSION,
 	    
 	    /**
-         * 事件类型标识：修改报警前</br>
+         * 事件类型标识：修改触发表达式前</br>
          * 有效参数：</br>
          * expressionInfo
          */
         PRE_EDIT_TRIGGER_EXPRESSION,
         /**
-         * 事件类型标识：修改报警后</br>
+         * 事件类型标识：修改触发表达式后</br>
          * 有效参数：</br>
          * expressionInfo
          */
         POST_EDIT_TRIGGER_EXPRESSION,
         
         /**
-         * 事件类型标识：删除报警前</br>
+         * 事件类型标识：删除触发表达式前</br>
          * 有效参数：</br>
          * expression_id
          */
         PRE_DELETE_TRIGGER_EXPRESSION,
         /**
-         * 事件类型标识：删除报警后</br>
+         * 事件类型标识：删除触发表达式后</br>
          * 有效参数：</br>
          * expressionInfo
          */
         POST_DELETE_TRIGGER_EXPRESSION,
         
         /**
-         * 事件类型标识：获取报警前</br>
+         * 事件类型标识：获取触发表达式前</br>
          * 有效参数：</br>
          * order</br>
          * sort
          */
         PRE_LIST_TRIGGER_EXPRESSION,
         /**
-         * 事件类型标识：获取报警后</br>
+         * 事件类型标识：获取触发表达式后</br>
          * 有效参数：</br>
          * pairExpressions
          */
@@ -86,7 +86,7 @@ public class ExpressionEvent extends Event {
 	public ExpressionEvent(){}
 
 	/**
-	 * 添加报警/修改报警/删除报警后
+	 * 添加触发表达式/修改触发表达式/删除触发表达式后
 	 * @param env
 	 * @param expressionInfo
 	 */
@@ -96,7 +96,7 @@ public class ExpressionEvent extends Event {
 	}
 	
 	/**
-	 * 删除报警前
+	 * 删除触发表达式前
 	 * @param env
 	 * @param expression_id
 	 */
@@ -106,7 +106,7 @@ public class ExpressionEvent extends Event {
 	}
 	
 	/**
-	 * 获取报警前
+	 * 获取触发表达式前
 	 * @param env
 	 * @param order
 	 * @param sort
@@ -118,7 +118,7 @@ public class ExpressionEvent extends Event {
 	}
 	
 	/**
-	 * 获取报警后
+	 * 获取触发表达式后
 	 * @param env
 	 * @param pairExpressions
 	 */

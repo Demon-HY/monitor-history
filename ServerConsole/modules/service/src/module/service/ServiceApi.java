@@ -205,7 +205,7 @@ public class ServiceApi implements IServiceApi{
 		return result;
 	}
 	
-	public Map<Long, List<Long>> getServiceTemplates(Env env, Long service_id) throws LogicalException, SQLException {
+	public Map<Long, List<Long>> getServiceIndexs(Env env, Long service_id) throws LogicalException, SQLException {
 		if (null == service_id || service_id.longValue() < 1) {
 			throw new LogicalException(ServiceRetStat.ERR_SERVICE_ID_NOT_FOUND, 
 					"ServiceApi.getServiceTemplates service_id(" + service_id + ") not found!");
@@ -220,12 +220,12 @@ public class ServiceApi implements IServiceApi{
 					"ServiceApi.getServiceIndexs service_id(" + service_id + ") not found!");
 		}
 		
-		Map<Long, List<Long>> serviceTemplates = this.serviceModel.getServiceIndexsByServiceId(service_id);
+		Map<Long, List<Long>> serviceIndexs = this.serviceModel.getServiceIndexsByServiceId(service_id);
 		
 		// 发送获取服务关联的服务指标后事件
-		serviceEvent = new ServiceEvent(env,  serviceTemplates);
+		serviceEvent = new ServiceEvent(env,  serviceIndexs);
 		this.beans.getEventHub().dispatchEvent(ServiceEvent.Type.POST_LIST_SERVICE_INDEX, serviceEvent);
 		
-		return serviceTemplates;
+		return serviceIndexs;
 	}
 }
