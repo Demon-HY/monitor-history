@@ -2,6 +2,7 @@ package module.SDK.event.type;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import org.javatuples.Pair;
 
@@ -64,7 +65,33 @@ public class MaintainEvent extends Event {
          * 有效参数：</br>
          * pairMaintains
          */
-        POST_LIST_MAINTAIN,
+        POST_LIST_MAINTAIN, 
+        
+        /**
+         * 事件类型标识：获取维护关联的主机前</br>
+         * 有效参数：</br>
+         * maintain_id
+         */
+        PRE_LIST_MAINTAIN_HOST,
+        /**
+         * 事件类型标识：获取维护关联的主机后</br>
+         * 有效参数：</br>
+         * maintainRelationObjectIds
+         */
+        POST_LIST_MAINTAIN_HOST,
+        
+        /**
+         * 事件类型标识：获取维护关联的群组前</br>
+         * 有效参数：</br>
+         * maintain_id
+         */
+        PRE_LIST_MAINTAIN_GROUP,
+        /**
+         * 事件类型标识：获取维护关联的群组后</br>
+         * 有效参数：</br>
+         * maintainRelationObjectIds
+         */
+        POST_LIST_MAINTAIN_GROUP,
 	}
 	
 	public Env env;
@@ -78,9 +105,12 @@ public class MaintainEvent extends Event {
 	public String sort;
 	public Pair<Integer, List<MaintainInfo>> pairMaintains;
 	
-	public MaintainInfo maintainInfo;
-	public MaintainEvent(){}
+	/** 维护关联的对象 Id 集合 */
+	public Map<Long, List<Long>> maintainRelationObjectIds;
 	
+	public MaintainInfo maintainInfo;
+	
+	public MaintainEvent(){}
 	public MaintainEvent(Env env) {
 		this.env = env;
 	}
@@ -96,7 +126,7 @@ public class MaintainEvent extends Event {
 	}
 	
 	/**
-	 * 删除维护前
+	 * 删除维护前/获取维护关联的对象前
 	 * @param env
 	 * @param maintain_id
 	 */
@@ -127,4 +157,13 @@ public class MaintainEvent extends Event {
 		this.pairMaintains = pairMaintains;
 	}
 	
+	/**
+	 * 获取维护关联的对象后
+	 * @param env
+	 * @param groupRelationObjectIds
+	 */
+	public MaintainEvent(Env env, Map<Long, List<Long>> maintainRelationObjectIds) {
+		this.env = env;
+		this.maintainRelationObjectIds = maintainRelationObjectIds;
+	}
 }

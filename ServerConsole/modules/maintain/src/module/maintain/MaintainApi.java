@@ -2,6 +2,7 @@ package module.maintain;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.javatuples.Pair;
 
@@ -57,7 +58,8 @@ public class MaintainApi implements IMaintainApi{
 		return new Pair<Integer, List<MaintainInfo>>(count, result);
 	}
 	
-	public MaintainInfo addMaintain(Env env, MaintainInfo maintainInfo, List<Long> hostIdList, List<Long> groupIdList) throws LogicalException, SQLException {
+	public MaintainInfo addMaintain(Env env, MaintainInfo maintainInfo, List<Long> hostIdList, List<Long> groupIdList) 
+			throws LogicalException, SQLException {
 		// 发送添加维护前事件
 		MaintainEvent maintainEvent = new MaintainEvent(env, maintainInfo);
 		this.beans.getEventHub().dispatchEvent(MaintainEvent.Type.PRE_ADD_MAINTAIN, maintainEvent);
@@ -82,5 +84,110 @@ public class MaintainApi implements IMaintainApi{
 		this.beans.getEventHub().dispatchEvent(MaintainEvent.Type.POST_ADD_MAINTAIN, maintainEvent);
 		
 		return maintainInfo;
+	}
+	
+	public MaintainInfo editMaintain(Env env, MaintainInfo maintainInfo, List<Long> hostIdList, List<Long> groupIdList) 
+			throws LogicalException, SQLException {
+		// 发送修改维护前事件
+		MaintainEvent groupEvent = new MaintainEvent(env, maintainInfo);
+		this.beans.getEventHub().dispatchEvent(MaintainEvent.Type.PRE_EDIT_MAINTAIN, groupEvent);
+		
+		MaintainInfo temp = this.maintainModel.getMaintainByMaintainId(maintainInfo.maintain_id);
+		if (null == temp) {
+			throw new LogicalException(MaintainRetStat.ERR_MAINTAIN_ID_NOT_FOUND,
+					"MaintainApi.editMaintain maintain_id(" + maintainInfo.maintain_id + ") not found!");
+		}
+		
+		this.maintainModel.editMaintainByMaintainId(maintainInfo);
+		if (null != hostIdList && hostIdList.size() > 0) {
+			this.maintainModel.deleteMaintainHostsByMaintainId(maintainInfo.maintain_id);
+			this.maintainModel.addMaintainHosts(maintainInfo.maintain_id, hostIdList);
+		} else {
+			this.maintainModel.deleteMaintainHostsByMaintainId(maintainInfo.maintain_id);
+		}
+		if (null != groupIdList && groupIdList.size() > 0) {
+			this.maintainModel.deleteMaintainGroupsByMaintainId(maintainInfo.maintain_id);
+			this.maintainModel.addMaintainGroups(maintainInfo.maintain_id, groupIdList);
+		} else {
+			this.maintainModel.deleteMaintainGroupsByMaintainId(maintainInfo.maintain_id);
+		}
+		
+		// 发送修改维护后事件
+		groupEvent = new MaintainEvent(env,  maintainInfo);
+		this.beans.getEventHub().dispatchEvent(MaintainEvent.Type.POST_EDIT_MAINTAIN, groupEvent);
+		
+		return maintainInfo;
+	}
+	
+	public boolean deleteMaintain(Env env, Long maintain_id) throws LogicalException, SQLException {
+		if (null == maintain_id || maintain_id.longValue() < 1) {
+			throw new LogicalException(MaintainRetStat.ERR_MAINTAIN_ID_NOT_FOUND, 
+					"MaintainApi.deleteMaintain maintain_id(" + maintain_id + ") not found!");
+		}
+		// 发送删除维护前事件
+		MaintainEvent maintainEvent = new MaintainEvent(env, maintain_id);
+		this.beans.getEventHub().dispatchEvent(MaintainEvent.Type.PRE_DELETE_MAINTAIN, maintainEvent);
+		
+		MaintainInfo maintainInfo = this.maintainModel.getMaintainByMaintainId(maintain_id);
+		if (null == maintainInfo) {
+			throw new LogicalException(MaintainRetStat.ERR_MAINTAIN_ID_NOT_FOUND, 
+					"MaintainApi.deleteMaintain maintain_id(" + maintain_id + ") not found!");
+		}
+		
+		boolean result = this.maintainModel.deleteMaintainByMaintainId(maintain_id);
+		
+		// 发送删除维护后事件
+		maintainEvent = new MaintainEvent(env,  maintainInfo);
+		this.beans.getEventHub().dispatchEvent(MaintainEvent.Type.POST_DELETE_MAINTAIN, maintainEvent);
+		
+		return result;
+	}
+	
+	public Map<Long, List<Long>> getMaintainHosts(Env env, Long maintain_id) throws LogicalException, SQLException {
+		if (null == maintain_id || maintain_id.longValue() < 1) {
+			throw new LogicalException(MaintainRetStat.ERR_MAINTAIN_ID_NOT_FOUND, 
+					"MaintainApi.getMaintainHosts maintain_id(" + maintain_id + ") not found!");
+		}
+		// 发送获取维护关联的主机前事件
+		MaintainEvent maintainEvent = new MaintainEvent(env, maintain_id);
+		this.beans.getEventHub().dispatchEvent(MaintainEvent.Type.PRE_LIST_MAINTAIN_HOST, maintainEvent);
+		
+		MaintainInfo maintainInfo = this.maintainModel.getMaintainByMaintainId(maintain_id);
+		if (null == maintainInfo) {
+			throw new LogicalException(MaintainRetStat.ERR_MAINTAIN_ID_NOT_FOUND, 
+					"MaintainApi.getMaintainHosts maintain_id(" + maintain_id + ") not found!");
+		}
+		
+		Map<Long, List<Long>> maintainHosts = this.maintainModel.getMaintainHostsByMaintainId(maintain_id);
+		
+		// 发送获取维护关联的主机后事件
+		maintainEvent = new MaintainEvent(env,  maintainHosts);
+		this.beans.getEventHub().dispatchEvent(MaintainEvent.Type.POST_LIST_MAINTAIN_HOST, maintainEvent);
+		
+		return maintainHosts;
+	}
+	
+	public Map<Long, List<Long>> getMaintainGroups(Env env, Long maintain_id) throws LogicalException, SQLException {
+		if (null == maintain_id || maintain_id.longValue() < 1) {
+			throw new LogicalException(MaintainRetStat.ERR_MAINTAIN_ID_NOT_FOUND, 
+					"MaintainApi.getMaintainGroups maintain_id(" + maintain_id + ") not found!");
+		}
+		// 发送获取维护关联的群组前事件
+		MaintainEvent maintainEvent = new MaintainEvent(env, maintain_id);
+		this.beans.getEventHub().dispatchEvent(MaintainEvent.Type.PRE_LIST_MAINTAIN_GROUP, maintainEvent);
+		
+		MaintainInfo maintainInfo = this.maintainModel.getMaintainByMaintainId(maintain_id);
+		if (null == maintainInfo) {
+			throw new LogicalException(MaintainRetStat.ERR_MAINTAIN_ID_NOT_FOUND, 
+					"MaintainApi.getMaintainGroups maintain_id(" + maintain_id + ") not found!");
+		}
+		
+		Map<Long, List<Long>> maintainGroups = this.maintainModel.getMaintainGroupsByMaintainId(maintain_id);
+		
+		// 发送获取维护关联的群组后事件
+		maintainEvent = new MaintainEvent(env,  maintainGroups);
+		this.beans.getEventHub().dispatchEvent(MaintainEvent.Type.POST_LIST_MAINTAIN_GROUP, maintainEvent);
+		
+		return maintainGroups;
 	}
 }

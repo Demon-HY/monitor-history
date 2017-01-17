@@ -358,7 +358,7 @@ public class MaintainModel {
         }
 	}
 	
-	public Map<Long, List<Long>> getMaintainHostsByMaintainID(Long maintain_id) throws SQLException {
+	public Map<Long, List<Long>> getMaintainHostsByMaintainId(Long maintain_id) throws SQLException {
 		if (null == maintain_id || maintain_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -378,7 +378,7 @@ public class MaintainModel {
         }
 	}
 	
-	public Map<Long, List<Long>> getMaintainGroupsByMaintainID(Long maintain_id) throws SQLException {
+	public Map<Long, List<Long>> getMaintainGroupsByMaintainId(Long maintain_id) throws SQLException {
 		if (null == maintain_id || maintain_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}

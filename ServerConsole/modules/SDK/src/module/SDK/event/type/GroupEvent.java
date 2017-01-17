@@ -76,7 +76,7 @@ public class GroupEvent extends Event {
         /**
          * 事件类型标识：获取群组关联的模板后</br>
          * 有效参数：</br>
-         * actionOperations
+         * groupRelationObjectIds
          */
         POST_LIST_GROUP_TEMPLATE,
 	}
@@ -98,7 +98,6 @@ public class GroupEvent extends Event {
 	public GroupInfo groupInfo;
 	
 	public GroupEvent(){}
-	
 	public GroupEvent(Env env){
 		this.env = env;
 	}

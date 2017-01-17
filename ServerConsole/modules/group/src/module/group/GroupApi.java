@@ -58,7 +58,8 @@ public class GroupApi implements IGroupApi{
 		return new Pair<Integer, List<GroupInfo>>(count, result);
 	}
 	
-	public GroupInfo addGroup(Env env, GroupInfo groupInfo, List<Long> templateIdList) throws LogicalException, SQLException {
+	public GroupInfo addGroup(Env env, GroupInfo groupInfo, List<Long> templateIdList) 
+			throws LogicalException, SQLException {
 		// 发送添加群组前事件
 		GroupEvent groupEvent = new GroupEvent(env, groupInfo);
 		this.beans.getEventHub().dispatchEvent(GroupEvent.Type.PRE_ADD_GROUP, groupEvent);
@@ -82,7 +83,8 @@ public class GroupApi implements IGroupApi{
 		return groupInfo;
 	}
 	
-	public GroupInfo editGroup(Env env, GroupInfo groupInfo, List<Long> templateIdList) throws LogicalException, SQLException {
+	public GroupInfo editGroup(Env env, GroupInfo groupInfo, List<Long> templateIdList) 
+			throws LogicalException, SQLException {
 		// 发送修改群组前事件
 		GroupEvent groupEvent = new GroupEvent(env, groupInfo);
 		this.beans.getEventHub().dispatchEvent(GroupEvent.Type.PRE_EDIT_GROUP, groupEvent);
@@ -90,7 +92,7 @@ public class GroupApi implements IGroupApi{
 		GroupInfo temp = this.groupModel.getGroupByGroupId(groupInfo.group_id);
 		if (null == temp) {
 			throw new LogicalException(GroupRetStat.ERR_GROUP_ID_NOT_FOUND,
-					"GroupApi.addGroup group_id(" + groupInfo.group_id + ") not found!");
+					"GroupApi.editGroup group_id(" + groupInfo.group_id + ") not found!");
 		}
 		
 		this.groupModel.editGroupByGroupId(groupInfo);
@@ -110,7 +112,8 @@ public class GroupApi implements IGroupApi{
 	
 	public boolean deleteGroup(Env env, Long group_id) throws LogicalException, SQLException {
 		if (null == group_id || group_id.longValue() < 1) {
-			throw new LogicalException(GroupRetStat.ERR_GROUP_ID_NOT_FOUND, "GroupApi.deleteGroup group_id(" + group_id + ") not found!");
+			throw new LogicalException(GroupRetStat.ERR_GROUP_ID_NOT_FOUND, 
+					"GroupApi.deleteGroup group_id(" + group_id + ") not found!");
 		}
 		// 发送删除群组前事件
 		GroupEvent groupEvent = new GroupEvent(env, group_id);
@@ -118,7 +121,8 @@ public class GroupApi implements IGroupApi{
 		
 		GroupInfo groupInfo = this.groupModel.getGroupByGroupId(group_id);
 		if (null == groupInfo) {
-			throw new LogicalException(GroupRetStat.ERR_GROUP_ID_NOT_FOUND, "GroupApi.deleteGroup group_id(" + group_id + ") not found!");
+			throw new LogicalException(GroupRetStat.ERR_GROUP_ID_NOT_FOUND,
+					"GroupApi.deleteGroup group_id(" + group_id + ") not found!");
 		}
 		
 		boolean result = this.groupModel.deleteGroupByGroupId(group_id);
@@ -132,7 +136,8 @@ public class GroupApi implements IGroupApi{
 	
 	public Map<Long, List<Long>> getGroupTemplates(Env env, Long group_id) throws LogicalException, SQLException {
 		if (null == group_id || group_id.longValue() < 1) {
-			throw new LogicalException(GroupRetStat.ERR_GROUP_ID_NOT_FOUND, "GroupApi.getGroupTemplates group_id(" + group_id + ") not found!");
+			throw new LogicalException(GroupRetStat.ERR_GROUP_ID_NOT_FOUND, 
+					"GroupApi.getGroupTemplates group_id(" + group_id + ") not found!");
 		}
 		// 发送获取群组关联的模板前事件
 		GroupEvent groupEvent = new GroupEvent(env, group_id);
@@ -140,7 +145,8 @@ public class GroupApi implements IGroupApi{
 		
 		GroupInfo groupInfo = this.groupModel.getGroupByGroupId(group_id);
 		if (null == groupInfo) {
-			throw new LogicalException(GroupRetStat.ERR_GROUP_ID_NOT_FOUND, "GroupApi.getGroupTemplates group_id(" + group_id + ") not found!");
+			throw new LogicalException(GroupRetStat.ERR_GROUP_ID_NOT_FOUND, 
+					"GroupApi.getGroupTemplates group_id(" + group_id + ") not found!");
 		}
 		
 		Map<Long, List<Long>> groupTemplates = this.groupModel.getGroupTemplatesByGroupId(group_id);
