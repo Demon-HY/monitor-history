@@ -1,6 +1,7 @@
 package module.SDK.event.type;
 
 import java.util.List;
+import java.util.Map;
 
 import org.javatuples.Pair;
 
@@ -64,6 +65,19 @@ public class ServiceEvent extends Event {
          * pairServices
          */
         POST_LIST_SERVICE,
+        
+        /**
+         * 事件类型标识：获取服务关联的服务指标前</br>
+         * 有效参数：</br>
+         * service_id
+         */
+        PRE_LIST_SERVICE_INDEX,
+        /**
+         * 事件类型标识：获取服务关联的服务指标后</br>
+         * 有效参数：</br>
+         * serviceRelationObjectIds
+         */
+        POST_LIST_SERVICE_INDEX,
 	}
 	
 	public Env env;
@@ -78,9 +92,16 @@ public class ServiceEvent extends Event {
 	public String sort;
 	public Pair<Integer, List<ServiceInfo>> pairServices;
 	
+	/** 服务关联的对象 Id 集合 */
+	public Map<Long, List<Long>> serviceRelationObjectIds;
+	
 	public ServiceInfo serviceInfo;
+	
 	public ServiceEvent(){}
-
+	public ServiceEvent(Env env) {
+		this.env = env;
+	}
+	
 	/**
 	 * 添加服务/修改服务/删除服务后
 	 * @param env
@@ -123,4 +144,13 @@ public class ServiceEvent extends Event {
 		this.pairServices = pairServices;
 	}
 	
+	/**
+	 * 获取服务关联的对象后
+	 * @param env
+	 * @param groupRelationObjectIds
+	 */
+	public ServiceEvent(Env env, Map<Long, List<Long>> serviceRelationObjectIds) {
+		this.env = env;
+		this.serviceRelationObjectIds = serviceRelationObjectIds;
+	}
 }

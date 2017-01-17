@@ -265,7 +265,8 @@ public class ServiceModel {
 	}
 	
     /******************************************* Index ********************************************/
-    public List<IndexInfo> listIndex(Integer pageIndex, Integer pageSize, String order, String sort) throws SQLException {
+    public List<IndexInfo> listIndex(Integer pageIndex, Integer pageSize, String order, String sort) 
+    		throws SQLException {
         Connection conn = null;
         try {
             conn = this.mysql.getConnection();
@@ -458,14 +459,14 @@ public class ServiceModel {
         }
 	}
 	
-	public boolean addServiceIndex(Long service_id, List<Long> indexIdList) throws SQLException {
+	public boolean addServiceIndexs(Long service_id, List<Long> indexIdList) throws SQLException {
 		if (null == service_id || service_id.longValue() < 1 || null == indexIdList || indexIdList.size() < 1) {
 			throw new IllegalArgumentException();
 		}
 		Connection conn = null;
 	    try {
 	        conn = this.mysql.getConnection();
-	        String sql = "INSERT INTO `" + TABLE_SERVICE_INDEX + "` (`service_id`, `index_id`) VALUES %s";
+	        String sql = "INSERT INTO `" + TABLE_SERVICE_INDEX + "` (`service_id`, `index_id`) VALUES %s;";
 
 	        List<String> list = new ArrayList<String>();
 	        for (Long indexId : indexIdList) {
@@ -488,7 +489,7 @@ public class ServiceModel {
 	    }
 	}
 	
-	public Map<Long, List<Long>> getServiceindexByServiceId(Long service_id) throws SQLException {
+	public Map<Long, List<Long>> getServiceIndexsByServiceId(Long service_id) throws SQLException {
 		if (null == service_id || service_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}
@@ -538,7 +539,7 @@ public class ServiceModel {
         return null;
 	}
 	
-	public boolean deleteServiceIndexByServiceId(Long service_id) throws SQLException {
+	public boolean deleteServiceIndexsByServiceId(Long service_id) throws SQLException {
 		if (null == service_id || service_id.longValue() < 1) {
 			throw new IllegalArgumentException();
 		}
