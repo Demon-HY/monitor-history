@@ -220,7 +220,7 @@ public class ActionHttpApi {
      * 		msg_format
      * 		<blockquote>
      * 		类型：字符型<br/>
-     * 		描述：消息格式</br>
+     * 		描述：消息格式<br/>
      * 		默认: Host({hostname},{ip}) service({service_name}) has issue,msg:{msg}
      * 		</blockquote>
      * </blockquote>
@@ -249,6 +249,748 @@ public class ActionHttpApi {
 		JsonResp resp = new JsonResp(RetStat.OK);
         resp.resultMap.put("total", result.getValue0());
         resp.resultMap.put("rows", result.getValue1());
+        return resp;
+	}
+	
+	/**
+	 * 添加报警装置
+	 *
+	 * @param token 
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：token 用户登录令牌<br/>
+     * 		必需：YES
+     * </blockquote>
+	 * @param name
+     * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：报警名称<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param interval
+     * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：告警间隔(s)<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param notice
+     * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：是否在故障恢复后发送通知消息<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param subject
+     * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：标题<br/>
+     * 		必需：NO
+     * </blockquote>
+     * @param message
+     * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：正文<br/>
+     * 		必需：NO
+     * </blockquote>
+     * @param enabled
+     * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：启用报警<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param groupIdList 
+	 * <blockquote>
+     * 		类型：数组<br/>
+     * 		描述：群组ID集合<br/>
+     * 		必需：NO
+     * </blockquote>
+     * @param hostIdList 
+	 * <blockquote>
+     * 		类型：数组<br/>
+     * 		描述：主机ID集合<br/>
+     * 		必需：NO
+     * </blockquote>
+     * @param operationIdList 
+	 * <blockquote>
+     * 		类型：数组<br/>
+     * 		描述：报警设置ID集合<br/>
+     * 		必需：NO
+     * </blockquote>
+     * @param triggerIdList 
+	 * <blockquote>
+     * 		类型：数组<br/>
+     * 		描述：触发器ID集合<br/>
+     * 		必需：NO
+     * </blockquote>
+     * 
+	 * @return
+	 * stat
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：状态值<br/>
+     * </blockquote>
+     * ActionInfo
+     * <blockquote>
+     *      类型：JSON 对象<br/>
+     *      描述：报警信息<br/>
+     *      action_id
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警 ID
+     * 		</blockquote>
+     * 		name
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：报警名称
+     * 		</blockquote>
+     * 		interval
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：告警间隔(s)
+     * 		</blockquote>
+     * 		notice
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：是否在故障恢复后发送通知消息
+     * 		</blockquote>
+     * 		subject
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：标题
+     * 		</blockquote>
+     * 		message
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：正文
+     * 		</blockquote>
+     * 		enabled
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：启用报警
+     * 		</blockquote>
+     * </blockquote>
+     * 
+	 * @throws Exception
+	 * @right 该接口需要管理员权限
+	 */
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+	public JsonResp addAction(AuthedJsonReq req) throws Exception {
+		String name = req.paramGetString("name", true);
+		Long interval = req.paramGetNumber("interval", true, true);
+		Integer notice = req.paramGetInteger("notice", true);
+		String subject = req.paramGetString("subject", false);
+		String message = req.paramGetString("message", false);
+		Integer enabled = req.paramGetInteger("enabled", true);
+		List<Long> groupIdList = req.paramGetNumList("groupIdList", false);
+		List<Long> hostIdList = req.paramGetNumList("hostIdList", false);
+		List<Long> operationIdList = req.paramGetNumList("operationIdList", false);
+		List<Long> triggerIdList = req.paramGetNumList("triggerIdList", false);
+		
+		ActionInfo actionInfo = new ActionInfo(name, interval, notice, subject, message, enabled);
+		actionInfo = this.actionApi.addAction(req.env, actionInfo, operationIdList, groupIdList, hostIdList, triggerIdList);
+		
+		JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("ActionInfo", actionInfo);
+		return resp;
+	}
+	
+	/**
+	 * 添加报警设置
+	 *
+	 * @param token 
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：token 用户登录令牌<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param name
+     * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：报警设置名称<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param step
+     * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：第 N 次告警<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param action_type
+     * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：动作类型：email，sms<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param msg_format
+     * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：消息格式<br/>
+     * 		默认: Host({hostname},{ip}) service({service_name}) has issue,msg:{msg}<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param userIdList 
+	 * <blockquote>
+     * 		类型：数组<br/>
+     * 		描述：主机ID集合<br/>
+     * 		必需：NO
+     * </blockquote>
+     * 
+     * @return
+     * stat
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：状态值<br/>
+     * </blockquote>
+     * OperationInfo
+     * <blockquote>
+     *      类型：JSON 对象<br/>
+     *      描述：报警设置信息<br/>
+     * 		action_operation_id
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警设置 ID
+     * 		</blockquote>
+     * 		name
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：报警设置名称
+     * 		</blockquote>
+     * 		step
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：第 N 次告警
+     * 		</blockquote>
+     * 		action_type
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：动作类型：email，sms
+     * 		</blockquote>
+     * 		msg_format
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：消息格式<br/>
+     * 		默认: Host({hostname},{ip}) service({service_name}) has issue,msg:{msg}
+     * 		</blockquote>
+     * </blockquote>
+     * 
+     * @throws Exception
+	 * @right 该接口需要管理员权限
+     */
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+	public JsonResp addOperation(AuthedJsonReq req) throws Exception {
+		String name = req.paramGetString("name", true);
+		Integer step = req.paramGetInteger("step", true);
+		String action_type = req.paramGetString("action_type", true);
+		String msg_format = req.paramGetString("msg_format", true);
+		List<Long> userIdList = req.paramGetNumList("userIdList", false);
+		
+		OperationInfo operationInfo = new OperationInfo(name, step, action_type, msg_format);
+		operationInfo = this.actionApi.addOperation(req.env, operationInfo, userIdList);
+		
+		JsonResp resp = new JsonResp(RetStat.OK);
+		resp.resultMap.put("OperationInfo", operationInfo);
+        return resp;
+	}
+	
+	/**
+	 * 删除报警
+	 *
+	 * @param token 
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：token 用户登录令牌<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param action_id 
+	 * <blockquote>
+     * 		类型：整形<br/>
+     * 		描述：报警 ID<br/>
+     * 		必需：YES
+     * </blockquote>
+     * 
+     * @return
+     * stat
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：状态值<br/>
+     * </blockquote>
+     * ActionInfo
+     * <blockquote>
+     *      类型：JSON 对象<br/>
+     *      描述：报警信息<br/>
+     *      action_id
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警 ID
+     * 		</blockquote>
+     * 		name
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：报警名称
+     * 		</blockquote>
+     * 		interval
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：告警间隔(s)
+     * 		</blockquote>
+     * 		notice
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：是否在故障恢复后发送通知消息
+     * 		</blockquote>
+     * 		subject
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：标题
+     * 		</blockquote>
+     * 		message
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：正文
+     * 		</blockquote>
+     * 		enabled
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：启用报警
+     * 		</blockquote>
+     * </blockquote>
+     * 
+     * @throws Exception
+	 * @right 该接口需要管理员权限
+     */
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+	public JsonResp deleteAction(AuthedJsonReq req) throws Exception {
+		Long action_id = req.paramGetNumber("action_id", true, true);
+		
+		ActionInfo actionInfo = this.actionApi.deleteAction(req.env, action_id);
+		
+		JsonResp resp = new JsonResp(RetStat.OK);
+		resp.resultMap.put("ActionInfo", actionInfo);
+        return resp;
+	}
+	
+	/**
+	 * 删除报警设置
+	 *
+	 * @param token 
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：token 用户登录令牌<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param operation_id 
+	 * <blockquote>
+     * 		类型：整形<br/>
+     * 		描述：报警设置 ID<br/>
+     * 		必需：YES
+     * </blockquote>
+     * 
+     * @return
+     * stat
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：状态值<br/>
+     * </blockquote>
+     * OperationInfo
+     * <blockquote>
+     *      类型：JSON 对象<br/>
+     *      描述：报警设置信息<br/>
+     * 		action_operation_id
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警设置 ID
+     * 		</blockquote>
+     * 		name
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：报警设置名称
+     * 		</blockquote>
+     * 		step
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：第 N 次告警
+     * 		</blockquote>
+     * 		action_type
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：动作类型：email，sms
+     * 		</blockquote>
+     * 		msg_format
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：消息格式<br/>
+     * 		默认: Host({hostname},{ip}) service({service_name}) has issue,msg:{msg}
+     * 		</blockquote>
+     * </blockquote>
+     * 
+     * @throws Exception
+	 * @right 该接口需要管理员权限
+     */
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+	public JsonResp deleteOperation(AuthedJsonReq req) throws Exception {
+		Long operation_id = req.paramGetNumber("operation_id", true, true);
+		
+		OperationInfo operationInfo = this.actionApi.deleteOperation(req.env, operation_id);
+		
+		JsonResp resp = new JsonResp(RetStat.OK);
+		resp.resultMap.put("OperationInfo", operationInfo);
+        return resp;
+	}
+	
+	/**
+	 * 修改报警
+	 *
+	 * @param token 
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：token 用户登录令牌<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param action_id
+     * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警 ID<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param name
+     * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：报警名称<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param interval
+     * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：告警间隔(s)<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param notice
+     * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：是否在故障恢复后发送通知消息<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param subject
+     * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：标题<br/>
+     * 		必需：NO
+     * </blockquote>
+     * @param message
+     * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：正文<br/>
+     * 		必需：NO
+     * </blockquote>
+     * @param enabled
+     * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：启用报警<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param groupIdList 
+	 * <blockquote>
+     * 		类型：数组<br/>
+     * 		描述：群组ID集合<br/>
+     * 		必需：NO
+     * </blockquote>
+     * @param hostIdList 
+	 * <blockquote>
+     * 		类型：数组<br/>
+     * 		描述：主机ID集合<br/>
+     * 		必需：NO
+     * </blockquote>
+     * @param operationIdList 
+	 * <blockquote>
+     * 		类型：数组<br/>
+     * 		描述：报警设置ID集合<br/>
+     * 		必需：NO
+     * </blockquote>
+     * @param triggerIdList 
+	 * <blockquote>
+     * 		类型：数组<br/>
+     * 		描述：触发器ID集合<br/>
+     * 		必需：NO
+     * </blockquote>
+     * 
+	 * @return
+	 * stat
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：状态值<br/>
+     * </blockquote>
+     * ActionInfo
+     * <blockquote>
+     *      类型：JSON 对象<br/>
+     *      描述：报警信息<br/>
+     *      action_id
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警 ID
+     * 		</blockquote>
+     * 		name
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：报警名称
+     * 		</blockquote>
+     * 		interval
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：告警间隔(s)
+     * 		</blockquote>
+     * 		notice
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：是否在故障恢复后发送通知消息
+     * 		</blockquote>
+     * 		subject
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：标题
+     * 		</blockquote>
+     * 		message
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：正文
+     * 		</blockquote>
+     * 		enabled
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：启用报警
+     * 		</blockquote>
+     * </blockquote>
+     * 
+	 * @throws Exception
+	 * @right 该接口需要管理员权限
+     */
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+	public JsonResp editAction(AuthedJsonReq req) throws Exception {
+		Long action_id = req.paramGetNumber("action_id", true, true);
+		String name = req.paramGetString("name", true);
+		Long interval = req.paramGetNumber("interval", true, true);
+		Integer notice = req.paramGetInteger("notice", true);
+		String subject = req.paramGetString("subject", false);
+		String message = req.paramGetString("message", false);
+		Integer enabled = req.paramGetInteger("enabled", true);
+		List<Long> groupIdList = req.paramGetNumList("groupIdList", false);
+		List<Long> hostIdList = req.paramGetNumList("hostIdList", false);
+		List<Long> operationIdList = req.paramGetNumList("operationIdList", false);
+		List<Long> triggerIdList = req.paramGetNumList("triggerIdList", false);
+		
+		ActionInfo actionInfo = new ActionInfo(action_id, name, interval, notice, subject, message, enabled);
+		actionInfo = this.actionApi.editAction(req.env, actionInfo, operationIdList, groupIdList, hostIdList, triggerIdList);
+		
+		JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("ActionInfo", actionInfo);
+		return resp;
+	}
+	
+	/**
+	 * 修改报警设置
+	 *
+	 * @param token 
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：token 用户登录令牌<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param action_operation_id
+     * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警设置 ID<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param name
+     * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：报警设置名称<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param step
+     * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：第 N 次告警<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param action_type
+     * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：动作类型：email，sms<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param msg_format
+     * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：消息格式<br/>
+     * 		默认: Host({hostname},{ip}) service({service_name}) has issue,msg:{msg}<br/>
+     * 		必需：YES
+     * </blockquote>
+     * @param userIdList 
+	 * <blockquote>
+     * 		类型：数组<br/>
+     * 		描述：主机ID集合<br/>
+     * 		必需：NO
+     * </blockquote>
+     * 
+     * @return
+     * stat
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：状态值<br/>
+     * </blockquote>
+     * OperationInfo
+     * <blockquote>
+     *      类型：JSON 对象<br/>
+     *      描述：报警设置信息<br/>
+     * 		action_operation_id
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警设置 ID
+     * 		</blockquote>
+     * 		name
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：报警设置名称
+     * 		</blockquote>
+     * 		step
+     * 		<blockquote>
+     * 		类型：整数<br/>
+     * 		描述：第 N 次告警
+     * 		</blockquote>
+     * 		action_type
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：动作类型：email，sms
+     * 		</blockquote>
+     * 		msg_format
+     * 		<blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：消息格式<br/>
+     * 		默认: Host({hostname},{ip}) service({service_name}) has issue,msg:{msg}
+     * 		</blockquote>
+     * </blockquote>
+     * 
+     * @throws Exception
+	 * @right 该接口需要管理员权限
+     */
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+	public JsonResp editOperation(AuthedJsonReq req) throws Exception {
+		Long operation_id = req.paramGetNumber("operation_id", true, true);
+		String name = req.paramGetString("name", true);
+		Integer step = req.paramGetInteger("step", true);
+		String action_type = req.paramGetString("action_type", true);
+		String msg_format = req.paramGetString("msg_format", true);
+		List<Long> userIdList = req.paramGetNumList("userIdList", false);
+		
+		OperationInfo operationInfo = new OperationInfo(operation_id, name, step, action_type, msg_format);
+		operationInfo = this.actionApi.editOperation(req.env, operationInfo, userIdList);
+		
+		JsonResp resp = new JsonResp(RetStat.OK);
+		resp.resultMap.put("OperationInfo", operationInfo);
+        return resp;
+	}
+	
+	/**
+	 * 删除报警
+	 *
+	 * @param token 
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：token 用户登录令牌<br/>
+     * 		必需：YES
+     * </blockquote>
+     * 
+     * 
+     * @throws Exception
+	 * @right 该接口需要管理员权限
+     */
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+	public JsonResp getActionGroups(AuthedJsonReq req) throws Exception {
+		
+		JsonResp resp = new JsonResp(RetStat.OK);
+        return resp;
+	}
+	
+	/**
+	 * 删除报警
+	 *
+	 * @param token 
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：token 用户登录令牌<br/>
+     * 		必需：YES
+     * </blockquote>
+     * 
+     * 
+     * @throws Exception
+	 * @right 该接口需要管理员权限
+     */
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+	public JsonResp getActionHosts(AuthedJsonReq req) throws Exception {
+		
+		JsonResp resp = new JsonResp(RetStat.OK);
+        return resp;
+	}
+	
+	/**
+	 * 删除报警
+	 *
+	 * @param token 
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：token 用户登录令牌<br/>
+     * 		必需：YES
+     * </blockquote>
+     * 
+     * 
+     * @throws Exception
+	 * @right 该接口需要管理员权限
+     */
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+	public JsonResp getActionOperation(AuthedJsonReq req) throws Exception {
+		
+		JsonResp resp = new JsonResp(RetStat.OK);
+        return resp;
+	}
+	
+	/**
+	 * 删除报警
+	 *
+	 * @param token 
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：token 用户登录令牌<br/>
+     * 		必需：YES
+     * </blockquote>
+     * 
+     * 
+     * @throws Exception
+	 * @right 该接口需要管理员权限
+     */
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+	public JsonResp getActionTriggers(AuthedJsonReq req) throws Exception {
+		
+		JsonResp resp = new JsonResp(RetStat.OK);
+        return resp;
+	}
+	
+	/**
+	 * 删除报警
+	 *
+	 * @param token 
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：token 用户登录令牌<br/>
+     * 		必需：YES
+     * </blockquote>
+     * 
+     * 
+     * @throws Exception
+	 * @right 该接口需要管理员权限
+     */
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+	public JsonResp getOperationUsers(AuthedJsonReq req) throws Exception {
+		
+		JsonResp resp = new JsonResp(RetStat.OK);
         return resp;
 	}
 }

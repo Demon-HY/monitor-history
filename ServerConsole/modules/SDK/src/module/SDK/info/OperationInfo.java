@@ -7,7 +7,7 @@ package module.SDK.info;
  */
 public class OperationInfo {
 	public OperationInfo(){}
-	
+
 	/** 报警设置 ID */
     public Long operation_id;
     
@@ -25,4 +25,20 @@ public class OperationInfo {
      * 默认: Host({hostname},{ip}) service({service_name}) has issue,msg:{msg} 
      */
     public String msg_format;
+    
+
+	public OperationInfo(String name, Integer step, String action_type, String msg_format) {
+		this.name = name;
+		this.step = step;
+		this.action_type = action_type;
+		this.msg_format = msg_format;
+	}
+	
+	public OperationInfo(Long operation_id, String name, Integer step, String action_type, String msg_format) {
+		this.operation_id = operation_id;
+		this.name = name;
+		this.step = step;
+		this.action_type = action_type;
+		this.msg_format = msg_format;
+	}
 }

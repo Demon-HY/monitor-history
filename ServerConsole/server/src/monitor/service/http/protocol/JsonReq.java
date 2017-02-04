@@ -23,7 +23,7 @@ public class JsonReq {
      * 默认写到日志里
      * 
      * @param name 参数名
-     * @param notEmpty 是否为空
+     * @param notEmpty 是否不为空
      * @param strConv 是否从字符串中转换
      * @return
      * @throws ParamException
@@ -35,7 +35,7 @@ public class JsonReq {
      * 获取客户端传递过来的Long类型参数
      * 
      * @param name 参数名
-     * @param notEmpty 是否为空
+     * @param notEmpty 是否不为空
      * @param logParam 是否写到日志里
      * @param strConv 是否从字符串中转换
      * @return
@@ -74,7 +74,7 @@ public class JsonReq {
      * 默认写到日志里
      * 
      * @param name 参数名
-     * @param notEmpty 是否为空
+     * @param notEmpty 是否不为空
      * @return
      * @throws ParamException
      */
@@ -85,7 +85,7 @@ public class JsonReq {
      * 获取客户端传递过来的整型参数
      * 
      * @param name 参数名
-     * @param notEmpty 是否为空
+     * @param notEmpty 是否不为空
      * @param logParam 是否写到日志里
      * @param type 指定参数类型
      * @return
@@ -189,7 +189,7 @@ public class JsonReq {
      * 默认写日志
      * 
      * @param name 参数名
-     * @param notEmpty 是否为空
+     * @param notEmpty 是否不为空
      * @return
      * @throws ParamException
      */
@@ -200,7 +200,7 @@ public class JsonReq {
      * 获取字符串型参数
      * 
      * @param name 参数名
-     * @param notEmpty 是否为空
+     * @param notEmpty 是否不为空
      * @param logParam 是否写日志
      * @return
      * @throws ParamException
@@ -233,7 +233,7 @@ public class JsonReq {
      * 默认写日志
      * 
      * @param name 参数名
-     * @param notEmpty 是否为空
+     * @param notEmpty 是否不为空
      * @param strConv 是否从字符串转换
      * @return
      * @throws ParamException
@@ -245,7 +245,7 @@ public class JsonReq {
      * 获取布尔类型参数
      * 
      * @param name 参数名
-     * @param notEmpty 是否为空
+     * @param notEmpty 是否不为空
      * @param strConv 是否从字符串转换
      * @param logParam 是否写日志
      * @return
@@ -283,7 +283,7 @@ public class JsonReq {
      * 获取列表类型参数
      * 
      * @param name 参数名
-     * @param notEmpty 是否为空
+     * @param notEmpty 是否不为空
      * @param type 参数类型
      * @param logParam 是否写日志
      * @return
@@ -330,7 +330,7 @@ public class JsonReq {
      * 获取列表类型参数，其元素为Long类型
      * 
      * @param name 参数名
-     * @param notEmpty 是否为空
+     * @param notEmpty 是否不为空
      * @return
      * @throws ParamException
      */
@@ -342,7 +342,7 @@ public class JsonReq {
      * 默认写日志
      * 
      * @param name 参数名
-     * @param notEmpty 是否为空
+     * @param notEmpty 是否不为空
      * @param logParam 是否写日志
      * @return
      * @throws ParamException
@@ -354,7 +354,7 @@ public class JsonReq {
      * 获取列表类型参数，其元素为String类型
      * 
      * @param name 参数名
-     * @param notEmpty 是否为空
+     * @param notEmpty 是否不为空
      * @return
      * @throws ParamException
      */
@@ -366,7 +366,7 @@ public class JsonReq {
      * 默认写日志
      * 
      * @param name 参数名
-     * @param notEmpty 是否为空
+     * @param notEmpty 是否不为空
      * @param logParam 是否写日志
      * @return
      * @throws ParamException
@@ -378,7 +378,7 @@ public class JsonReq {
      * 获取列表类型参数，其元素为Double类型
      * 
      * @param name 参数名
-     * @param notEmpty 是否为空
+     * @param notEmpty 是否不为空
      * @return
      * @throws ParamException
      */

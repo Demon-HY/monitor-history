@@ -151,7 +151,7 @@ public class ActionApi implements IActionApi{
 		return actionInfo;
 	}
 	
-	public boolean deleteAction(Env env, Long action_id) throws LogicalException, SQLException {
+	public ActionInfo deleteAction(Env env, Long action_id) throws LogicalException, SQLException {
 		if (null == action_id || action_id.longValue() < 1) {
 			throw new LogicalException(ActionRetStat.ERR_ACTION_ID_NOT_FOUND, 
 					"ActionApi.deleteAction action_id(" + action_id + ") not found!");
@@ -166,13 +166,13 @@ public class ActionApi implements IActionApi{
 					"ActionApi.deleteAction action_id(" + action_id + ") not found!");
 		}
 		
-		boolean result = this.actionModel.deleteActionByActionId(action_id);
+		this.actionModel.deleteActionByActionId(action_id);
 		
 		// 发送删除报警列表后事件
 		actionEvent = new ActionEvent(env,  actionInfo);
 		this.beans.getEventHub().dispatchEvent(ActionEvent.Type.POST_DELETE_ACTION, actionEvent);
 		
-		return result;
+		return actionInfo;
 	}
 	
 	public Map<Long, List<Long>> getActionOperations(Env env, Long action_id) throws LogicalException, SQLException {
@@ -351,7 +351,7 @@ public class ActionApi implements IActionApi{
 		return operationInfo;
 	}
 	
-	public boolean deleteOperation(Env env, Long operation_id) throws LogicalException, SQLException {
+	public OperationInfo deleteOperation(Env env, Long operation_id) throws LogicalException, SQLException {
 		if (null == operation_id || operation_id.longValue() < 1) {
 			throw new LogicalException(OperationRetStat.ERR_OPERATION_ID_NOT_FOUND, 
 					"ActionApi.deleteOperation operation_id(" + operation_id + ") not found!");
@@ -366,13 +366,13 @@ public class ActionApi implements IActionApi{
 					"ActionApi.deleteOperation operation_id(" + operation_id + ") not found!");
 		}
 		
-		boolean result = this.actionModel.deleteOperationByOperationId(operation_id);
+		this.actionModel.deleteOperationByOperationId(operation_id);
 		
 		// 发送删除报警设置后事件
 		operationEvent = new OperationEvent(env,  operationInfo);
 		this.beans.getEventHub().dispatchEvent(OperationEvent.Type.POST_DELETE_OPERATION, operationEvent);
 		
-		return result;
+		return operationInfo;
 	}
 	
 	public Map<Long, List<Long>> getOperationUsers(Env env, Long operation_id) throws LogicalException, SQLException {
