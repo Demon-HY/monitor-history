@@ -1,6 +1,7 @@
 package module.action;
 
 import java.util.List;
+import java.util.Map;
 
 import org.javatuples.Pair;
 
@@ -890,7 +891,7 @@ public class ActionHttpApi {
 	}
 	
 	/**
-	 * 删除报警
+	 * 获取报警关联的群组
 	 *
 	 * @param token 
 	 * <blockquote>
@@ -898,20 +899,47 @@ public class ActionHttpApi {
      * 		描述：token 用户登录令牌<br/>
      * 		必需：YES
      * </blockquote>
+     * @param action_id
+     * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警 ID<br/>
+     * 		必需：YES
+     * </blockquote>
      * 
+     * @return
+     * stat
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：状态值<br/>
+     * </blockquote>
+     * action_id
+	 * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警 ID<br/>
+     * </blockquote>
+     * groupIdList
+	 * <blockquote>
+     * 		类型：数组<br/>
+     * 		描述：群组 ID 集合<br/>
+     * </blockquote>
      * 
      * @throws Exception
 	 * @right 该接口需要管理员权限
      */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp getActionGroups(AuthedJsonReq req) throws Exception {
+		Long action_id = req.paramGetNumber("action_id", true, true);
+		
+		Map<Long, List<Long>> actionGroups = this.actionApi.getActionGroups(req.env, action_id);
 		
 		JsonResp resp = new JsonResp(RetStat.OK);
+		resp.resultMap.put("action_id", action_id);
+		resp.resultMap.put("groupIdList", actionGroups.get(action_id));
         return resp;
 	}
 	
 	/**
-	 * 删除报警
+	 * 获取报警关联的主机
 	 *
 	 * @param token 
 	 * <blockquote>
@@ -919,20 +947,47 @@ public class ActionHttpApi {
      * 		描述：token 用户登录令牌<br/>
      * 		必需：YES
      * </blockquote>
+     * @param action_id
+     * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警 ID<br/>
+     * 		必需：YES
+     * </blockquote>
      * 
+     * @return
+     * stat
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：状态值<br/>
+     * </blockquote>
+     * action_id
+	 * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警 ID<br/>
+     * </blockquote>
+     * hostIdList
+	 * <blockquote>
+     * 		类型：数组<br/>
+     * 		描述：主机 ID 集合<br/>
+     * </blockquote>
      * 
      * @throws Exception
 	 * @right 该接口需要管理员权限
      */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp getActionHosts(AuthedJsonReq req) throws Exception {
+		Long action_id = req.paramGetNumber("action_id", true, true);
+		
+		Map<Long, List<Long>> actionHosts = this.actionApi.getActionHosts(req.env, action_id);
 		
 		JsonResp resp = new JsonResp(RetStat.OK);
+		resp.resultMap.put("action_id", action_id);
+		resp.resultMap.put("hostIdList", actionHosts.get(action_id));
         return resp;
 	}
 	
 	/**
-	 * 删除报警
+	 * 获取报警关联的报警设置
 	 *
 	 * @param token 
 	 * <blockquote>
@@ -940,20 +995,47 @@ public class ActionHttpApi {
      * 		描述：token 用户登录令牌<br/>
      * 		必需：YES
      * </blockquote>
+     * @param action_id
+     * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警 ID<br/>
+     * 		必需：YES
+     * </blockquote>
      * 
+     * @return
+     * stat
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：状态值<br/>
+     * </blockquote>
+     * action_id
+	 * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警 ID<br/>
+     * </blockquote>
+     * operationIdList
+	 * <blockquote>
+     * 		类型：数组<br/>
+     * 		描述：报警设置 ID 集合<br/>
+     * </blockquote>
      * 
      * @throws Exception
 	 * @right 该接口需要管理员权限
      */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
-	public JsonResp getActionOperation(AuthedJsonReq req) throws Exception {
+	public JsonResp getActionOperations(AuthedJsonReq req) throws Exception {
+		Long action_id = req.paramGetNumber("action_id", true, true);
+		
+		Map<Long, List<Long>> actionOperations = this.actionApi.getActionOperations(req.env, action_id);
 		
 		JsonResp resp = new JsonResp(RetStat.OK);
+		resp.resultMap.put("action_id", action_id);
+		resp.resultMap.put("operationIdList", actionOperations.get(action_id));
         return resp;
 	}
 	
 	/**
-	 * 删除报警
+	 * 获取报警关联的触发器
 	 *
 	 * @param token 
 	 * <blockquote>
@@ -961,20 +1043,47 @@ public class ActionHttpApi {
      * 		描述：token 用户登录令牌<br/>
      * 		必需：YES
      * </blockquote>
+     * @param action_id
+     * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警 ID<br/>
+     * 		必需：YES
+     * </blockquote>
      * 
+     * @return
+     * stat
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：状态值<br/>
+     * </blockquote>
+     * action_id
+	 * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警 ID<br/>
+     * </blockquote>
+     * triggerIdList
+	 * <blockquote>
+     * 		类型：数组<br/>
+     * 		描述：触发器 ID 集合<br/>
+     * </blockquote>
      * 
      * @throws Exception
 	 * @right 该接口需要管理员权限
      */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp getActionTriggers(AuthedJsonReq req) throws Exception {
+		Long action_id = req.paramGetNumber("action_id", true, true);
+		
+		Map<Long, List<Long>> actionTriggers = this.actionApi.getActionTriggers(req.env, action_id);
 		
 		JsonResp resp = new JsonResp(RetStat.OK);
+		resp.resultMap.put("action_id", action_id);
+		resp.resultMap.put("triggerIdList", actionTriggers.get(action_id));
         return resp;
 	}
 	
 	/**
-	 * 删除报警
+	 * 获取报警设置关联的用户
 	 *
 	 * @param token 
 	 * <blockquote>
@@ -982,15 +1091,42 @@ public class ActionHttpApi {
      * 		描述：token 用户登录令牌<br/>
      * 		必需：YES
      * </blockquote>
+     * @param operation_id
+     * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警设置 ID<br/>
+     * 		必需：YES
+     * </blockquote>
      * 
+     * @return
+     * stat
+	 * <blockquote>
+     * 		类型：字符型<br/>
+     * 		描述：状态值<br/>
+     * </blockquote>
+     * action_id
+	 * <blockquote>
+     * 		类型：整数<br/>
+     * 		描述：报警 ID<br/>
+     * </blockquote>
+     * userIdList
+	 * <blockquote>
+     * 		类型：数组<br/>
+     * 		描述：用户 ID 集合<br/>
+     * </blockquote>
      * 
      * @throws Exception
 	 * @right 该接口需要管理员权限
      */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
 	public JsonResp getOperationUsers(AuthedJsonReq req) throws Exception {
+		Long operation_id = req.paramGetNumber("operation_id", true, true);
+		
+		Map<Long, List<Long>> actionUsers = this.actionApi.getOperationUsers(req.env, operation_id);
 		
 		JsonResp resp = new JsonResp(RetStat.OK);
+		resp.resultMap.put("action_id", operation_id);
+		resp.resultMap.put("userIdList", actionUsers.get(operation_id));
         return resp;
 	}
 }
