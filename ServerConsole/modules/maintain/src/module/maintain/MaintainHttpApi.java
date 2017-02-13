@@ -440,7 +440,7 @@ public class MaintainHttpApi {
      * hostIdList
      * <blockquote>
      *      类型：数组<br/>
-     *      描述：主机 ID 集合<br/>
+     *      描述：主机 ID 集合
      * </blockquote>
      */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
@@ -475,7 +475,7 @@ public class MaintainHttpApi {
      * stat
      * <blockquote>
      *      类型：字符型<br/>
-     *      描述：状态值<br/>
+     *      描述：状态值
      * </blockquote>
      * maintain_id
      * <blockquote>
@@ -485,7 +485,7 @@ public class MaintainHttpApi {
      * groupIdList
      * <blockquote>
      *      类型：数组<br/>
-     *      描述：群组 ID 集合<br/>
+     *      描述：群组 ID 集合
      * </blockquote>
      */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
