@@ -45,6 +45,7 @@ public class HostApi implements IHostApi{
 	 * @param pageSize 分页大小
 	 * @param order 排序参数（desc、asc）
 	 * @param sort 排序字段
+	 * 
 	 * @return
 	 * @throws SQLException 
 	 */
@@ -164,8 +165,7 @@ public class HostApi implements IHostApi{
      * @throws LogicalException 
      * @throws SQLException 
      */
-	public HostInfo deleteHost(Env env, Long host_id) 
-			throws LogicalException, SQLException {
+	public HostInfo deleteHost(Env env, Long host_id) throws LogicalException, SQLException {
 		if (null ==host_id || host_id.longValue() < 0) {
 			throw new LogicalException(HostRetStat.ERR_HOST_ID_NOT_FOUND, 
 					"HostApi.deleteHost host_id(" + host_id + ") not found!");

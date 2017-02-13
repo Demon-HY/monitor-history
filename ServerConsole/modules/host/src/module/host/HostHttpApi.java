@@ -1,6 +1,7 @@
 package module.host;
 
 import java.util.List;
+import java.util.Map;
 
 import org.javatuples.Pair;
 
@@ -510,6 +511,100 @@ public class HostHttpApi {
         
         JsonResp resp = new JsonResp(RetStat.OK);
         resp.resultMap.put("HostInfo", hostInfo);
+        return resp;
+    }
+    
+    /**
+     * 获取主机关联的群组
+     *
+     * @param token 
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：token 用户登录令牌<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param host_id 
+     * <blockquote>
+     *      类型：整形<br/>
+     *      描述：主机 ID<br/>
+     *      必需：YES
+     * </blockquote>
+     * 
+     * @return
+     * stat
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：状态值<br/>
+     * </blockquote>
+     * host_id 
+     * <blockquote>
+     *      类型：整形<br/>
+     *      描述：主机 ID
+     * </blockquote>
+     * groupIdList
+     * <blockquote>
+     *      类型：数组<br/>
+     *      描述：群组 ID 集合<br/>
+     * </blockquote>
+     * 
+     * @right 该接口需要管理员权限
+     */
+    @ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp getHostGroups(AuthedJsonReq req) throws Exception {
+        Long host_id = req.paramGetNumber("host_id", true, true);
+        
+        Map<Long, List<Long>> hostGroups = this.hostApi.getHostGroups(req.env, host_id);
+        
+        JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("host_id", host_id);
+        resp.resultMap.put("groupIdList", hostGroups.get(host_id));
+        return resp;
+    }
+    
+    /**
+     * 获取主机关联的模板
+     *
+     * @param token 
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：token 用户登录令牌<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param host_id 
+     * <blockquote>
+     *      类型：整形<br/>
+     *      描述：主机 ID<br/>
+     *      必需：YES
+     * </blockquote>
+     * 
+     * @return
+     * stat
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：状态值<br/>
+     * </blockquote>
+     * host_id 
+     * <blockquote>
+     *      类型：整形<br/>
+     *      描述：主机 ID
+     * </blockquote>
+     * templateIdList
+     * <blockquote>
+     *      类型：数组<br/>
+     *      描述：模板 ID 集合<br/>
+     * </blockquote>
+     * 
+     * @right 该接口需要管理员权限
+     */
+    @ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp getHostTemplates(AuthedJsonReq req) throws Exception {
+        Long host_id = req.paramGetNumber("host_id", true, true);
+        
+        Map<Long, List<Long>> hostTemplates = this.hostApi.getHostTemplates(req.env, host_id);
+        
+        JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("host_id", host_id);
+        resp.resultMap.put("templateIdList", hostTemplates.get(host_id));
         return resp;
     }
 }
