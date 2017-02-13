@@ -91,11 +91,11 @@ public interface IHostApi {
      *      描述：主机 ID
      * </blockquote>
      * 
-     * @return
+     * @return 要删除的主机信息
      * @throws LogicalException 
      * @throws SQLException 
      */
-	public boolean deleteHost(Env env, Long host_id) throws LogicalException, SQLException;
+	public HostInfo deleteHost(Env env, Long host_id) throws LogicalException, SQLException;
 	
 	/**
 	 * 获取主机列表

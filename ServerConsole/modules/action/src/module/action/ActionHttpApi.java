@@ -760,7 +760,6 @@ public class ActionHttpApi {
      * 		</blockquote>
      * </blockquote>
      * 
-	 * @throws Exception
 	 * @right 该接口需要管理员权限
      */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
@@ -870,7 +869,6 @@ public class ActionHttpApi {
      * 		</blockquote>
      * </blockquote>
      * 
-     * @throws Exception
 	 * @right 该接口需要管理员权限
      */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
@@ -923,7 +921,6 @@ public class ActionHttpApi {
      * 		描述：群组 ID 集合<br/>
      * </blockquote>
      * 
-     * @throws Exception
 	 * @right 该接口需要管理员权限
      */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
@@ -971,7 +968,6 @@ public class ActionHttpApi {
      * 		描述：主机 ID 集合<br/>
      * </blockquote>
      * 
-     * @throws Exception
 	 * @right 该接口需要管理员权限
      */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
@@ -1019,7 +1015,6 @@ public class ActionHttpApi {
      * 		描述：报警设置 ID 集合<br/>
      * </blockquote>
      * 
-     * @throws Exception
 	 * @right 该接口需要管理员权限
      */
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)

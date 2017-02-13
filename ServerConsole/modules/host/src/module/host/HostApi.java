@@ -160,11 +160,11 @@ public class HostApi implements IHostApi{
      * @param env
      * @param host_id 主机 Id
      * 
-     * @return
+     * @return 要删除的主机信息
      * @throws LogicalException 
      * @throws SQLException 
      */
-	public boolean deleteHost(Env env, Long host_id) 
+	public HostInfo deleteHost(Env env, Long host_id) 
 			throws LogicalException, SQLException {
 		if (null ==host_id || host_id.longValue() < 0) {
 			throw new LogicalException(HostRetStat.ERR_HOST_ID_NOT_FOUND, 
@@ -180,13 +180,13 @@ public class HostApi implements IHostApi{
         			"HostApi.deleteHost host_id(" + host_id + ") not found!");
         }
         
-        boolean result = this.hostModel.deleteHostByHostId(host_id);
+        this.hostModel.deleteHostByHostId(host_id);
         
         // 发送删除主机后事件
         hostEvent = new HostEvent(env, hostInfo);
         this.beans.getEventHub().dispatchEvent(HostEvent.Type.POST_DELETE_HOST, hostEvent);
 		
-        return result;
+        return hostInfo;
 	}
 	
 	public Map<Long, List<Long>> getHostGroups(Env env, Long host_id) 

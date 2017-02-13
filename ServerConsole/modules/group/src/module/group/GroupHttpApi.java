@@ -1,6 +1,7 @@
 package module.group;
 
 import java.util.List;
+import java.util.Map;
 
 import org.javatuples.Pair;
 
@@ -304,6 +305,119 @@ public class GroupHttpApi {
         
         JsonResp resp = new JsonResp(RetStat.OK);
         resp.resultMap.put("GroupInfo", groupInfo);
+        return resp;
+    }
+    
+    /**
+     * 删除群组
+     *
+     * @param token 
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：token 用户登录令牌<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param group_id 
+     * <blockquote>
+     *      类型：整形<br/>
+     *      描述：群组 ID<br/>
+     *      必需：YES
+     * </blockquote>
+     * 
+     * @return
+     * stat
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：状态值<br/>
+     * </blockquote>
+     * GroupInfo
+     * <blockquote>
+     *      类型：JSON 对象<br/>
+     *      描述：群组信息<br/>
+     *      group_id
+     *      <blockquote>
+     *      类型：整数<br/>
+     *      描述：群组 ID
+     *      </blockquote>
+     *      name
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：群组名称
+     *      </blockquote>
+     *      memo
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：备注
+     *      </blockquote>
+     *      ctime
+     *      <blockquote>
+     *      类型：时间<br/>
+     *      描述：创建时间
+     *      </blockquote>
+     *      mtime
+     *      <blockquote>
+     *      类型：时间<br/>
+     *      描述：修改时间
+     *      </blockquote>
+     * </blockquote>
+     * 
+     * @right 该接口需要管理员权限
+     */
+    @ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp deleteGroup(AuthedJsonReq req) throws Exception {
+        Long group_id = req.paramGetNumber("group_id", true, true);
+        
+        GroupInfo groupInfo = this.groupApi.deleteGroup(req.env, group_id);
+        
+        JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("GroupInfo", groupInfo);
+        return resp;
+    }
+    
+    /**
+     * 获取群组关联的模板
+     *
+     * @param token 
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：token 用户登录令牌<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param group_id 
+     * <blockquote>
+     *      类型：整形<br/>
+     *      描述：群组 ID<br/>
+     *      必需：YES
+     * </blockquote>
+     * 
+     * @return
+     * stat
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：状态值
+     * </blockquote>
+     * group_id 
+     * <blockquote>
+     *      类型：整形<br/>
+     *      描述：群组 ID
+     * </blockquote>
+     * templateIdList
+     * <blockquote>
+     *      类型：数组<br/>
+     *      描述：模板 ID 集合<br/>
+     * </blockquote>
+     * 
+     * @right 该接口需要管理员权限
+     */
+    @ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp getGroupTemplates(AuthedJsonReq req) throws Exception {
+        Long group_id = req.paramGetNumber("group_id", true, true);
+        
+        Map<Long, List<Long>> groupTemplates = this.groupApi.getGroupTemplates(req.env, group_id);
+        
+        JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("group_id", group_id);
+        resp.resultMap.put("templateIdList", groupTemplates.get(group_id));
         return resp;
     }
 }

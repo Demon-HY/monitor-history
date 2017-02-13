@@ -454,6 +454,51 @@ public class HostHttpApi {
      *      类型：字符型<br/>
      *      描述：状态值<br/>
      * </blockquote>
+     * HostInfo
+     * <blockquote>
+     *      类型：JSON 对象<br/>
+     *      描述：主机信息<br/>
+     *      name
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：主机名称<br/>
+     *      </blockquote>
+     *      ip
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：主机 IP<br/>
+     *      </blockquote>
+     *      monitored
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：监控方式(Agent,SNMP,WGET)<br/>
+     *      </blockquote>
+     *      status
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：状态(Online,Down,Unreachable,Offline,Problem)<br/>
+     *      </blockquote>
+     *      interval
+     *      <blockquote>
+     *      类型：整数<br/>
+     *      描述：主机存活状态检测间隔(second)<br/>
+     *      </blockquote>
+     *      memo
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：备注<br/>
+     *      </blockquote>
+     *      ctime
+     *      <blockquote>
+     *      类型：时间<br/>
+     *      描述：创建时间<br/>
+     *      </blockquote>
+     *      mtime
+     *      <blockquote>
+     *      类型：时间<br/>
+     *      描述：修改时间<br/>
+     *      </blockquote>
+     * </blockquote>
      * 
      * @right 该接口需要管理员权限
      */
@@ -461,9 +506,10 @@ public class HostHttpApi {
     public JsonResp deleteHost(AuthedJsonReq req) throws Exception {
         Long host_id = req.paramGetNumber("host_id", true, true);
         
-        this.hostApi.deleteHost(req.env, host_id);
+        HostInfo hostInfo = this.hostApi.deleteHost(req.env, host_id);
         
         JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("HostInfo", hostInfo);
         return resp;
     }
 }

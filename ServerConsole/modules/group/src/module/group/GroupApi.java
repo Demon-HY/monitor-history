@@ -110,7 +110,7 @@ public class GroupApi implements IGroupApi{
 		return groupInfo;
 	}
 	
-	public boolean deleteGroup(Env env, Long group_id) throws LogicalException, SQLException {
+	public GroupInfo deleteGroup(Env env, Long group_id) throws LogicalException, SQLException {
 		if (null == group_id || group_id.longValue() < 1) {
 			throw new LogicalException(GroupRetStat.ERR_GROUP_ID_NOT_FOUND, 
 					"GroupApi.deleteGroup group_id(" + group_id + ") not found!");
@@ -125,13 +125,13 @@ public class GroupApi implements IGroupApi{
 					"GroupApi.deleteGroup group_id(" + group_id + ") not found!");
 		}
 		
-		boolean result = this.groupModel.deleteGroupByGroupId(group_id);
+		this.groupModel.deleteGroupByGroupId(group_id);
 		
 		// 发送删除群组后事件
 		groupEvent = new GroupEvent(env,  groupInfo);
 		this.beans.getEventHub().dispatchEvent(GroupEvent.Type.POST_DELETE_GROUP, groupEvent);
 		
-		return result;
+		return groupInfo;
 	}
 	
 	public Map<Long, List<Long>> getGroupTemplates(Env env, Long group_id) throws LogicalException, SQLException {
