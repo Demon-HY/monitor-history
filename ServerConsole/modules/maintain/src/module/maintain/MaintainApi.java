@@ -119,7 +119,7 @@ public class MaintainApi implements IMaintainApi{
 		return maintainInfo;
 	}
 	
-	public boolean deleteMaintain(Env env, Long maintain_id) throws LogicalException, SQLException {
+	public MaintainInfo deleteMaintain(Env env, Long maintain_id) throws LogicalException, SQLException {
 		if (null == maintain_id || maintain_id.longValue() < 1) {
 			throw new LogicalException(MaintainRetStat.ERR_MAINTAIN_ID_NOT_FOUND, 
 					"MaintainApi.deleteMaintain maintain_id(" + maintain_id + ") not found!");
@@ -134,13 +134,13 @@ public class MaintainApi implements IMaintainApi{
 					"MaintainApi.deleteMaintain maintain_id(" + maintain_id + ") not found!");
 		}
 		
-		boolean result = this.maintainModel.deleteMaintainByMaintainId(maintain_id);
+		this.maintainModel.deleteMaintainByMaintainId(maintain_id);
 		
 		// 发送删除维护后事件
 		maintainEvent = new MaintainEvent(env,  maintainInfo);
 		this.beans.getEventHub().dispatchEvent(MaintainEvent.Type.POST_DELETE_MAINTAIN, maintainEvent);
 		
-		return result;
+		return maintainInfo;
 	}
 	
 	public Map<Long, List<Long>> getMaintainHosts(Env env, Long maintain_id) throws LogicalException, SQLException {

@@ -74,8 +74,20 @@ public class Time {
         return System.currentTimeMillis();
     }
     
+    /**
+     * 获取数据库支持的时间类型 Timestamp 
+     * @return
+     */
     public static Timestamp getTimestamp() {
     	return new Timestamp(Time.currentTimeMillis());
+    }
+    
+    /**
+     * 获取数据库支持的时间类型 Timestamp 
+     * @return
+     */
+    public static Timestamp getTimestamp(String time) {
+        return Timestamp.valueOf(time);
     }
     
 }
