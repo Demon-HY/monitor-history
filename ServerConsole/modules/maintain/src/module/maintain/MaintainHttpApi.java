@@ -229,8 +229,8 @@ public class MaintainHttpApi {
 	    String content = req.paramGetString("content", true);
 	    Timestamp start_time = Time.getTimestamp(req.paramGetString("start_time", true));
 	    Timestamp end_time = Time.getTimestamp(req.paramGetString("end_time", true));
-	    List<Long> hostIdList = req.paramGetNumList("hostIdList", true);
-	    List<Long> groupIdList = req.paramGetNumList("groupIdList", true);
+	    List<Long> hostIdList = req.paramGetNumList("hostIdList", false);
+	    List<Long> groupIdList = req.paramGetNumList("groupIdList", false);
 	    
 	    MaintainInfo maintainInfo = new MaintainInfo(name, content, start_time, end_time);
 	    maintainInfo = this.maintainApi.addMaintain(req.env, maintainInfo, hostIdList, groupIdList);
@@ -335,8 +335,8 @@ public class MaintainHttpApi {
 	    String content = req.paramGetString("content", true);
 	    Timestamp start_time = Time.getTimestamp(req.paramGetString("start_time", true));
 	    Timestamp end_time = Time.getTimestamp(req.paramGetString("end_time", true));
-	    List<Long> hostIdList = req.paramGetNumList("hostIdList", true);
-	    List<Long> groupIdList = req.paramGetNumList("groupIdList", true);
+	    List<Long> hostIdList = req.paramGetNumList("hostIdList", false);
+	    List<Long> groupIdList = req.paramGetNumList("groupIdList", false);
 	    
 	    MaintainInfo maintainInfo = new MaintainInfo(maintain_id, name, content, start_time, end_time);
 	    maintainInfo = this.maintainApi.editMaintain(req.env, maintainInfo, hostIdList, groupIdList);

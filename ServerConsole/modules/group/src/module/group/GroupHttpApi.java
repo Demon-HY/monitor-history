@@ -158,7 +158,7 @@ public class GroupHttpApi {
      * <blockquote>
      *      类型：字符型<br/>
      *      描述：备注<br/>
-     *      必需：YES
+     *      必需：NO
      * </blockquote>
      * @param templateIdList 
      * <blockquote>
@@ -209,8 +209,8 @@ public class GroupHttpApi {
 	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
     public JsonResp addGroup(AuthedJsonReq req) throws Exception {
 	    String name = req.paramGetString("name", true);
-	    String memo = req.paramGetString("memo", true);
-	    List<Long> templateIdList = req.paramGetNumList("templateIdList", true);
+	    String memo = req.paramGetString("memo", false);
+	    List<Long> templateIdList = req.paramGetNumList("templateIdList", false);
 	    
 	    GroupInfo groupInfo = new GroupInfo(name, memo, Time.getTimestamp(), Time.getTimestamp());
 	    groupInfo = this.groupApi.addGroup(req.env, groupInfo, templateIdList);
@@ -221,7 +221,7 @@ public class GroupHttpApi {
 	}
 	
 	/**
-     * 添加群组
+     * 编辑群组
      *
      * @param token 
      * <blockquote>
@@ -297,8 +297,8 @@ public class GroupHttpApi {
     public JsonResp editGroup(AuthedJsonReq req) throws Exception {
         Long group_id = req.paramGetNumber("group_id", true, true);
         String name = req.paramGetString("name", true);
-        String memo = req.paramGetString("memo", true);
-        List<Long> templateIdList = req.paramGetNumList("templateIdList", true);
+        String memo = req.paramGetString("memo", false);
+        List<Long> templateIdList = req.paramGetNumList("templateIdList", false);
         
         GroupInfo groupInfo = new GroupInfo(group_id, name, memo, Time.getTimestamp(), Time.getTimestamp());
         groupInfo = this.groupApi.editGroup(req.env, groupInfo, templateIdList);
@@ -404,7 +404,7 @@ public class GroupHttpApi {
      * templateIdList
      * <blockquote>
      *      类型：数组<br/>
-     *      描述：模板 ID 集合<br/>
+     *      描述：模板 ID 集合
      * </blockquote>
      * 
      * @right 该接口需要管理员权限

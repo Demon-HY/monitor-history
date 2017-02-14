@@ -1,6 +1,7 @@
 package module.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.javatuples.Pair;
 
@@ -78,7 +79,7 @@ public class ServiceHttpApi {
      * total
      * <blockquote>
      *      类型：整数<br/>
-     *      描述：群组总数<br/>
+     *      描述：服务列表<br/>
      * </blockquote>
      * rows
      * <blockquote>
@@ -92,7 +93,7 @@ public class ServiceHttpApi {
      *      name
      *      <blockquote>
      *      类型：字符型<br/>
-     *      描述：群组名称
+     *      描述：服务名称
      *      </blockquote>
      *      interval
      *      <blockquote>
@@ -142,6 +143,347 @@ public class ServiceHttpApi {
         resp.resultMap.put("rows", result.getValue1());
         return resp;
     }
+    
+    /**
+     * 添加服务
+     *
+     * @param token 
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：token 用户登录令牌<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param name
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：服务名称<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param interval
+     * <blockquote>
+     *      类型：整数<br/>
+     *      描述：监控间隔(s)<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param plugin_name
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：插件名<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param has_sub_service
+     * <blockquote>
+     *      类型：整数<br/>
+     *      描述：是否有子服务(例如网卡有eth0,lo等)<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param memo
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：备注<br/>
+     *      必需：NO
+     * </blockquote>
+     * @param indexIdList 
+     * <blockquote>
+     *      类型：数组<br/>
+     *      描述：服务指标 ID集合<br/>
+     *      必需：NO
+     * </blockquote>
+     * 
+     * @return
+     * stat
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：状态值<br/>
+     * </blockquote>
+     * ServiceInfo
+     * <blockquote>
+     *      类型：JSON 对象<br/>
+     *      描述：服务信息<br/>
+     *      service_id
+     *      <blockquote>
+     *      类型：整数<br/>
+     *      描述：服务 ID
+     *      </blockquote>
+     *      name
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：群组名称
+     *      </blockquote>
+     *      interval
+     *      <blockquote>
+     *      类型：整数<br/>
+     *      描述：监控间隔(s)
+     *      </blockquote>
+     *      plugin_name
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：插件名
+     *      </blockquote>
+     *      has_sub_service
+     *      <blockquote>
+     *      类型：整数<br/>
+     *      描述：是否有子服务(例如网卡有eth0,lo等)
+     *      </blockquote>
+     *      memo
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：备注
+     *      </blockquote>
+     * </blockquote>
+     * 
+     * @right 该接口需要管理员权限
+     */
+    @ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp addService(AuthedJsonReq req) throws Exception {
+    	String name = req.paramGetString("name", true);
+    	Integer interval = req.paramGetInteger("interval", true);
+    	String plugin_name = req.paramGetString("plugin_name", true);
+    	Integer has_sub_service = req.paramGetInteger("has_sub_service", true);
+    	String memo = req.paramGetString("memo", false);
+    	List<Long> indexIdList = req.paramGetNumList("indexIdList", false);
+    	
+    	ServiceInfo serviceInfo = new ServiceInfo(name, interval, plugin_name, has_sub_service, memo);
+    	serviceInfo = this.serviceApi.addService(req.env, serviceInfo, indexIdList);
+    	
+    	JsonResp resp = new JsonResp(RetStat.OK);
+    	resp.resultMap.put("ServiceInfo", serviceInfo);
+        return resp;
+    }
+    
+    /**
+     * 编辑服务
+     *
+     * @param token 
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：token 用户登录令牌<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param service_id
+     * <blockquote>
+     *      类型：整数<br/>
+     *      描述：服务 ID<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param name
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：服务名称<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param interval
+     * <blockquote>
+     *      类型：整数<br/>
+     *      描述：监控间隔(s)<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param plugin_name
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：插件名<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param has_sub_service
+     * <blockquote>
+     *      类型：整数<br/>
+     *      描述：是否有子服务(例如网卡有eth0,lo等)<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param memo
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：备注<br/>
+     *      必需：NO
+     * </blockquote>
+     * @param indexIdList 
+     * <blockquote>
+     *      类型：数组<br/>
+     *      描述：服务指标 ID集合<br/>
+     *      必需：NO
+     * </blockquote>
+     * 
+     * @return
+     * stat
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：状态值<br/>
+     * </blockquote>
+     * ServiceInfo
+     * <blockquote>
+     *      类型：JSON 对象<br/>
+     *      描述：服务信息<br/>
+     *      service_id
+     *      <blockquote>
+     *      类型：整数<br/>
+     *      描述：服务 ID
+     *      </blockquote>
+     *      name
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：群组名称
+     *      </blockquote>
+     *      interval
+     *      <blockquote>
+     *      类型：整数<br/>
+     *      描述：监控间隔(s)
+     *      </blockquote>
+     *      plugin_name
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：插件名
+     *      </blockquote>
+     *      has_sub_service
+     *      <blockquote>
+     *      类型：整数<br/>
+     *      描述：是否有子服务(例如网卡有eth0,lo等)
+     *      </blockquote>
+     *      memo
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：备注
+     *      </blockquote>
+     * </blockquote>
+     * 
+     * @right 该接口需要管理员权限
+     */
+    @ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp editService(AuthedJsonReq req) throws Exception {
+    	Long service_id = req.paramGetNumber("service_id", true, true);
+    	String name = req.paramGetString("name", true);
+    	Integer interval = req.paramGetInteger("interval", true);
+    	String plugin_name = req.paramGetString("plugin_name", true);
+    	Integer has_sub_service = req.paramGetInteger("has_sub_service", true);
+    	String memo = req.paramGetString("memo", false);
+    	List<Long> indexIdList = req.paramGetNumList("indexIdList", false);
+    	
+    	ServiceInfo serviceInfo = new ServiceInfo(service_id, name, interval, plugin_name, 
+    			has_sub_service, memo);
+    	serviceInfo = this.serviceApi.editService(req.env, serviceInfo, indexIdList);
+    	
+    	JsonResp resp = new JsonResp(RetStat.OK);
+    	resp.resultMap.put("ServiceInfo", serviceInfo);
+        return resp;
+    }
+    
+    /**
+     * 删除服务
+     *
+     * @param token 
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：token 用户登录令牌<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param service_id
+     * <blockquote>
+     *      类型：整数<br/>
+     *      描述：服务 ID<br/>
+     *      必需：YES
+     * </blockquote>
+     * 
+     * @return
+     * stat
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：状态值<br/>
+     * </blockquote>
+     * ServiceInfo
+     * <blockquote>
+     *      类型：JSON 对象<br/>
+     *      描述：服务信息<br/>
+     *      service_id
+     *      <blockquote>
+     *      类型：整数<br/>
+     *      描述：服务 ID
+     *      </blockquote>
+     *      name
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：群组名称
+     *      </blockquote>
+     *      interval
+     *      <blockquote>
+     *      类型：整数<br/>
+     *      描述：监控间隔(s)
+     *      </blockquote>
+     *      plugin_name
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：插件名
+     *      </blockquote>
+     *      has_sub_service
+     *      <blockquote>
+     *      类型：整数<br/>
+     *      描述：是否有子服务(例如网卡有eth0,lo等)
+     *      </blockquote>
+     *      memo
+     *      <blockquote>
+     *      类型：字符型<br/>
+     *      描述：备注
+     *      </blockquote>
+     * </blockquote>
+     * 
+     * @right 该接口需要管理员权限
+     */
+    @ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp deleteService(AuthedJsonReq req) throws Exception {
+    	Long service_id = req.paramGetNumber("service_id", true, true);
+    	
+    	ServiceInfo serviceInfo = this.serviceApi.deleteService(req.env, service_id);
+    	
+    	JsonResp resp = new JsonResp(RetStat.OK);
+    	resp.resultMap.put("ServiceInfo", serviceInfo);
+        return resp;
+    }
+    
+    /**
+     * 获取服务关联的服务指标
+     *
+     * @param token 
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：token 用户登录令牌<br/>
+     *      必需：YES
+     * </blockquote>
+     * @param service_id
+     * <blockquote>
+     *      类型：整数<br/>
+     *      描述：服务 ID<br/>
+     *      必需：YES
+     * </blockquote>
+     * 
+     * @return
+     * stat
+     * <blockquote>
+     *      类型：字符型<br/>
+     *      描述：状态值
+     * </blockquote>
+     * service_id
+     * <blockquote>
+     *      类型：整数<br/>
+     *      描述：服务 ID
+     * </blockquote>
+     * indexIdList
+     * <blockquote>
+     *      类型：数组<br/>
+     *      描述：服务指标 ID 集合
+     * </blockquote>
+     * 
+     * @right 该接口需要管理员权限
+     */
+    @ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp getServiceIndexs(AuthedJsonReq req) throws Exception {
+    	Long service_id = req.paramGetNumber("service_id", true, true);
+    	
+    	Map<Long, List<Long>> serviceIndexs = this.serviceApi.getServiceIndexs(req.env, service_id);
+    	
+    	JsonResp resp = new JsonResp(RetStat.OK);
+    	resp.resultMap.put("service_id", service_id);
+    	resp.resultMap.put("indexIdList", serviceIndexs.get(service_id));
+        return resp;
+    }
+    
     
     /**
      * 获取服务的各项指标列表

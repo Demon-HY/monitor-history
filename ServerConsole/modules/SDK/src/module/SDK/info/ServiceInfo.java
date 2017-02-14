@@ -7,8 +7,8 @@ package module.SDK.info;
  */
 public class ServiceInfo {
     public ServiceInfo() {}
-    
-    /** 服务 ID */
+
+	/** 服务 ID */
     public Long service_id;
     
     /** 服务名 */
@@ -25,4 +25,21 @@ public class ServiceInfo {
     
     /** 备注 */
     public String memo;
+    
+    public ServiceInfo(String name, Integer interval, String plugin_name, Integer has_sub_service, String memo) {
+    	this.name= name;
+    	this.interval = interval;
+    	this.plugin_name= plugin_name;
+    	this.has_sub_service = has_sub_service;
+    	this.memo = memo;
+    }
+    
+    public ServiceInfo(Long service_id, String name, Integer interval, String plugin_name, Integer has_sub_service, String memo) {
+    	this.service_id = service_id;
+    	this.name= name;
+    	this.interval = interval;
+    	this.plugin_name= plugin_name;
+    	this.has_sub_service = has_sub_service;
+    	this.memo = memo;
+    }
 }

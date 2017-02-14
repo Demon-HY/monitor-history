@@ -104,7 +104,7 @@ public class ServiceApi implements IServiceApi{
 		return serviceInfo;
 	}
     
-    public boolean deleteService(Env env, Long service_id) throws LogicalException, SQLException {
+    public ServiceInfo deleteService(Env env, Long service_id) throws LogicalException, SQLException {
 		if (null == service_id || service_id.longValue() < 1) {
 			throw new LogicalException(ServiceRetStat.ERR_SERVICE_ID_NOT_FOUND, 
 					"ServiceApi.deleteService service_id(" + service_id + ") not found!");
@@ -119,13 +119,13 @@ public class ServiceApi implements IServiceApi{
 					"ServiceApi.deleteService service_id(" + service_id + ") not found!");
 		}
 		
-		boolean result = this.serviceModel.deleteServiceByServiceId(service_id);
+		this.serviceModel.deleteServiceByServiceId(service_id);
 		
 		// 发送删除服务后事件
 		serviceEvent = new ServiceEvent(env,  serviceInfo);
 		this.beans.getEventHub().dispatchEvent(ServiceEvent.Type.POST_DELETE_SERVICE, serviceEvent);
 		
-		return result;
+		return serviceInfo;
 	}
 
     public Pair<Integer, List<IndexInfo>> listIndex(Integer pageIndex, Integer pageSize, 
