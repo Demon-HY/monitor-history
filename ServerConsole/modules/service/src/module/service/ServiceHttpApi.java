@@ -588,4 +588,17 @@ public class ServiceHttpApi {
         resp.resultMap.put("rows", result.getValue1());
         return resp;
     }
+    
+    @ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp addIndex(AuthedJsonReq req) throws Exception {
+    	String name = req.paramGetString("name", true);
+    	String key = req.paramGetString("key", true);
+    	String type = req.paramGetString("type", true);
+    	String memo = req.paramGetString("memo", false);
+    	
+    	IndexInfo indexInfo = new IndexInfo(name, key, type, memo);
+    
+    	
+    	return null;
+    }
 }

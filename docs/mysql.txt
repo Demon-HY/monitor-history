@@ -7,6 +7,9 @@ $ GRANT ALL ON *.* TO 'monitor'@'%';
 # 创建数据库
 $ CREATE DATABASE `monitor` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 
+# 保存
+$ flush privileges;
+
 1. count(*) 的优化
 
 1.1 count(1)

@@ -8,7 +8,7 @@ package module.SDK.info;
 public class IndexInfo {
 	public IndexInfo(){}
 
-    /** 服务指标 ID */
+	/** 服务指标 ID */
     public Long index_id;
     
     /** 服务指标名  */
@@ -22,4 +22,19 @@ public class IndexInfo {
     
     /** 备注 */
     public String memo;
+    
+    public IndexInfo(String name, String key, String type, String memo) {
+    	this.name = name;
+    	this.key = key;
+    	this.type = type;
+    	this.memo = memo;
+    }
+    
+    public IndexInfo(Long index_id, String name, String key, String type, String memo) {
+    	this.index_id = index_id;
+    	this.name = name;
+    	this.key = key;
+    	this.type = type;
+    	this.memo = memo;
+    }
 }
