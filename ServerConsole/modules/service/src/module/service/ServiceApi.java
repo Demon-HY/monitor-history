@@ -160,7 +160,7 @@ public class ServiceApi implements IServiceApi{
 		return indexInfo;
 	}
 	
-	public IndexInfo editIndex(Env env, IndexInfo indexInfo, List<Long> templateIdList) 
+	public IndexInfo editIndex(Env env, IndexInfo indexInfo) 
 			throws LogicalException, SQLException {
 		// 发送修改服务指标前事件
 		ServiceIndexEvent indexEvent = new ServiceIndexEvent(env, indexInfo);
@@ -181,7 +181,7 @@ public class ServiceApi implements IServiceApi{
 		return indexInfo;
 	}
 	
-	public boolean deleteIndex(Env env, Long index_id) throws LogicalException, SQLException {
+	public IndexInfo deleteIndex(Env env, Long index_id) throws LogicalException, SQLException {
 		if (null == index_id || index_id.longValue() < 1) {
 			throw new LogicalException(ServiceIndexRetStat.ERR_SERVICE_INDEX_ID_NOT_FOUND, 
 					"IndexApi.deleteIndex index_id(" + index_id + ") not found!");
@@ -196,13 +196,13 @@ public class ServiceApi implements IServiceApi{
 					"IndexApi.deleteIndex index_id(" + index_id + ") not found!");
 		}
 		
-		boolean result = this.serviceModel.deleteIndexByIndexId(index_id);
+		this.serviceModel.deleteIndexByIndexId(index_id);
 		
 		// 发送删除服务指标后事件
 		indexEvent = new ServiceIndexEvent(env,  indexInfo);
 		this.beans.getEventHub().dispatchEvent(ServiceIndexEvent.Type.POST_DELETE_SERVICE_INDEX, indexEvent);
 		
-		return result;
+		return indexInfo;
 	}
 	
 	public Map<Long, List<Long>> getServiceIndexs(Env env, Long service_id) throws LogicalException, SQLException {

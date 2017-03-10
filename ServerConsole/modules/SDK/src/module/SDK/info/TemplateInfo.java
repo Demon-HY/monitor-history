@@ -21,4 +21,17 @@ public class TemplateInfo {
 	
 	/** 修改时间 */
 	public Timestamp mtime;
+	
+	public TemplateInfo(String name, Timestamp ctime, Timestamp mtime) {
+		this.name = name;
+		this.ctime = ctime;
+		this.mtime = mtime;
+	}
+	
+	public TemplateInfo(Long template_id, String name, Timestamp ctime, Timestamp mtime) {
+		this.template_id = template_id;
+		this.name = name;
+		this.ctime = ctime;
+		this.mtime = mtime;
+	}
 }

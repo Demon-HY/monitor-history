@@ -119,7 +119,7 @@ public class TemplateApi implements ITemplateApi{
 		return templateInfo;
 	}
 	
-	public boolean deleteTemplate(Env env, Long template_id) throws LogicalException, SQLException {
+	public TemplateInfo deleteTemplate(Env env, Long template_id) throws LogicalException, SQLException {
 		if (null == template_id || template_id.longValue() < 1) {
 			throw new LogicalException(TemplateRetStat.ERR_TEMPLATE_ID_NOT_FOUND, 
 					"TemplateApi.deleteTemplate template_id(" + template_id + ") not found!");
@@ -134,13 +134,13 @@ public class TemplateApi implements ITemplateApi{
 					"TemplateApi.deleteTemplate template_id(" + template_id + ") not found!");
 		}
 		
-		boolean result = this.templateModel.deleteTemplateByTemplateId(template_id);
+		this.templateModel.deleteTemplateByTemplateId(template_id);
 		
 		// 发送删除模板后事件
 		templateEvent = new TemplateEvent(env,  templateInfo);
 		this.beans.getEventHub().dispatchEvent(TemplateEvent.Type.POST_DELETE_TEMPLATE, templateEvent);
 		
-		return result;
+		return templateInfo;
 	}
 	
 	public Map<Long, List<Long>> getTemplateServices(Env env, Long template_id) throws LogicalException, SQLException {

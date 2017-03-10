@@ -597,8 +597,37 @@ public class ServiceHttpApi {
     	String memo = req.paramGetString("memo", false);
     	
     	IndexInfo indexInfo = new IndexInfo(name, key, type, memo);
-    
+    	indexInfo = this.serviceApi.addIndex(req.env, indexInfo);
     	
-    	return null;
+    	JsonResp resp = new JsonResp("OK");
+    	resp.resultMap.put("IndexInfo", indexInfo);
+    	return resp;
+    }
+    
+    @ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp editIndex(AuthedJsonReq req) throws Exception {
+    	Long index_id = req.paramGetNumber("index_id", true, true);
+    	String name = req.paramGetString("name", true);
+    	String key = req.paramGetString("key", true);
+    	String type = req.paramGetString("type", true);
+    	String memo = req.paramGetString("memo", false);
+    	
+    	IndexInfo indexInfo = new IndexInfo(index_id, name, key, type, memo);
+    	indexInfo = this.serviceApi.editIndex(req.env, indexInfo);
+    	
+    	JsonResp resp = new JsonResp("OK");
+    	resp.resultMap.put("IndexInfo", indexInfo);
+    	return resp;
+    }
+    
+    @ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp deleteIndex(AuthedJsonReq req) throws Exception {
+    	Long index_id = req.paramGetNumber("index_id", true, true);
+    	
+    	IndexInfo indexInfo = this.serviceApi.deleteIndex(req.env, index_id);
+    	
+    	JsonResp resp = new JsonResp("OK");
+    	resp.resultMap.put("IndexInfo", indexInfo);
+    	return resp;
     }
 }

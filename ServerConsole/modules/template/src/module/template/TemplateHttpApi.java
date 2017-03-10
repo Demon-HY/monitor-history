@@ -1,6 +1,8 @@
 package module.template;
 
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import org.javatuples.Pair;
 
@@ -13,6 +15,7 @@ import monitor.service.http.ApiGateway;
 import monitor.service.http.protocol.JsonResp;
 import monitor.service.http.protocol.RetStat;
 import monitor.utils.DBUtil;
+import monitor.utils.Time;
 
 public class TemplateHttpApi {
 
@@ -131,4 +134,71 @@ public class TemplateHttpApi {
         resp.resultMap.put("rows", result.getValue1());
         return resp;
 	}
+
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+	public JsonResp addTemplate(AuthedJsonReq req) throws Exception {
+		String name = req.paramGetString("name", true);
+		List<Long> serviceIdList = req.paramGetNumList("serviceIdList", false);
+		List<Long> triggerIdList = req.paramGetNumList("triggerIdList", false);
+		
+		Timestamp _time = Time.getTimestamp();
+		TemplateInfo templateInfo = new TemplateInfo(name, _time, _time);
+		templateInfo = this.templateApi.addTemplate(req.env, templateInfo, serviceIdList, triggerIdList);
+		
+		JsonResp resp = new JsonResp(RetStat.OK);
+		resp.resultMap.put("TemplateInfo", templateInfo);
+        return resp;
+	}
+	
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp editTemplate(AuthedJsonReq req) throws Exception {
+	    Long template_id = req.paramGetNumber("template_id", true, true);
+        String name = req.paramGetString("name", true);
+        List<Long> serviceIdList = req.paramGetNumList("serviceIdList", false);
+        List<Long> triggerIdList = req.paramGetNumList("triggerIdList", false);
+        
+        Timestamp _time = Time.getTimestamp();
+        TemplateInfo templateInfo = new TemplateInfo(template_id, name, _time, _time);
+        templateInfo = this.templateApi.editTemplate(req.env, templateInfo, serviceIdList, triggerIdList);
+        
+        JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("TemplateInfo", templateInfo);
+        return resp;
+    }
+	
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp deleteTemplate(AuthedJsonReq req) throws Exception {
+        Long template_id = req.paramGetNumber("template_id", true, true);
+        
+        TemplateInfo templateInfo = this.templateApi.deleteTemplate(req.env, template_id);
+        
+        JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("TemplateInfo", templateInfo);
+        return resp;
+    }
+	
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp getTemplateServices(AuthedJsonReq req) throws Exception {
+        Long template_id = req.paramGetNumber("template_id", true, true);
+        
+        Map<Long, List<Long>> templateServices = this.templateApi.getTemplateServices(req.env, template_id);
+        
+        JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("template_id", template_id);
+        resp.resultMap.put("serviceIdList", templateServices.get(template_id));
+        return resp;
+    }
+	
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp getTemplateTriggers(AuthedJsonReq req) throws Exception {
+        Long template_id = req.paramGetNumber("template_id", true, true);
+        
+        Map<Long, List<Long>> templateTriggers = this.templateApi.getTemplateTriggers(req.env, template_id);
+        
+        JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("template_id", template_id);
+        resp.resultMap.put("triggerIdList", templateTriggers.get(template_id));
+        return resp;
+    }
+	
 }
