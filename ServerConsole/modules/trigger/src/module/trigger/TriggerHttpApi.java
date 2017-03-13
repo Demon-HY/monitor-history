@@ -78,12 +78,12 @@ public class TriggerHttpApi {
 	 * total
 	 * <blockquote>
      * 		类型：整数<br/>
-     * 		描述：群组总数<br/>
+     * 		描述：触发器总数<br/>
      * </blockquote>
      * rows
 	 * <blockquote>
      * 		类型：JSON 数组<br/>
-     * 		描述：群组信息集<br/>
+     * 		描述：触发器信息集<br/>
      * 		trigger_id
      * 		<blockquote>
      * 		类型：整数<br/>
@@ -136,9 +136,51 @@ public class TriggerHttpApi {
         resp.resultMap.put("rows", result.getValue1());
         return resp;
 	}
+
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp addTrigger(AuthedJsonReq req) throws Exception {
+	    String name = req.paramGetString("name", true);
+	    Integer severity = req.paramGetInteger("severity", true);
+	    Integer enabled = req.paramGetInteger("enabled", true);
+	    String memo = req.paramGetString("memo", false);
+	    
+	    TriggerInfo triggerInfo = new TriggerInfo(name, severity, enabled, memo);
+	    triggerInfo = this.triggerApi.addTrigger(req.env, triggerInfo);
+	    
+	    JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("TriggerInfo", triggerInfo);
+        return resp;
+	}
+	
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp editTrigger(AuthedJsonReq req) throws Exception {
+	    Long trigger_id = req.paramGetNumber("trigger_id", true, true);
+        String name = req.paramGetString("name", true);
+        Integer severity = req.paramGetInteger("severity", true);
+        Integer enabled = req.paramGetInteger("enabled", true);
+        String memo = req.paramGetString("memo", false);
+        
+        TriggerInfo triggerInfo = new TriggerInfo(trigger_id, name, severity, enabled, memo);
+        triggerInfo = this.triggerApi.editTrigger(req.env, triggerInfo);
+        
+        JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("TriggerInfo", triggerInfo);
+        return resp;
+    }
+	
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp deleteTrigger(AuthedJsonReq req) throws Exception {
+        Long trigger_id = req.paramGetNumber("trigger_id", true, true);
+        
+        TriggerInfo triggerInfo = this.triggerApi.deleteTrigger(req.env, trigger_id);
+        
+        JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("TriggerInfo", triggerInfo);
+        return resp;
+    }
 	
 	/**
-	 * 获取群组列表
+	 * 获取触发条件列表
 	 *
 	 * @param token 
 	 * <blockquote>
@@ -180,12 +222,12 @@ public class TriggerHttpApi {
 	 * total
 	 * <blockquote>
      * 		类型：整数<br/>
-     * 		描述：群组总数<br/>
+     * 		描述：触发器总数<br/>
      * </blockquote>
      * rows
 	 * <blockquote>
      * 		类型：JSON 数组<br/>
-     * 		描述：群组信息集<br/>
+     * 		描述：触发条件信息集<br/>
      * 		expression_id
      * 		<blockquote>
      * 		类型：整数<br/>
@@ -264,4 +306,47 @@ public class TriggerHttpApi {
         resp.resultMap.put("rows", result.getValue1());
         return resp;
 	}
+
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp addExpression(AuthedJsonReq req) throws Exception {
+        Long trigger_id = req.paramGetNumber("trigger_id", true, true);
+        Long service_id = req.paramGetNumber("service_id", true, true);
+        Long index_id = req.paramGetNumber("index_id", true, true);
+        String key = req.paramGetString("key", true);
+        String operator_type = req.paramGetString("operator_type", true);
+        String func = req.paramGetString("func", true);
+        String params = req.paramGetString("params", true);
+        Double threshold = req.paramGetDouble("threshold", true, true);
+        String logic_type = req.paramGetString("logic_type", false);
+        
+        ExpressionInfo expressionInfo = new ExpressionInfo(trigger_id, service_id, index_id, key, 
+                operator_type, func, params, threshold, logic_type);
+        this.triggerApi.addExpression(req.env, expressionInfo);
+        
+        JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("ExpressionInfo", expressionInfo);
+        return resp;
+    }
+	
+	@ApiGateway.ApiMethod(protocol = AuthedJsonProtocol.class)
+    public JsonResp editExpression(AuthedJsonReq req) throws Exception {
+        Long expression_id = req.paramGetNumber("expression_id", true, true);
+        Long trigger_id = req.paramGetNumber("trigger_id", true, true);
+        Long service_id = req.paramGetNumber("service_id", true, true);
+        Long index_id = req.paramGetNumber("index_id", true, true);
+        String key = req.paramGetString("key", true);
+        String operator_type = req.paramGetString("operator_type", true);
+        String func = req.paramGetString("func", true);
+        String params = req.paramGetString("params", true);
+        Double threshold = req.paramGetDouble("threshold", true, true);
+        String logic_type = req.paramGetString("logic_type", false);
+        
+        ExpressionInfo expressionInfo = new ExpressionInfo(expression_id, trigger_id, service_id, index_id, key, 
+                operator_type, func, params, threshold, logic_type);
+        this.triggerApi.addExpression(req.env, expressionInfo);
+        
+        JsonResp resp = new JsonResp(RetStat.OK);
+        resp.resultMap.put("ExpressionInfo", expressionInfo);
+        return resp;
+    }
 }

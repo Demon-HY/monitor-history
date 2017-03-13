@@ -22,4 +22,21 @@ public class TriggerInfo {
 
     /** 备注 */
     public String memo;
+
+    public TriggerInfo(String name, Integer severity, Integer enabled, String memo) {
+        this.name = name;
+        this.severity = severity;
+        this.enabled = enabled;
+        this.memo = memo;
+    }
+
+    public TriggerInfo(Long trigger_id, String name, Integer severity, Integer enabled, String memo) {
+        this.trigger_id = trigger_id;
+        this.name = name;
+        this.severity = severity;
+        this.enabled = enabled;
+        this.memo = memo;
+    }
+    
+    
 }

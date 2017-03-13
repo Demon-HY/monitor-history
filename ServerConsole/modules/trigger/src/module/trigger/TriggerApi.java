@@ -103,7 +103,7 @@ public class TriggerApi implements ITriggerApi{
 		return triggerInfo;
 	}
 	
-	public boolean deleteTrigger(Env env, Long trigger_id) throws LogicalException, SQLException {
+	public TriggerInfo deleteTrigger(Env env, Long trigger_id) throws LogicalException, SQLException {
 		if (null == trigger_id || trigger_id.longValue() < 1) {
 			throw new LogicalException(TriggerRetStat.ERR_TRIGGER_ID_NOT_FOUND, 
 					"TriggerApi.deleteTrigger trigger_id(" + trigger_id + ") not found!");
@@ -118,13 +118,13 @@ public class TriggerApi implements ITriggerApi{
 					"TriggerApi.deleteTrigger trigger_id(" + trigger_id + ") not found!");
 		}
 		
-		boolean result = this.triggerModel.deleteTriggerByTriggerId(trigger_id);
+		this.triggerModel.deleteTriggerByTriggerId(trigger_id);
 		
 		// 发送删除触发器后事件
 		triggerEvent = new TriggerEvent(env,  triggerInfo);
 		this.beans.getEventHub().dispatchEvent(TriggerEvent.Type.POST_DELETE_TRIGGER, triggerEvent);
 		
-		return result;
+		return triggerInfo;
 	}
 	
 	/**
@@ -146,19 +146,19 @@ public class TriggerApi implements ITriggerApi{
 		return new Pair<Integer, List<ExpressionInfo>>(count, result);
 	}
 	
-	public ExpressionInfo addExpression(Env env, ExpressionInfo expressionInfo) 
+	public boolean addExpression(Env env, ExpressionInfo expressionInfo) 
 			throws LogicalException, SQLException {
 		// 发送添加触发表达式前事件
 		ExpressionEvent expressionEvent = new ExpressionEvent(env, expressionInfo);
 		this.beans.getEventHub().dispatchEvent(ExpressionEvent.Type.PRE_ADD_TRIGGER_EXPRESSION, expressionEvent);
 		
-		this.triggerModel.addExpression(expressionInfo);
+		boolean result = this.triggerModel.addExpression(expressionInfo);
 		
 		// 发送添加触发表达式后事件
 		expressionEvent = new ExpressionEvent(env,  expressionInfo);
 		this.beans.getEventHub().dispatchEvent(ExpressionEvent.Type.POST_ADD_TRIGGER_EXPRESSION, expressionEvent);
 		
-		return expressionInfo;
+		return result;
 	}
 	
 	public ExpressionInfo editExpression(Env env, ExpressionInfo expressionInfo) 

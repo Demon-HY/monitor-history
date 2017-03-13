@@ -71,13 +71,14 @@ public class TemplateApi implements ITemplateApi{
 		}
 		
 		this.templateModel.addTemplate(templateInfo);
-		templateInfo = this.templateModel.getTemplateByName(templateInfo.name);
 		if (null != serviceIdList && serviceIdList.size() > 0) {
 			this.templateModel.addTemplateServices(templateInfo.template_id, serviceIdList);
 		}
 		if (null != triggerIdList && triggerIdList.size() > 0) {
 			this.templateModel.addTemplateTriggers(templateInfo.template_id, triggerIdList);
 		}
+		
+		templateInfo = this.templateModel.getTemplateByName(templateInfo.name);
 		
 		// 发送添加模板后事件
 		templateEvent = new TemplateEvent(env,  templateInfo);
