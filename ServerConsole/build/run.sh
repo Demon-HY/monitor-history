@@ -1,11 +1,11 @@
 #!/bin/bash
 
-CONF_FILE="/etc/demon/server.properties"
-STDOUT="/var/log/demon/stdout"
+CONF_FILE="/etc/monitor/server.properties"
+STDOUT="/var/log/monitor/stdout"
 
 # 或需要将 run.sh 安装至 /etc/init.d 作开机自启动
-# 请将 XSERVER_HOME 改为 XSERVER 的安装目录
-DEMON_HOME="/mnt/hgfs/goods/Demon"
+# 请将 MONITOR_HOME 改为 XSERVER 的安装目录
+MONITOR_HOME="/opt/monitor"
 
 if [ ! -f "$CONF_FILE" ]; then
     echo "Conf file $CONF_FILE not found"
@@ -21,7 +21,7 @@ HEAP_INIT=$(free | grep Mem | awk '{print int($2*3/10/1024)}')
 GC_LOG=$LOG_DIR/gc.log
 GC_ARG="-Xms${HEAP_INIT}m -Xmx${HEAP_MAX}m -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintHeapAtGC -verbose:GC -Xloggc:$GC_LOG"
 GC_ARG="$GC_ARG -XX:+UseParNewGC -XX:+CMSParallelRemarkEnabled -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70 -XX:+UseCMSInitiatingOccupancyOnly -XX:+UseCMSCompactAtFullCollection -XX:CMSFullGCsBeforeCompaction=1"
-EXEC="java -cp $DEMON_HOME/dServer/lib/*:$DEMON_HOME/module/*/bin/*:/mnt/hgfs/goods/lib/demon.jar $GC_ARG demon.Main "$CONF_FILE
+EXEC="java -cp $MONITOR_HOME/dServer/lib/*:$MONITOR_HOME/module/*/bin/*:/opt/monitor/lib/monitor.jar $GC_ARG monitor.Main "$CONF_FILE
 
 RED='\e[1;91m'
 GREN='\e[1;92m'
