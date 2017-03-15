@@ -7,14 +7,11 @@ import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
+import monitor.exception.ParamException;
+
 public class DBUtil {
 
     public static String sqlQuoteMark = "`";
-    
-    public static void main(String[] args) {
-
-        System.out.println(wrapParams(1, "trew", 4619868971l));
-    }
 
     /**
      * 
@@ -100,11 +97,11 @@ public class DBUtil {
     }
     
     /**
-     * 检测字符串是否为英文\数字\中文\下划线\横岗\点,防止sql被注入
+     * 防止 SQL 注入，检测字符串是否为英文\数字\中文\下划线\横岗\点,防止sql被注入
      * @param str
      * @return 是返回true,反之false.若传入为空则返回正确
      */
-    public static  boolean isSimpleString(String str) {
+    public static  boolean checkSqlInjection(String str) {
     	if(str != null) {
 	    	String regexString = "^[A-Za-z0-9_\\-\u4e00-\u9fa5.%:]+$";
 	    	return str.matches(regexString);
@@ -117,12 +114,26 @@ public class DBUtil {
      * @param str
      * @return 是返回true,反之false.若传入为空则返回正确
      */
-    public static  boolean checkSqlInjection(String str) {
+    public static  boolean checkSqlInjection2(String str) {
     	if(str != null) {
-    		String regexString = "^[A-Za-z0-9]+$";
+    		String regexString = "^[A-Za-z0-9]_+$";
             return str.matches(regexString);
     	}
     	return true;
+    }
+    
+    public static void main(String[] args) {
+        System.out.println(checkSqlInjection("desc"));
+        System.out.println(checkSqlInjection("name"));
+        if (!DBUtil.checkSqlInjection("service_id") || !DBUtil.checkSqlInjection("desc")) {
+            try {
+                throw new ParamException(
+                        String.format("sort(%s) or order(%s) check have sql injection.", "service_id", "desc"));
+            } catch (ParamException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
     }
     
 }

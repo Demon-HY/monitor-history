@@ -1,0 +1,59 @@
+#monitor.license=HF5K1JVGzhfAScieHt9QRxBO0YSITR4e2FACVp9B0J0Y212Z0YAUzUgz-HjAAAAAA
+
+monitor.module.dir=/git/monitor/ServerConsole/modules
+
+monitor.log.path=/var/log/monitor
+monitor.log.rotated=true
+monitor.log.maxFileSize=69206016
+
+monitor.http.host=0.0.0.0
+monitor.http.port=8080
+monitor.http.webContextPath=/
+
+# HTTP \u670d\u52a1\u5668\u9ed8\u8ba4\u6027\u80fd\u53c2\u6570\u914d\u7f6e
+monitor.http.thread.max=200
+monitor.http.thread.min=20
+monitor.http.thread.idleTimeout=60000
+monitor.http.io.timeout=60000
+monitor.http.publicHost=http://127.0.0.1
+monitor.http.publicPort=80
+
+monitor.web.schema=https
+#monitor.web.domain=localhost
+## the value for redirectPolicy is 'error' or 'redirect'
+#monitor.web.redirectPolicy=error
+
+# HTTPS \u914d\u7f6e
+#monitor.http.ssl.port=443
+#monitor.http.ssl.kspath=/tmp/server.keystore
+#monitor.http.ssl.kspwd=hhypSSL201501
+
+monitor.mysql.host=jdbc:mysql://127.0.0.1
+monitor.mysql.port=3306
+monitor.mysql.params=useUnicode=true&characterEncoding=UTF-8
+monitor.mysql.user=monitor
+monitor.mysql.password=monitor
+monitor.mysql.pool.maxActive=20
+monitor.mysql.pool.maxIdle=20
+monitor.mysql.pool.maxWait=20000
+monitor.mysql.pool.timeBetweenEvictionRunsMillis=60000
+monitor.mysql.pool.numTestsPerEvictionRun=20
+monitor.mysql.pool.minEvictableIdleTimeMillis=1800000
+
+# redis
+monitor.redis.host=192.168.1.111
+monitor.redis.port=6379
+monitor.redis.pool.maxTotal=20
+# \u63A7\u5236\u4E00\u4E2Apool\u6700\u591A\u6709\u591A\u5C11\u4E2A\u72B6\u6001\u4E3Aidle(\u7A7A\u95F2\u7684)\u7684jedis
+# \u5B9E\u4F8B\uFF0C\u9ED8\u8BA4\u503C\u4E5F\u662F8
+monitor.redis.pool.maxIdle=20
+# \u7B49\u5F85\u53EF\u7528\u8FDE\u63A5\u7684\u6700\u5927\u65F6\u95F4\uFF0C\u5355\u4F4D\u6BEB\u79D2\uFF0C\u9ED8\u8BA4\u503C\u4E3A-1\uFF0C\u8868\u793A
+# \u6C38\u4E0D\u8D85\u65F6\u3002\u5982\u679C\u8D85\u8FC7\u7B49\u5F85\u65F6\u95F4\uFF0C\u5219\u76F4\u63A5\u629B\u51FAJedisConnectionException
+monitor.redis.pool.maxWait=20000
+# \u53EF\u7528\u8FDE\u63A5\u5B9E\u4F8B\u7684\u6700\u5927\u6570\u76EE\uFF0C\u9ED8\u8BA4\u503C\u4E3A8
+monitor.redis.pool.maxActive=1024
+monitor.redis.pool.timeBetweenEvictionRunsMillis=60000
+monitor.redis.pool.numTestsPerEvictionRun=20
+monitor.redis.pool.minEvictableIdleTimeMillis=1800000
+
+monitor.cache.restTime=2000

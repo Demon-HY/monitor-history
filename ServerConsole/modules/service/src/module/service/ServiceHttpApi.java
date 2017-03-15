@@ -129,7 +129,7 @@ public class ServiceHttpApi {
             order = "desc";
         }
         if (null == sort) {
-            sort = "service_id";
+            sort = "name";
         }
         // 检查 SQL 注入
         if (!DBUtil.checkSqlInjection(sort) || !DBUtil.checkSqlInjection(order)) {

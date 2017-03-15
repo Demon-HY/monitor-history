@@ -4,8 +4,8 @@ CONF_FILE="/etc/monitor/server.properties"
 STDOUT="/var/log/monitor/stdout"
 
 # 或需要将 run.sh 安装至 /etc/init.d 作开机自启动
-# 请将 MONITOR_HOME 改为 XSERVER 的安装目录
-MONITOR_HOME="/opt/monitor"
+# 请将 MONITOR_HOME 改为 monitor 的安装目录
+MONITOR_HOME="/mnt/hgfs/Monitor/monitor/ServerConsole"
 
 if [ ! -f "$CONF_FILE" ]; then
     echo "Conf file $CONF_FILE not found"
@@ -21,7 +21,8 @@ HEAP_INIT=$(free | grep Mem | awk '{print int($2*3/10/1024)}')
 GC_LOG=$LOG_DIR/gc.log
 GC_ARG="-Xms${HEAP_INIT}m -Xmx${HEAP_MAX}m -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintHeapAtGC -verbose:GC -Xloggc:$GC_LOG"
 GC_ARG="$GC_ARG -XX:+UseParNewGC -XX:+CMSParallelRemarkEnabled -XX:+UseConcMarkSweepGC -XX:CMSInitiatingOccupancyFraction=70 -XX:+UseCMSInitiatingOccupancyOnly -XX:+UseCMSCompactAtFullCollection -XX:CMSFullGCsBeforeCompaction=1"
-EXEC="java -cp $MONITOR_HOME/dServer/lib/*:$MONITOR_HOME/module/*/bin/*:/opt/monitor/lib/monitor.jar $GC_ARG monitor.Main "$CONF_FILE
+EXEC="java -cp $MONITOR_HOME/monitor/lib/*:$MONITOR_HOME/modules/*/bin/*:$MONITOR_HOME/build/monitor.jar $GC_ARG monitor.Main "$CONF_FILE
+echo $EXEC
 
 RED='\e[1;91m'
 GREN='\e[1;92m'
