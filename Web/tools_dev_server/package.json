@@ -1,0 +1,14 @@
+{
+  "name": "dev_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "content-type.js",
+  "scripts": {
+    "dev": "node ./server.js"
+  },
+  "author": "heyan",
+  "license": "ISC",
+  "dependencies": {
+    "http-proxy": "^1.15.2"
+  }
+}

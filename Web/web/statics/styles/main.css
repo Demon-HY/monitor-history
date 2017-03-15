@@ -1,0 +1,61 @@
+* {
+  	margin: 0;
+  	padding: 0;
+}
+div,ul,li {
+	 display: block;
+}
+ul,li {
+    list-style: none;
+}
+body {
+  	/* font-family: Microsoft Yahei; */
+  	font-size: 14px;
+    height: 100%;
+	 min-width: 1024px;
+}
+a {
+    text-decoration:none;
+}
+body, input {
+    color: #777;
+}
+
+/* 公用属性 */
+.hidden {
+    display: none;
+}
+.show {
+    display:block;
+}
+/* 浮动 */
+.clearfix:after {
+    clear: both;
+    display: block;
+    height: 0;
+    visibility: hidden;
+    line-height: 0;
+    content: '\20';
+}
+.clearfix {
+    *display: table;
+    *zoom: 1;
+}
+.fl {
+    display: inline;
+    float: left;
+}
+.fr {
+    display: inline;
+    float: right;
+}
+.none {
+    display: none;
+}
+.hidden {
+    overflow: hidden;
+}
+
+
+
+
