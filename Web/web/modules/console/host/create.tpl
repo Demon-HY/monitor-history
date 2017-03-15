@@ -1,5 +1,5 @@
 <div class="title"><label>{{t 'consoleHost_add_host'}}</label></div>
-<div class="addhost">
+<div class="addhost module">
     <form id="fm">
         <div class="form-line">
             <label class="line-label">{{t 'consoleHost_host_name'}}</label>
@@ -40,7 +40,7 @@
         <div class="form-line">
             <label class="line-label">{{t 'consoleHost_host_status'}}</label>
             <div class="line-con">
-                <select name="monitored" class="form-select">
+                <select name="status" class="form-select">
                     <option value="online" selected="selected">Online</option>
                     <option value="down">Down</option>
                     <option value="unreachable">Unreachable</option>

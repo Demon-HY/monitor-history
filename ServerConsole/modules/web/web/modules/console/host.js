@@ -180,8 +180,9 @@ define(function(require, exports, module) {
                     params: data,
                     done: function(data) {
                         if (data.stat == 'OK') {
-                            $('#hostlist').table('reload');
-                            // $.tip('主机添加成功！');
+                            /* 触发点击事件，刷新主机列表 */
+                            $('#host').click();
+                            $.tip('主机添加成功！');
                             $.tip(i18n.get('consoleHost_success_addHost'));
                         } else {
                             $.alert(data.errText);
@@ -191,112 +192,59 @@ define(function(require, exports, module) {
             }
         });
     }
-    /*function addHost () {
-        if (!$('#create-dialog').length) {
-            $('body').append('<div id="create-dialog"></div>');
-        }
-        $('#create-dialog').dialog({
-            title: i18n.get('consoleHost_add_host'),
-            width: 600,
-            height: 650,
-            data: Handlebars.compile(require('./host/create.tpl')),
-            onInited: function() {
-                // 添加群组
-                $.request({
-                    url: '/group/api/listGroup',
-                    done: function(data) {
-                        if (data.stat == 'OK') {
-                            if (data.rows.length > 0) {
-                                // 获取群组的 checkbox 组件，这样在下面插入的时候可以不用每次都去查询
-                                $checkGroup = $('.checkbox-group');
-                                for (let index in data.rows) {
-                                    let mapGroupInfo = data.rows[index];
-                                    var checkboxGroupHtml = "<div class='fl'><label><input name='group' type='checkbox' value='" + mapGroupInfo.get('name') + "' id=" 
-                                        + mapGroupInfo.get('group_id') + "/></label></div>";
-                                    $checkGroup.append(checkboxGroupHtml);
-                                }
-                            }
-                        } else {
-                            $.alert(data.errText);
-                        }
-                    }
-                });
-                // 添加模板
-                $.request({
-                    url: '/template/api/listTemplate',
-                    done: function(data) {
-                        if (data.stat == 'OK') {
-                            if (data.rows.length > 0) {
-                                // 获取模板的 checkbox 组件，这样在下面插入的时候可以不用每次都去查询
-                                $checkTemp = $('.checkbox-template');
-                                for (let index in data.rows) {
-                                    let mapTempInfo = data.rows[index];
-                                    var checkboxTempHtml = "<div class='fl'><label><input name='template' type='checkbox' value='" + mapTempInfo.get('name') + "' id=" 
-                                        + mapTempInfo.get('template_id') + "/></label></div>";
-                                    $checkTemp.append(checkboxTempHtml);
-                                }
-                            }
-                        } else {
-                            $.alert(data.errText);
-                        }
-                    }
-                });
-            },
-            buttons: [{
-                text: i18n.get('consoleHost_confirm'),
-                name: 'save',
-                cls: 'btn-primary',
-                handler: function() {
-                    // 表单验证
-                    let res = $('#fm').valid('formValid');
-                    
-                    let listGroup = [];
-                    $('#fm input[name=group]:checked').each(function(){
-                        listGroup.push($(this).attr('id'));    
-                    });
-                    let listTemp = [];
-                    $('#fm input[name=template]:checked').each(function(){
-                        listTemp.push($(this).attr('id'));    
-                    });
-                    let data = {
-                        'name': $('#fm input[name=name]').val(),
-                        'ip': $('#fm input[name=ip]').val(),
-                        'listgroup': listGroup,
-                        'listTemplate': listTemp,
-                        'monitored': $('#fm select[name=monitored]').val(),
-                        'interval': $('#fm input[name=interval]').val(),
-                        'status': $('#fm select[name=status]').val(),
-                        'memo': $('#fm textarea[name=memo]').val()
-                    }
-                    if (res) {
-                        $.request({
-                            url: '/host/api/addHost',
-                            params: data,
-                            done: function(data) {
-                                if (data.stat == 'OK') {
-                                    $('#create-dialog').dialog('close');
-                                    $('#hostlist').table('reload');
-                                    // $.tip('主机添加成功！');
-                                    $.tip(i18n.get('consoleHost_success_addHost'));
-                                } else {
-                                    $.alert(data.errText);
-                                }
-                            }
-                        });
-                    }
-                }
-            }, {
-                text: i18n.get('consoleHost_cancel'),
-                name: 'cancel',
-                handler: function() {
-                    $('#create-dialog').dialog('close');
-                }
-            }]
-        });
-    }*/
 
     // 编辑主机
-    function editHost(host) {   
+    function editHost(host) {  
+        if ($('#hostlist').length) {
+            $('#hostlist').hide();
+        }
+        let tpl = Handlebars.compile(require('./host/edit.tpl'));
+        init.insertCenter(tpl);
+        $('.body-center').layout();
+        $('input').placeholder();
+        // 创建选择器
+        initMultipleGroup();
+        initMultipleTemplate();
+        
+        $('.submit-host').click(function(){
+            // 表单验证
+            let res = $('#fm').valid('formValid');
+            
+            let listGroup = [];
+            $('#fm input[name=group]:checked').each(function(){
+                listGroup.push($(this).attr('id'));    
+            });
+            let listTemp = [];
+            $('#fm input[name=template]:checked').each(function(){
+                listTemp.push($(this).attr('id'));    
+            });
+            let data = {
+                'name': $('#fm input[name=name]').val(),
+                'ip': $('#fm input[name=ip]').val(),
+                'groupIdList': listGroup,
+                'templateIdList': listTemp,
+                'monitored': $('#fm select[name=monitored]').val(),
+                'interval': $('#fm input[name=interval]').val(),
+                'status': $('#fm select[name=status]').val(),
+                'memo': $('#fm textarea[name=memo]').val()
+            }
+            if (res) {
+                $.request({
+                    url: '/host/api/addHost',
+                    params: data,
+                    done: function(data) {
+                        if (data.stat == 'OK') {
+                            /* 触发点击事件，刷新主机列表 */
+                            $('#host').click();
+                            $.tip('主机添加成功！');
+                            $.tip(i18n.get('consoleHost_success_addHost'));
+                        } else {
+                            $.alert(data.errText);
+                        }
+                    }
+                });
+            }
+        });
     }
     
     // 删除主机
