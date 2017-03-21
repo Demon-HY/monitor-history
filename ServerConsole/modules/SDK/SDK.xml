@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doc>
+	<zh>
+	   <!-- acl 模块 -->
+	   <ERR_ACL textKey="ERR_ACTION_NAME_EXISTED">报警装置名已存在</ERR_ACL>
+	
+		<!-- action 模块 -->
+		<ERR_ACTION textKey="ERR_ACTION_NAME_EXISTED">报警装置名已存在</ERR_ACTION>
+		<ERR_ACTION textKey="ERR_ACTION_ID_NOT_FOUND">报警装置 Id 不存在</ERR_ACTION>
+	</zh>
+
+	<en>
+	</en>
+</doc>

@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import monitor.service.log.Logger;
+import monitor.utils.LanguageUtil;
 import monitor.utils.ServletUtil;
 import monitor.service.http.protocol.DefaultProtocol;
-import monitor.service.http.protocol.ErrTextFormatter;
 import monitor.service.http.protocol.Protocol;
 import monitor.service.http.protocol.RetStat;
 
@@ -28,8 +28,7 @@ import monitor.service.http.protocol.RetStat;
  */
 public class ApiGateway extends HttpServlet {
 
-    private static final long serialVersionUID = 1356174584786644793L;
-
+    private static final long serialVersionUID = -464726855286758239L;
     public static final String SERVER_HEADER = "dServer/0.1";
     
     @Target(ElementType.METHOD)
@@ -150,7 +149,7 @@ public class ApiGateway extends HttpServlet {
 				ServletUtil.sendHttpResponse(env.response, 
 						HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
 						"{\"stat\": \"ERR_SERVER_EXCEPTION\", " +
-						"\"errText\": \"" + ErrTextFormatter.getErrText(env, null, RetStat.ERR_SERVER_EXCEPTION) + "\"}");
+						"\"errText\": \"" + LanguageUtil.getInst().getText(RetStat.ERR_SERVER_EXCEPTION, env.Language) + "\"}");
 			}
 		}
 		

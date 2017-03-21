@@ -21,6 +21,8 @@
     "consoleHost_host_status": "主机状态",
     "consoleHost_host_memo": "备注",
     "consoleHost_success_addHost": "主机添加成功",
+    "consoleHost_success_editHost": "主机修改成功",
+    "consoleHost_success_deleteHost": "主机删除成功",
     "consoleHost_host_group": "群组",
     "consoleHost_host_template": "模板",
     "consoleHost_host_operation": "操作",

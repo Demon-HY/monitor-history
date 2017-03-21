@@ -25,16 +25,9 @@ define(function(require, exports, module) {
     });
     // 主机列表操作菜单
     var hostMenus = [{
-        name: 'add-host',
-        text: i18n.get('consoleHost_add_host'),
-        order: 1,
-        onClick: function(host) {
-            addHost();
-        }
-    }, {
         name: 'edit-host',
         text: i18n.get('consoleHost_edit_host'),
-        order: 2,
+        order: 1,
         onClick: function(host) {
             // 编辑主机
             editHost(host);
@@ -42,9 +35,10 @@ define(function(require, exports, module) {
     }, {
         name: 'delete-host',
         text: i18n.get('consoleHost_delete_host'),
-        order: 3,
+        order: 2,
         onClick: function(host) {
             // 删除主机
+            deleteHost(host);
         }
     }];
 
@@ -142,6 +136,16 @@ define(function(require, exports, module) {
                 editHost(data);
             }
         });
+        // delete host
+        $('.delete-host').click(function(){
+            // 获取选中的数据,当选中多条时只会获取到ID最小的数据
+            var data = $('#hostlist').table('getSelections');
+            if (null != data) {
+                for (var i in data) {
+                    deleteHost(data);
+                }
+            }
+        });
     }
 
     // 添加主机
@@ -149,7 +153,7 @@ define(function(require, exports, module) {
         if ($('#hostlist').length) {
             $('#hostlist').hide();
         }
-        let tpl = Handlebars.compile(require('./host/create.tpl'));
+        var tpl = Handlebars.compile(require('./host/create.tpl'));
         init.insertCenter(tpl);
         $('.body-center').layout();
         $('input').placeholder();
@@ -158,17 +162,17 @@ define(function(require, exports, module) {
         
         $('.submit-host').click(function(){
             // 表单验证
-            let res = $('#fm').valid('formValid');
+            var res = $('#fm').valid('formValid');
             
-            let listGroup = [];
+            var listGroup = [];
             $('#fm input[name=group]:checked').each(function(){
                 listGroup.push($(this).attr('id'));    
             });
-            let listTemp = [];
+            var listTemp = [];
             $('#fm input[name=template]:checked').each(function(){
                 listTemp.push($(this).attr('id'));    
             });
-            let data = {
+            var data = {
                 'name': $('#fm input[name=name]').val(),
                 'ip': $('#fm input[name=ip]').val(),
                 'groupIdList': listGroup,
@@ -184,8 +188,8 @@ define(function(require, exports, module) {
                     params: data,
                     done: function(data) {
                         if (data.stat == 'OK') {
-                            /* 触发点击事件，刷新主机列表 */
-                            $('#host').click();
+                            /* 刷新主机列表 */
+                            location.reload(true);
                             $.tip(i18n.get('consoleHost_success_addHost'));
                         } else {
                             $.alert(data.errText);
@@ -201,7 +205,7 @@ define(function(require, exports, module) {
         if ($('#hostlist').length) {
             $('#hostlist').hide();
         }
-        let tpl = Handlebars.compile(require('./host/edit.tpl'));
+        var tpl = Handlebars.compile(require('./host/edit.tpl'));
         init.insertCenter(tpl);
         $('.body-center').layout();
         $('input').placeholder();
@@ -209,27 +213,27 @@ define(function(require, exports, module) {
         initMultipleGroup();
         initMultipleTemplate();
         // 给各控件赋值
-        // 文本
         $('#fm input[name=name]').attr('value', host.name);
         $('#fm input[name=ip]').attr('value', host.ip);
         $('#fm select[name=monitored]').attr('value', host.monitored);
         $('#fm input[name=interval]').attr('value', host.interval);
         $('#fm select[name=status]').attr('value', host.status);
-        $('#fm textarea[name=memo]').attr('value', host.memo);
+        $('#fm textarea[name=memo]').val(host.memo);
  
         $('.submit-host').click(function(){
             // 表单验证
-            let res = $('#fm').valid('formValid');
+            var res = $('#fm').valid('formValid');
             
-            let listGroup = [];
+            var listGroup = [];
             $('#fm input[name=group]:checked').each(function(){
                 listGroup.push($(this).attr('id'));    
             });
-            let listTemp = [];
+            var listTemp = [];
             $('#fm input[name=template]:checked').each(function(){
                 listTemp.push($(this).attr('id'));    
             });
-            let data = {
+            var data = {
+                'host_id': host.host_id,
                 'name': $('#fm input[name=name]').val(),
                 'ip': $('#fm input[name=ip]').val(),
                 'groupIdList': listGroup,
@@ -241,13 +245,12 @@ define(function(require, exports, module) {
             }
             if (res) {
                 $.request({
-                    url: '/host/api/addHost',
+                    url: '/host/api/editHost',
                     params: data,
                     done: function(data) {
                         if (data.stat == 'OK') {
-                            /* 触发点击事件，刷新主机列表 */
-                            $('#host').click();
-                            $.tip(i18n.get('consoleHost_success_addHost'));
+                            location.reload(true);
+                            $.tip(i18n.get('consoleHost_success_editHost'));
                         } else {
                             $.alert(data.errText);
                         }
@@ -258,18 +261,34 @@ define(function(require, exports, module) {
     }
     
     // 删除主机
-    function remove(host) {    
+    function deleteHost(host) {
+        var data = {
+            'host_id': host.host_id
+        }
+        $.request({
+            url: '/host/api/deleteHost',
+            params: data,
+            done: function(data) {
+                if (data.stat == 'OK') {
+                    $('#hostlist').table('reload');
+                    $('#host').click();
+                    $.tip(i18n.get('consoleHost_success_deleteHost'));
+                } else {
+                    $.alert(data.errText);
+                }
+            }
+        });
     }
     
     // 初始化群组左右选择器
     function initMultipleGroup() {
-        let groupNames = new Array();
+        var groupNames = new Array();
         $.request({
             url: '/group/api/listGroup?order=' + config.order,
             done: function(data) {
                 if (data.stat == 'OK') {
-                    let rows = data.rows;
-                    for (let i = 0; i < rows.length; ++i) {
+                    var rows = data.rows;
+                    for (var i = 0; i < rows.length; ++i) {
                         groupNames.push(i, {'id': rows[i].group_id, 'text': rows[i].name});
                     }
                     if (groupNames.length > 0) {
@@ -285,13 +304,13 @@ define(function(require, exports, module) {
     }
     // 初始化模板左右选择器
     function initMultipleTemplate() {
-        let templateNames = new Array();
+        var templateNames = new Array();
         $.request({
             url: '/template/api/listTemplate?order=' + config.order,
             done: function(data) {
                 if (data.stat == 'OK') {
-                    let rows = data.rows;
-                    for (let i = 0; i < rows.length; ++i) {
+                    var rows = data.rows;
+                    for (var i = 0; i < rows.length; ++i) {
                         templateNames.push(i, {'id': rows[i].group_id, 'text': rows[i].name});
                     }
                     if (templateNames.length > 0) {

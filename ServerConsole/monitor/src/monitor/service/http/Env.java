@@ -55,6 +55,11 @@ public class Env {
 	 */
 	public Map<String, Object> sticker;
 	
+	/**
+     * 要求返回语言的种类
+     */
+    public String Language;
+	
 	public long reqStartTm;
 	public long timingBeginTm;
 	public Map<String, Long> timings;

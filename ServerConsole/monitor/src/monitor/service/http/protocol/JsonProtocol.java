@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSONObject;
 import monitor.exception.LogicalException;
 import monitor.exception.ReadPostException;
 import monitor.service.http.Env;
+import monitor.utils.LanguageUtil;
 import monitor.utils.ServletUtil;
 
 public class JsonProtocol implements Protocol {
@@ -102,14 +103,14 @@ public class JsonProtocol implements Protocol {
             } catch (IOException | ReadPostException e) {
                 env.getLogger().err("Read post data exception", e);
                 sendJsonResponse(env, RetStat.ERR_READ_POST_EXCEPTION, 
-                        ErrTextFormatter.getErrText(env, null, RetStat.ERR_READ_POST_EXCEPTION), null);
+                        LanguageUtil.getInst().getText(RetStat.ERR_READ_POST_EXCEPTION, env.Language), null);
                 return false;
             }
             params = parseJsonBody(body, env);
 
             if (params == null) {
                 sendJsonResponse(env, RetStat.ERR_INVALID_JSON, 
-                        ErrTextFormatter.getErrText(env, null, RetStat.ERR_INVALID_JSON), null);
+                        LanguageUtil.getInst().getText(RetStat.ERR_INVALID_JSON, env.Language), null);
                 return false;
             }
 
@@ -139,18 +140,18 @@ public class JsonProtocol implements Protocol {
             if (cause instanceof LogicalException) {
                 LogicalException _cause = (LogicalException)cause;
                 env.getLogger().err(_cause.stat + "\t" + _cause.errMsg);
-                sendJsonResponse(env, _cause.stat, null, _cause.reaultMap, _cause.errMsg, null);
+                sendJsonResponse(env, _cause.stat, _cause.errMsg, _cause.reaultMap, _cause.errMsg, null);
                 return null;
             } else {
                 env.getLogger().err("Process API exception", cause);
                 sendJsonResponse(env, RetStat.ERR_SERVER_EXCEPTION, 
-                        ErrTextFormatter.getErrText(env, null, RetStat.ERR_SERVER_EXCEPTION), null);
+                        LanguageUtil.getInst().getText(RetStat.ERR_SERVER_EXCEPTION, env.Language), null);
                 return null;
             }
         } catch (Exception e) {
             env.getLogger().err("Process API exception", e);
             sendJsonResponse(env, RetStat.ERR_SERVER_EXCEPTION, 
-                    ErrTextFormatter.getErrText(env, null, RetStat.ERR_SERVER_EXCEPTION), null);
+                    LanguageUtil.getInst().getText(RetStat.ERR_SERVER_EXCEPTION, env.Language), null);
             return null;
         }
     }
@@ -194,8 +195,8 @@ public class JsonProtocol implements Protocol {
             env.errMsg = errMsg;
         }
         
-        if (null == errText) {
-            errText = ErrTextFormatter.getErrText(env, env.moduleName, stat);
+        if (null == errText && !stat.equals(RetStat.OK)) {
+            errText = LanguageUtil.getInst().getText(stat, env.Language);
         }
         resultMap.put("errText", errText);
         

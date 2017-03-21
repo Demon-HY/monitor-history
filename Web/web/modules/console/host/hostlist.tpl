@@ -3,7 +3,7 @@
     <button class="btn btn-info edit-host">{{t 'consoleHost_edit_host'}}</button>
     <button class="btn btn-info delete-host">{{t 'consoleHost_delete_host'}}</button>
     <form id="toolbar-form">
-        <input type="text" name="keyword" class="toolbar-input" placeholder="{{t 'consoleHost_hostIP'}}">
+        <input type="text" name="keyword" class="toolbar-input" placeholder="{{t 'consoleHost_hostIP'}}/{{t 'consoleHost_host_name'}}">
     </form>
     <button class="btn btn-info" id="toolbar-search">{{t 'consoleHost_search'}}</button>
     <button class="btn" id="toolbar-reset">{{t 'consoleHost_reset'}}</button>
