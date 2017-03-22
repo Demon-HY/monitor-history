@@ -8,6 +8,8 @@ import java.text.ParseException;
 import module.SDK.info.UserInfo;
 import module.SDK.stat.AuthRetStat;
 import monitor.exception.LogicalException;
+import monitor.service.http.Env;
+import monitor.utils.LanguageUtil;
 import monitor.utils.SSHA;
 import monitor.utils.XCodeUtil;
 
@@ -25,17 +27,18 @@ public class AuthUtils {
      * @return
      * @throws LogicalException
      */
-    public static boolean checkAccount(String type, String account) throws LogicalException {
+    public static boolean checkAccount(Env env, String type, String account) throws LogicalException {
         if (!(AuthConfig.LOGINID_NAME.equals(type) || AuthConfig.LOGINID_EMAIL.equals(type) || AuthConfig.LOGINID_PHONE.equals(type))) {
-            throw new LogicalException(AuthRetStat.ERR_ILLEGAL_ACCOUNT_TYPE, AuthRetStat.getMsgByStat(AuthRetStat.ERR_ILLEGAL_ACCOUNT_TYPE, type));
+            throw new LogicalException(AuthRetStat.ERR_ILLEGAL_ACCOUNT_TYPE, 
+                    LanguageUtil.getInst().getText(AuthRetStat.ERR_ILLEGAL_ACCOUNT_TYPE, env.Language));
         }
         if (AuthConfig.LOGINID_EMAIL.equals(type) && !account.matches("^(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w+)+)$")) {
             throw new LogicalException(AuthRetStat.ERR_ILLEGAL_EMAIL_ACCOUNT, 
-            		AuthRetStat.getMsgByStat(AuthRetStat.ERR_ILLEGAL_EMAIL_ACCOUNT, account));
+                    LanguageUtil.getInst().getText(AuthRetStat.ERR_ILLEGAL_EMAIL_ACCOUNT, env.Language));
         }
         if (AuthConfig.LOGINID_PHONE.equals(type) && !account.matches("^1[34578][0-9]{9}")) {
             throw new LogicalException(AuthRetStat.ERR_ILLEGAL_PHONE_ACCOUNT, 
-            		AuthRetStat.getMsgByStat(AuthRetStat.ERR_ILLEGAL_PHONE_ACCOUNT, account));
+                    LanguageUtil.getInst().getText(AuthRetStat.ERR_ILLEGAL_PHONE_ACCOUNT, env.Language));
         }
 
         return true;
@@ -52,7 +55,7 @@ public class AuthUtils {
      * @throws UnsupportedEncodingException
      * @throws ParseException
      */
-    public static boolean checkPassword(UserInfo user, String password)
+    public static boolean checkPassword(Env env, UserInfo user, String password)
             throws LogicalException, NoSuchAlgorithmException,
             UnsupportedEncodingException, ParseException {
         if (null == user || password == null) {
@@ -63,7 +66,7 @@ public class AuthUtils {
 
         if (psw == null || psw.length() == 0) {
             throw new LogicalException(AuthRetStat.ERR_USER_INFO_BROKEN,
-                    AuthRetStat.getMsgByStat(AuthRetStat.ERR_USER_INFO_BROKEN, user.uid));
+                    LanguageUtil.getInst().getText(AuthRetStat.ERR_USER_INFO_BROKEN, env.Language));
         }
 
         String format = "'{'{0}'}'{1}";

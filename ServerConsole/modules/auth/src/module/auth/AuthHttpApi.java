@@ -85,7 +85,7 @@ public class AuthHttpApi {
 			return resp;
 		}
 
-		AuthUtils.checkAccount(type, account);
+		AuthUtils.checkAccount(req.env, type, account);
 		
 		LoginInfo loginInfo = null;
 		loginInfo = authApi.login(req.env, account, password, type, tokenAge);

@@ -41,22 +41,22 @@ public class AuthRetStat{
     /** 登录的用户与新建token用户不为一个用户 */
     public static final String ERR_TOKEN_UID_MISMATCHING = "ERR_TOKEN_UID_MISMATCHING";
     
-    public static String getMsgByStat(String stat, Object... params) {
-        switch (stat) {
-        case ERR_TOKEN_NOT_FOUND : return null;
-        case ERR_TOKEN_EXPIRED : return null;
-        case ERR_NO_SUCH_ACCOUNT : return String.format("Account '%s' doesn't exist.", params);
-        case ERR_USER_NOT_FOUND : return String.format("User '%s' not found.", params);
-        case ERR_USER_INFO_BROKEN : return String.format("%s's needed attrs not found.", params);
-        case ERR_INVALID_PASSWORD : return String.format("Password is illegal.", params);
-        case ERR_ILLEGAL_ACCOUNT_TYPE : return String.format(" Account type '%s' illegal.", params);
-        case ERR_ILLEGAL_EMAIL_ACCOUNT : return String.format("Email '%s' is illegal.", params);
-        case ERR_ACCOUNT_EXIST : return String.format("Account '%s' has exist.", params);
-        case ERR_ADD_LOGIN_ID_FAILED : return String.format("Allocate identity for '%s' failed.", params);
-        case ERR_CLEAN_ACCOUNT_FAILED : return String.format("Clean %s's login ids failed.", params);
-        case ERR_TOKEN_UID_MISMATCHING : return String.format("auth user '%s' and token '%s' mismatching", params);
-        case ERR_ILLEGAL_PHONE_ACCOUNT: return String.format("Phone '%s' is illegal.", params);
-        default : return null;
-        }
-    }
+//    public static String getMsgByStat(String stat, Object... params) {
+//        switch (stat) {
+//        case ERR_TOKEN_NOT_FOUND : return null;
+//        case ERR_TOKEN_EXPIRED : return null;
+//        case ERR_NO_SUCH_ACCOUNT : return String.format("Account '%s' doesn't exist.", params);
+//        case ERR_USER_NOT_FOUND : return String.format("User '%s' not found.", params);
+//        case ERR_USER_INFO_BROKEN : return String.format("%s's needed attrs not found.", params);
+//        case ERR_INVALID_PASSWORD : return String.format("Password is illegal.", params);
+//        case ERR_ILLEGAL_ACCOUNT_TYPE : return String.format(" Account type '%s' illegal.", params);
+//        case ERR_ILLEGAL_EMAIL_ACCOUNT : return String.format("Email '%s' is illegal.", params);
+//        case ERR_ACCOUNT_EXIST : return String.format("Account '%s' has exist.", params);
+//        case ERR_ADD_LOGIN_ID_FAILED : return String.format("Allocate identity for '%s' failed.", params);
+//        case ERR_CLEAN_ACCOUNT_FAILED : return String.format("Clean %s's login ids failed.", params);
+//        case ERR_TOKEN_UID_MISMATCHING : return String.format("auth user '%s' and token '%s' mismatching", params);
+//        case ERR_ILLEGAL_PHONE_ACCOUNT: return String.format("Phone '%s' is illegal.", params);
+//        default : return null;
+//        }
+//    }
 }

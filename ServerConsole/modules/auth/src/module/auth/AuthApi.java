@@ -109,7 +109,7 @@ public class AuthApi implements IAuthApi {
 		// check user status
 		beans.getUserApi().checkUserStatus(env, user);
 		
-		if (!AuthUtils.checkPassword(user, password)) {
+		if (!AuthUtils.checkPassword(env, user, password)) {
 			throw new LogicalException(UserRetStat.ERR_INVALID_PASSWORD,
 					UserRetStat.getMsgByStat(UserRetStat.ERR_INVALID_PASSWORD, name));
 		}

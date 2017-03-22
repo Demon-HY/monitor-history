@@ -12,6 +12,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import monitor.exception.UnInitilized;
 import monitor.service.log.Logger;
+import monitor.utils.LanguageUtil;
 
 public class Env {
 	
@@ -88,6 +89,12 @@ public class Env {
 		this.moduleName = moduleName;
 		this.request = request;
 		this.response = response;
+		
+		String _Language = request.getHeader("X-Language");
+        if (_Language == null) {
+            _Language = LanguageUtil.defaultLanguage;
+        }
+        this.Language = _Language;
 		
 		String _device = request.getHeader("X-Device");
         if (_device == null) {
