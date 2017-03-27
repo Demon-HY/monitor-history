@@ -21,6 +21,7 @@ import monitor.service.http.protocol.RetStat;
 import monitor.exception.LogicalException;
 import monitor.exception.UnInitilized;
 import monitor.service.http.Env;
+import monitor.utils.LanguageUtil;
 import monitor.utils.Time;
 
 public class AuthApi implements IAuthApi {
@@ -73,9 +74,8 @@ public class AuthApi implements IAuthApi {
 			if (preLoginEvent.loginInfo == null && preLoginEvent.logicalException == null) {
 				Long uid = this.authModel.checkLoginId(type, account);
 				if (uid == null) {
-                    throw new LogicalException(UserRetStat.ERR_NO_SUCH_ACCOUNT,
-                    		UserRetStat.getMsgByStat(
-                            		UserRetStat.ERR_NO_SUCH_ACCOUNT, account));
+                    throw new LogicalException(UserRetStat.ERR_NO_SUCH_ACCOUNT, 
+                            LanguageUtil.getInst().getText(UserRetStat.ERR_NO_SUCH_ACCOUNT, env.Language));
                 }
 				loginInfo = login(env, uid, account, password, type, tokenAge);
 			} else {
@@ -85,6 +85,7 @@ public class AuthApi implements IAuthApi {
 		} catch (LogicalException e) {
             logincalException = e;
         }
+		
 		// 发送登录后事件
 		PostLoginEvent postLoginEvent = new PostLoginEvent(env, account,
                 password, type, tokenAge, logincalException, loginInfo);
@@ -100,18 +101,19 @@ public class AuthApi implements IAuthApi {
         }
 	}
 
-	private LoginInfo login(Env env, Long uid, String name, String password, String type, Long tokenAge) throws SQLException, LogicalException, NoSuchAlgorithmException, UnsupportedEncodingException, ParseException {
+	private LoginInfo login(Env env, Long uid, String name, String password, String type, Long tokenAge) 
+	        throws SQLException, LogicalException, NoSuchAlgorithmException, UnsupportedEncodingException, ParseException {
 		UserInfo user = this.beans.getUserApi().getUserModel().getUserInfoByUid(uid);
 		if (user == null) {
 			throw new LogicalException(UserRetStat.ERR_NO_SUCH_ACCOUNT,
-					UserRetStat.getMsgByStat(UserRetStat.ERR_NO_SUCH_ACCOUNT, name));
+			        LanguageUtil.getInst().getText(UserRetStat.ERR_NO_SUCH_ACCOUNT, env.Language));
 		}
 		// check user status
 		beans.getUserApi().checkUserStatus(env, user);
 		
 		if (!AuthUtils.checkPassword(env, user, password)) {
 			throw new LogicalException(UserRetStat.ERR_INVALID_PASSWORD,
-					UserRetStat.getMsgByStat(UserRetStat.ERR_INVALID_PASSWORD, name));
+			        LanguageUtil.getInst().getText(UserRetStat.ERR_INVALID_PASSWORD, env.Language));
 		}
         if (tokenAge == null) {
             tokenAge = (long) AuthConfig.defaultTokenAge;

@@ -72,7 +72,7 @@ public class AuthHttpApi {
 	@ApiGateway.ApiMethod(protocol = JsonProtocol.class)
 	public JsonResp login(JsonReq req) throws Exception {
 		String account = req.paramGetString("name", true);
-		String password = req.paramGetString("password", true);
+		String password = req.paramGetString("password", true, false);
 		String type = req.paramGetString("type", true);
 		Long tokenAge = req.paramGetNumber("tokenAge", false, true);
 		String isCookie = req.paramGetString("isCookie", false);

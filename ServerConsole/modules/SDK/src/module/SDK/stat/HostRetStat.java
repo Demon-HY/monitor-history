@@ -4,7 +4,7 @@ import monitor.service.http.protocol.RetStat;
 
 public class HostRetStat extends RetStat {
 	
-	/** IP 地址不合法 */
+	/** IP 不合法 */
     public static final String ERR_IP_NOT_VAILDITY = "ERR_IP_NOT_VAILDITY";
     
     /** 主机 ID 不存在 */

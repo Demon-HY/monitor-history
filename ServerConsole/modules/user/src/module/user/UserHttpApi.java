@@ -12,6 +12,7 @@ import monitor.service.http.protocol.JsonProtocol;
 import monitor.service.http.protocol.JsonReq;
 import monitor.service.http.protocol.JsonResp;
 import monitor.service.http.protocol.RetStat;
+import monitor.utils.LanguageUtil;
 import monitor.exception.LogicalException;
 import monitor.exception.UnInitilized;
 import monitor.service.http.ApiGateway;
@@ -149,7 +150,7 @@ public class UserHttpApi {
 			return resp;
 		} else {
 			resp.stat = "ERR_ACCOUNT_EXIST";
-			resp.resultMap.put("errMsg", UserRetStat.getMsgByStat(UserRetStat.ERR_ACCOUNT_EXIST, userName));
+			resp.resultMap.put("errMsg", LanguageUtil.getInst().getText(UserRetStat.ERR_ACCOUNT_EXIST, req.env.Language));
 		}
 		
 		return resp;

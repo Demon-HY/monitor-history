@@ -11,8 +11,6 @@ import monitor.service.http.HttpConfig;
 import monitor.service.http.HttpServer;
 import monitor.service.log.LogConfig;
 import monitor.service.log.Logger;
-import monitor.service.http.protocol.ErrTextFormatter;
-import monitor.service.http.protocol.RetStat;
 
 public class Main {
 
@@ -114,8 +112,5 @@ public class Main {
 //            e.printStackTrace();
 //            System.exit(-3);
 //        }
-        
-        // 注册monitor通用错误反回码
-        ErrTextFormatter.registerErrTextFormat(null, new RetStat());
     }    
 }

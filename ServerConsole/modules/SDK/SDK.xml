@@ -1,39 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <doc>
 	<zh>
-	   <!-- acl 模块 -->
-	   <ERR_ACL textKey="ERR_ACL_NOT_GET_USERINFO">没有查看用户信息权限</ERR_ACL>
-	   <ERR_ACL textKey="ERR_ACL_NOT_DELETE_USER">没有删除用户权限</ERR_ACL>
-	
+		<!-- acl 模块 -->
+		<ERR_ACL textKey="ERR_ACL_NOT_GET_USERINFO">没有查看用户信息权限</ERR_ACL>
+		<ERR_ACL textKey="ERR_ACL_NOT_DELETE_USER">没有删除用户权限</ERR_ACL>
+
 		<!-- action 模块 -->
 		<ERR_ACTION textKey="ERR_ACTION_NAME_EXISTED">报警装置名已存在</ERR_ACTION>
 		<ERR_ACTION textKey="ERR_ACTION_ID_NOT_FOUND">报警装置 Id 不存在</ERR_ACTION>
-		
+
 		<!-- auth 模块 -->
-        <ERR_AUTH textKey="ERR_ACCOUNT_EXIST">该账号已被使用</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_PHONE_ALREADY_BOUND">手机号已经被绑定</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_SEND_CODE_FREQUENTLY">请不要重复发送验证码</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_CODE">验证码错误</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_CLEAN_ACCOUNT_FAILED">清除用户数据失败</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_ADD_LOGIN_ID_FAILED">注册登录信息失败</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_NO_SUCH_ACCOUNT">账号不存在</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_USER_NOT_FOUND">用户不存在</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_USER_INFO_BROKEN">用户信息损坏</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_INVALID_PASSWORD">密码错误</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_PASSWORD_EXPIRED">密码过期</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_ILLEGAL_ACCOUNT_TYPE">非法账号类型</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_ILLEGAL_EMAIL_ACCOUNT">非法邮箱</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_ILLEGAL_PHONE_ACCOUNT">非法手机号</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_TOKEN_NOT_FOUND">用户还未登录</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_TOKEN_EXPIRED">用户登录超时</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_VALIDATE_CODE_EXPIRED">验证码过期</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_INVALID_VALIDATE_CODE">验证码错误</ERR_AUTH>
-        <ERR_AUTH textKey="ERR_TOKEN_UID_MISMATCHING">登录的用户与新建token用户不为一个用户</ERR_AUTH>
-        
-        <!-- expression 模块 -->
-        <ERR_EXPRESSION textKey="ERR_TRIGGER_EXPRESSION_NAME_EXISTED">触发器表达式名已存在</ERR_EXPRESSION>
-        <ERR_EXPRESSION textKey="ERR_TRIGGER_EXPRESSION_ID_NOT_FOUND">触发器表达式 Id 不存在</ERR_EXPRESSION>
-        
+		<ERR_AUTH textKey="ERR_ACCOUNT_EXIST">该账号已被使用</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_PHONE_ALREADY_BOUND">手机号已经被绑定</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_SEND_CODE_FREQUENTLY">请不要重复发送验证码</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_CODE">验证码错误</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_CLEAN_ACCOUNT_FAILED">清除用户数据失败</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_ADD_LOGIN_ID_FAILED">注册登录信息失败</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_NO_SUCH_ACCOUNT">账号不存在</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_USER_NOT_FOUND">用户不存在</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_USER_INFO_BROKEN">用户信息损坏</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_INVALID_PASSWORD">密码错误</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_PASSWORD_EXPIRED">密码过期</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_ILLEGAL_ACCOUNT_TYPE">非法账号类型</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_ILLEGAL_EMAIL_ACCOUNT">非法邮箱</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_ILLEGAL_PHONE_ACCOUNT">非法手机号</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_TOKEN_NOT_FOUND">用户还未登录</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_TOKEN_EXPIRED">用户登录超时</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_VALIDATE_CODE_EXPIRED">验证码过期</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_INVALID_VALIDATE_CODE">验证码错误</ERR_AUTH>
+		<ERR_AUTH textKey="ERR_TOKEN_UID_MISMATCHING">登录的用户与新建token用户不为一个用户</ERR_AUTH>
+
+		<!-- expression 模块 -->
+		<ERR_EXPRESSION textKey="ERR_TRIGGER_EXPRESSION_NAME_EXISTED">触发器表达式名已存在</ERR_EXPRESSION>
+		<ERR_EXPRESSION textKey="ERR_TRIGGER_EXPRESSION_ID_NOT_FOUND">触发器表达式 Id 不存在</ERR_EXPRESSION>
+
+		<!-- group 模块 -->
+		<ERR_GROUP textKey="ERR_GROUP_NAME_EXISTED">群组名已存在</ERR_GROUP>
+		<ERR_GROUP textKey="ERR_GROUP_ID_NOT_FOUND">群组 Id 不存在</ERR_GROUP>
+
+		<!-- host 模块 -->
+		<ERR_HOST textKey="ERR_IP_NOT_VAILDITY">IP 不合法</ERR_HOST>
+		<ERR_HOST textKey="ERR_HOST_ID_NOT_FOUND">主机 ID 不存在</ERR_HOST>
+		<ERR_HOST textKey="ERR_IP_EXISTED">要添加的 IP 已存在</ERR_HOST>
+		<ERR_HOST textKey="ERR_HOST_NAME_EXISTED">主机名已存在</ERR_HOST>
+
+		<!-- imageCode 模块 -->
+		<ERR_IMAGECODE textKey="ERR_VALIDATE_CODE_EXPIRED">图片验证码过期</ERR_IMAGECODE>
+		<ERR_IMAGECODE textKey="ERR_INVALID_VALIDATE_CODE">图片验证码错误</ERR_IMAGECODE>
+
+		<!-- maintain 模块 -->
+		<ERR_MAINTAIN textKey="ERR_MAINTAIN_NAME_EXISTED">维护名称已存在</ERR_MAINTAIN>
+		<ERR_MAINTAIN textKey="ERR_MAINTAIN_ID_NOT_FOUND">维护 Id 不存在</ERR_MAINTAIN>
+
+		<!-- operation 模块 -->
+		<ERR_OPERATION textKey="ERR_OPERATION_NAME_EXISTED">报警设置名已存在</ERR_OPERATION>
+		<ERR_OPERATION textKey="ERR_OPERATION_ID_NOT_FOUND">报警设置 Id 不存在</ERR_OPERATION>
+
+		<!-- service 模块 -->
+		<ERR_SERVICE textKey="ERR_SERVICE_NAME_EXISTED">服务名已存在</ERR_SERVICE>
+		<ERR_SERVICE textKey="ERR_SERVICE_ID_NOT_FOUND">服务 Id 不存在</ERR_SERVICE>
+
+		<!-- index 模块 -->
+		<ERR_INDEX textKey="ERR_SERVICE_INDEX_NAME_EXISTED">服务指标名已存在</ERR_INDEX>
+		<ERR_INDEX textKey="ERR_SERVICE_INDEX_ID_NOT_FOUND">服务指标 Id 不存在</ERR_INDEX>
+
+		<!-- template 模块 -->
+		<ERR_TEMPLATE textKey="ERR_TEMPLATE_NAME_EXISTED">模板已存在</ERR_TEMPLATE>
+		<ERR_TEMPLATE textKey="ERR_TEMPLATE_ID_NOT_FOUND">模板 Id 不存在</ERR_TEMPLATE>
+
+		<!-- trigger 模块 -->
+		<ERR_TRIGGER textKey="ERR_TRIGGER_NAME_EXISTED">触发器名已存在</ERR_TRIGGER>
+		<ERR_TRIGGER textKey="ERR_TRIGGER_ID_NOT_FOUND">触发器 Id 不存在</ERR_TRIGGER>
+
+		<!-- user 模块 -->
+		<ERR_USER textKey="ERR_ACCOUNT_EXIST">该账号已被使用</ERR_USER>
+		<ERR_USER textKey="ERR_PHONE_ALREADY_BOUND">手机号已经被绑定</ERR_USER>
+		<ERR_USER textKey="ERR_SEND_CODE_FREQUENTLY">请不要重复发送验证码</ERR_USER>
+		<ERR_USER textKey="ERR_CODE">验证码错误</ERR_USER>
+		<ERR_USER textKey="ERR_CLEAN_ACCOUNT_FAILED">清除用户数据失败</ERR_USER>
+		<ERR_USER textKey="ERR_ADD_LOGIN_ID_FAILED">注册登录信息失败</ERR_USER>
+		<ERR_USER textKey="ERR_NO_SUCH_ACCOUNT">账号不存在</ERR_USER>
+		<ERR_USER textKey="ERR_USER_NOT_FOUND">用户不存在</ERR_USER>
+		<ERR_USER textKey="ERR_USER_INFO_BROKEN">用户信息损坏</ERR_USER>
+		<ERR_USER textKey="ERR_INVALID_PASSWORD">密码错误</ERR_USER>
+		<ERR_USER textKey="ERR_PASSWORD_EXPIRED">密码过期</ERR_USER>
+		<ERR_USER textKey="ERR_ILLEGAL_ACCOUNT_TYPE">非法账号类型</ERR_USER>
+		<ERR_USER textKey="ERR_ILLEGAL_EMAIL_ACCOUNT">非法邮箱</ERR_USER>
+		<ERR_USER textKey="ERR_ILLEGAL_PHONE_ACCOUNT">非法手机号</ERR_USER>
+		<ERR_USER textKey="ERR_ILLEGAL_PASSWORD">非法密码</ERR_USER>
+		<ERR_USER textKey="ERR_TOKEN_NOT_FOUND">用户还未登录</ERR_USER>
+		<ERR_USER textKey="ERR_TOKEN_EXPIRED">用户登录超时</ERR_USER>
+		<ERR_USER textKey="ERR_VALIDATE_CODE_EXPIRED">验证码过期</ERR_USER>
+		<ERR_USER textKey="ERR_INVALID_VALIDATE_CODE">验证码错误</ERR_USER>
+		<ERR_USER textKey="ERR_TOKEN_UID_MISMATCHING">登录的用户与新建token用户不为一个用户</ERR_USER>
+		<ERR_USER textKey="ERR_USER_LOCKED">用户已被锁定</ERR_USER>
+
+		<!-- 系统核心模块 -->
+		<ERR_SERVER textKey="ERR_BAD_PARAMS">参数错误</ERR_SERVER>
+		<ERR_SERVER textKey="ERR_FORBIDDEN">无访问权限</ERR_SERVER>
+		<ERR_SERVER textKey="ERR_INVALID_JSON">非法JSON串</ERR_SERVER>
+        <ERR_SERVER textKey="ERR_NOT_FOUND">资源不存在</ERR_SERVER>
+        <ERR_SERVER textKey="ERR_READ_POST_EXCEPTION">无法解析post数据</ERR_SERVER>
+        <ERR_SERVER textKey="ERR_STAT_NOT_SET">没有返回码</ERR_SERVER>
+        <ERR_SERVER textKey="ERR_SERVER_EXCEPTION">服务端异常</ERR_SERVER>
+        <ERR_SERVER textKey="ERR_EVENT_INTERRUPT">事件中断</ERR_SERVER>
+        <ERR_SERVER textKey="ERR_USER_NOT_LOGIN">用户没有登录</ERR_SERVER>
+        <ERR_SERVER textKey="ERR_MAILBOX_FULL">邮件队列已满</ERR_SERVER>
+        <ERR_SERVER textKey="ERR_OPERATION_NOT_SUPPORTED">不支持该操作</ERR_SERVER>
+
 	</zh>
 
 	<en>
